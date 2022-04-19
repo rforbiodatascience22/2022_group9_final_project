@@ -7,13 +7,19 @@ source(file = "R/99_project_functions.R")
 
 
 # Load data ---------------------------------------------------------------
-my_data_raw <- read_tsv(file = "data/_raw/my_raw_data.tsv")
+proteomes_raw <- read_csv(file = "data/_raw/77_cancer_proteomes_CPTAC_itraq.csv")
+patients_raw <- read_csv(file = "data/_raw/clinical_data_breast_cancer.csv")
+PAM50_raw <- read_csv(file = "data/_raw/PAM50_proteins.csv")
 
 
 # Wrangle data ------------------------------------------------------------
-my_data <- my_data_raw # %>% ...
-
+# proteomes_raw (modify format of column names)
+proteomes <- proteomes_raw # %>% ...
+# patients_raw (delete some of the columns? / modify colnames format)
+patients <- patients_raw # %>% ...
 
 # Write data --------------------------------------------------------------
-write_tsv(x = my_data,
-          file = "data/01_my_data.tsv")
+write_csv(x = proteomes,
+          file = "data/01_proteomes.csv")
+write_csv(x = patients,
+          file = "data/01_patients.csv")
