@@ -9,7 +9,7 @@ view(Gene_Expresion)
 
 # Part of data we wish to merge by
 substr(patients_raw$`Complete TCGA ID`,6,nchar(patients_raw$`Complete TCGA ID`)) #ALL unique (105)
-gsub("TCGA-",substr(Gene_Expresion$`TCGA ID`,0,7))                                             #80/83 are unique (can't do anything about it)                          
+gsub("TCGA-",substr(Gene_Expresion$`TCGA ID`,0,7))                              #80/83 are unique (can't do anything about it)                          
 
 #Which ones are there several of?
 table(substr(Gene_Expresion$`TCGA ID`,0,7))
@@ -21,6 +21,8 @@ patients <- patients_raw %>%
 
 Gene_Expresion <- Gene_Expresion %>% 
   mutate("ID_short" = substr(Gene_Expresion$`TCGA ID`,0,7)) 
+
+#### Wants to short this down and edit Gene_Expresion to be like patients_raw
 
 # Merge data
 test <- full_join(patients,
