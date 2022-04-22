@@ -25,5 +25,5 @@ write_csv(x = proteomes,
           file = "data/01_proteomes.csv")
 write_csv(x = patients,
           file = "data/01_patients.csv")
-write_csv(x = patients,
+write_csv(x = PAM50,
           file = "data/01_PAM50.csv")
