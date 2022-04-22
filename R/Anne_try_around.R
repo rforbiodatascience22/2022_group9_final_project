@@ -1,5 +1,5 @@
 
-# checks data
+# Analyse data
 dim(proteomes_raw)
 view(proteomes_raw)
 view(PAM50_raw)
@@ -7,11 +7,33 @@ view(patients_raw)
 length(unique(proteomes_raw$RefSeq_accession_number))
 
 
+#transposed data
+Gene_Expresion <- proteomes_raw[,c(1,4:86)] %>% 
+  pivot_longer(cols= -1) %>% 
+  pivot_wider(names_from = "RefSeq_accession_number",
+              values_from = "value")
+
+# TRASH ------------------------------------------------------------------------
+
+
 #Edit gene names out of Proteomes:
 Gene_Expresion <-proteomes_raw[,c(1,4:86)] %>% 
   column_to_rownames(var = "RefSeq_accession_number")
 view(Gene_Expresion)
 
+#transposed 
+Gene_Expresion <- proteomes_raw[,c(1,4:86)] %>% 
+  pivot_longer(cols= -1) %>% 
+  pivot_wider(names_from = "RefSeq_accession_number",
+              values_from = "value")
+
+
+
+view(proteomes_raw)
+
+Gene_Expresion %>% 
+  pivot_longer(cols = -people, names_to = 'People') %>% 
+  pivot_wider(names_from = people, values_from = value)
 
 #Transpose
 
