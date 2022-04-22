@@ -14,17 +14,25 @@ PAM50_raw <- read_csv(file = "data/_raw/PAM50_proteins.csv")
 
 
 # Wrangle data ------------------------------------------------------------
-# proteomes_raw (modify format of column names)
+# Wrangle with proteomes_raw (modify format of column names)
 proteomes <- proteomes_raw 
 
-proteomes_long <- proteomes %>%
-  pivot_longer(-c(1:3), 
-               names_to = "TCGA_ID", 
-               values_to = "Expression_level")# %>% ...
-# patients_raw (delete some of the columns? / modify colnames format)
-patients <- patients_raw # %>% ...
-# 
+adjusted_names <- proteomes %>% 
+  select(4:86) %>% 
+  colnames() %>% 
+  map(change_format)
 
+colnames(proteomes)[4:86] <- adjusted_names
+
+# proteomes_long <- proteomes %>%
+#   pivot_longer(-c(1:3), 
+#                names_to = "TCGA_ID", 
+#                values_to = "Expression_level")# %>% ...
+
+# Wrangle with patients_raw (delete some of the columns? / modify colnames format)
+patients <- patients_raw # %>% ...
+
+# Wrangle with patients_raw
 PAM50 <- PAM50_raw # %>% ...
 
 
