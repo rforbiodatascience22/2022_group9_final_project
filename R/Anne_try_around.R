@@ -8,15 +8,25 @@ view(Gene_Expresion)
 
 
 # Part of data we wish to merge by
-substr(patients_raw$`Complete TCGA ID`,6,nchar(patients_raw$`Complete TCGA ID`))
-substr(Gene_Expresion$`TCGA ID`,0,7)
+substr(patients_raw$`Complete TCGA ID`,6,nchar(patients_raw$`Complete TCGA ID`)) #ALL unique (105)
+gsub("TCGA-",substr(Gene_Expresion$`TCGA ID`,0,7))                                             #80/83 are unique (can't do anything about it)                          
 
+#Which ones are there several of?
+table(substr(Gene_Expresion$`TCGA ID`,0,7))
+
+
+# Adds "ID_short" to make merge easier
+patients <- patients_raw %>% 
+  mutate("ID_short" = substr(patients_raw$`Complete TCGA ID`,6,nchar(patients_raw$`Complete TCGA ID`))) 
+
+Gene_Expresion <- Gene_Expresion %>% 
+  mutate("ID_short" = substr(Gene_Expresion$`TCGA ID`,0,7)) 
 
 # Merge data
-test <- full_join(patients_raw,
+test <- full_join(patients,
                   Gene_Expresion,
-                  by = c("Complete TCGA ID" = "TCGA ID")) %>% 
-
+                  by = "ID_short")
+view(test)
 
 
 
