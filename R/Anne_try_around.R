@@ -4,9 +4,69 @@ dim(proteomes_raw)
 view(proteomes_raw)
 view(PAM50_raw)
 view(patients_raw)
+length(unique(proteomes_raw$RefSeq_accession_number))
+
+
+#Edit gene names out of Proteomes:
+Gene_Expresion <-proteomes_raw[,c(1,4:86)] %>% 
+  column_to_rownames(var = "RefSeq_accession_number")
+view(Gene_Expresion)
+
+
+#Transpose
+
+
+patients_raw %>% colnames(Gene_Expresion)(year,month)
+
+
+
+test <- full_join(patients_raw,
+                  Gene_Expresion,
+                  by = c("Complete TCGA ID" = "TCGA_ID"),
+                  suffix = c(".x", ".y")) %>% head()
+
+#gather and rather to transpose
+
+
+
+proteomes_raw$
+
+
+view(Gene_Expresion)
+
+column_to_rownames(proteomes_raw[,c(1,4:86)], var = "RefSeq_accession_number")  %>% head()
 
 proteomes_raw$RefSeq_accession_number
 
-length(unique(PAM50_raw$RefSeqProteinID))
-length(unique(proteomes_raw$RefSeq_accession_number))
-length(PAM50_raw$RefSeqProteinID)
+has_rownames(Gene_Expresion)
+t(proteomes_raw[,4:86])
+view(Gene_Expresion)
+
+length(Gene_Expresion)
+length(proteomes_raw[,1])
+
+add_rownames(Gene_Expresion) <- c(proteomes_raw[,1])
+
+c(proteomes_raw[,1])
+  
+length(colnames(proteomes_raw[,4:86]))
+#12,553 x 86
+
+proteomes_raw
+#12,553 x 86
+
+proteomes_raw[]
+  
+colnames(proteomes_raw)
+
+proteomes_raw$RefSeq_accession_number
+
+patients_raw$`Complete TCGA ID`
+proteomes_long$TCGA_ID
+
+test <- full_join(patients_raw,
+                  proteomes_long,
+                  by = c("Complete TCGA ID" = "TCGA_ID")) %>%
+  
+
+

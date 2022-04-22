@@ -24,7 +24,13 @@ proteomes_long <- proteomes %>%
 # patients_raw (delete some of the columns? / modify colnames format)
 patients <- patients_raw # %>% ...
 # 
+
 PAM50 <- PAM50_raw # %>% ...
+
+
+
+
+
 
 # Write data --------------------------------------------------------------
 write_csv(x = proteomes,
