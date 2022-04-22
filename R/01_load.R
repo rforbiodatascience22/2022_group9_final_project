@@ -17,9 +17,13 @@ PAM50_raw <- read_csv(file = "data/_raw/PAM50_proteins.csv")
 proteomes <- proteomes_raw # %>% ...
 # patients_raw (delete some of the columns? / modify colnames format)
 patients <- patients_raw # %>% ...
+# 
+PAM50 <- PAM50_raw # %>% ...
 
 # Write data --------------------------------------------------------------
 write_csv(x = proteomes,
           file = "data/01_proteomes.csv")
 write_csv(x = patients,
           file = "data/01_patients.csv")
+write_csv(x = patients,
+          file = "data/01_PAM50.csv")
