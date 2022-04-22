@@ -1,3 +1,27 @@
+# Transposed data
+Gene_Expresion <- proteomes_raw[,c(1,4:86)] %>% 
+  pivot_longer(cols= -1) %>% 
+  pivot_wider(names_from = "RefSeq_accession_number",
+              values_from = "value") %>% 
+  rename("TCGA ID" = name)
+view(Gene_Expresion)
+
+
+# Part of data we wish to merge by
+substr(patients_raw$`Complete TCGA ID`,6,nchar(patients_raw$`Complete TCGA ID`))
+substr(Gene_Expresion$`TCGA ID`,0,7)
+
+
+# Merge data
+test <- full_join(patients_raw,
+                  Gene_Expresion,
+                  by = c("Complete TCGA ID" = "TCGA ID")) %>% 
+
+
+
+
+# TRASH ------------------------------------------------------------------------
+
 
 # Analyse data
 dim(proteomes_raw)
@@ -6,14 +30,6 @@ view(PAM50_raw)
 view(patients_raw)
 length(unique(proteomes_raw$RefSeq_accession_number))
 
-
-#transposed data
-Gene_Expresion <- proteomes_raw[,c(1,4:86)] %>% 
-  pivot_longer(cols= -1) %>% 
-  pivot_wider(names_from = "RefSeq_accession_number",
-              values_from = "value")
-
-# TRASH ------------------------------------------------------------------------
 
 
 #Edit gene names out of Proteomes:
