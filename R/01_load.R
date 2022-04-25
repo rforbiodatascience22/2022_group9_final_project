@@ -52,25 +52,25 @@ Gene_Expresion <- Gene_Expresion %>%
   mutate("ID_short" = substr(Gene_Expresion$`TCGA ID`,0,7))                                             #80/83 are unique (TAKE MEAN)
 
 #Which ones are there several of in proteomes?
-table(substr(Gene_Expresion$`TCGA ID`,0,7))
+#table(substr(Gene_Expresion$`TCGA ID`,0,7))
 
 # Merge data
 BC_Data <- left_join(patients,    #WHAT JOIN
                   Gene_Expresion,
                   by = "ID_short") %>% 
   select(-c(`ID_short`))
-view(BC_Data)
+#view(BC_Data)
 
 #correlation and how to take non unique into account
 Gene_Expresion[,1:200] %>% 
   select(-c(`TCGA ID`)) %>%
   cor(use="complete.obs")
 
-dim(Gene_Expresion)
+#dim(Gene_Expresion)
   
-str(Gene_Expresion)
+#str(Gene_Expresion)
 
-cor(proteomes_raw$`C8-A131.32TCGA`,proteomes_raw$`C8-A131.01TCGA`,use="complete.obs")
+#cor(proteomes_raw$`C8-A131.32TCGA`,proteomes_raw$`C8-A131.01TCGA`,use="complete.obs")
 #transpose t() if you want to check correlation between patients --> to check the 3 not unique in proteomes
 
 
