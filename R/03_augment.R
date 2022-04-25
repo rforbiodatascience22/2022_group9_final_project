@@ -7,7 +7,7 @@ source(file = "R/99_project_functions.R")
 
 
 # Load data ---------------------------------------------------------------
-BC_data_clean <- read_tsv(file = "data/02_BC_Data.csv")
+BC_data_clean <- read_csv(file = "data/02_BC_Data.csv")
 
 
 # Wrangle data ------------------------------------------------------------

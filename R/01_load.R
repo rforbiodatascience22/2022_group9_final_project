@@ -56,6 +56,6 @@ write_csv(x = PAM50,
 write_csv(x = proteomes,
           file = "data/01_proteomes.csv")
 write_csv(x = Gene_Expresion,
-          file = "data/01_Gene_Expresion.csv")
+          file = "data/01_Gene_Expression.csv")
 write_csv(x = BC_Data,
           file = "data/01_BC_Data.csv")
