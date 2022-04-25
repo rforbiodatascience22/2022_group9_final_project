@@ -55,7 +55,7 @@ Gene_Expresion <- Gene_Expresion %>%
 table(substr(Gene_Expresion$`TCGA ID`,0,7))
 
 # Merge data
-BC_Data <- left_join(patients,
+BC_Data <- left_join(patients,    #WHAT JOIN
                   Gene_Expresion,
                   by = "ID_short") %>% 
   select(-c(`ID_short`))
@@ -82,3 +82,5 @@ write_csv(x = patients,
           file = "data/01_patients.csv")
 write_csv(x = PAM50,
           file = "data/01_PAM50.csv")
+write_csv(x = BC_Data,
+          file = "data/01_BC_Data.csv")
