@@ -4,7 +4,7 @@ Gene_Expresion <- proteomes_raw[,c(1,4:86)] %>%
   pivot_wider(names_from = "RefSeq_accession_number",
               values_from = "value") %>% 
   rename("TCGA ID" = name)
-view(Gene_Expresion)
+
 
 
 # Part of data we wish to merge by
