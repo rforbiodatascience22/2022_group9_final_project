@@ -84,3 +84,5 @@ write_csv(x = PAM50,
           file = "data/01_PAM50.csv")
 write_csv(x = BC_Data,
           file = "data/01_BC_Data.csv")
+
+BC_Data
