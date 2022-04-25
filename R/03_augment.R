@@ -7,13 +7,17 @@ source(file = "R/99_project_functions.R")
 
 
 # Load data ---------------------------------------------------------------
-my_data_clean <- read_tsv(file = "data/02_my_data_clean.tsv")
+BC_data_clean <- read_tsv(file = "data/02_BC_Data.csv")
 
 
 # Wrangle data ------------------------------------------------------------
-my_data_clean_aug <- my_data_clean # %>% ...
+BC_data_clean_aug <- BC_data_clean %>%
+  mutate(Subtype = case_when('PAM50 mRNA' == "Luminal A" ~ 0,
+                             'PAM50 mRNA' == "Luminal B" ~ 1,
+                             'PAM50 mRNA' == "HER2-enriched" ~ 2,
+                             'PAM50 mRNA' == "Basal-like" ~ 3))
 
 
 # Write data --------------------------------------------------------------
-write_tsv(x = my_data_clean_aug,
-          file = "data/03_my_data_clean_aug.tsv")
+write_csv(x = BC_data_clean_aug,
+          file = "data/03_BC_data_clean_aug.csv")
