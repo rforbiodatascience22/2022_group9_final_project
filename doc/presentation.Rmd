@@ -27,7 +27,7 @@ output:
 
 ## introduction
 -this dataset contains 77 patients' and 3 health samples.
--Afer cleaned it we merged the 3 data and plot all the attributes basd on their subtypes.and then we decide to select some of the attributes and do PCA
+-Afer cleaned it we merged the 3 data and plot all the attributes basd on their subtypes.and then we decide to select some of the attributes and do PCA to see if the attribute is related to it's subtype devision.
 
 
 ## Slide with Plot
