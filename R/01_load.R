@@ -13,7 +13,7 @@ patients_raw <- read_csv(file = "data/_raw/clinical_data_breast_cancer.csv")
 PAM50_raw <- read_csv(file = "data/_raw/PAM50_proteins.csv")
 
 
-# Wrangle data ------------------------------------------------------------
+# Wrangle data (1 METHOD) ------------------------------------------------------------
 # Wrangle with proteomes_raw (modify format of column names)
 proteomes <- proteomes_raw 
 
@@ -36,6 +36,34 @@ patients <- patients_raw # %>% ...
 PAM50 <- PAM50_raw # %>% ...
 
 
+
+# Wrangle data (2 METHOD) ------------------------------------------------------------
+# Transposed data
+Gene_Expresion <- proteomes_raw[,c(1,4:86)] %>% 
+  pivot_longer(cols= -1) %>% 
+  pivot_wider(names_from = "RefSeq_accession_number",
+              values_from = "value") %>% 
+  rename("TCGA ID" = name)
+view(Gene_Expresion)
+
+
+# Part of data we wish to merge by
+substr(patients_raw$`Complete TCGA ID`,6,nchar(patients_raw$`Complete TCGA ID`)) #ALL unique (105)
+gsub("TCGA-",substr(Gene_Expresion$`TCGA ID`,0,7))                              #80/83 are unique (can't do anything about it)                          
+
+#Which ones are there several of?
+table(substr(Gene_Expresion$`TCGA ID`,0,7))
+
+# Adds "ID_short" to make merge easier
+patients <- patients_raw %>% 
+  mutate("ID_short" = substr(patients_raw$`Complete TCGA ID`,6,nchar(patients_raw$`Complete TCGA ID`))) 
+Gene_Expresion <- Gene_Expresion %>% 
+  mutate("ID_short" = substr(Gene_Expresion$`TCGA ID`,0,7)) 
+
+# Merge data
+my_data <- full_join(patients,
+                  Gene_Expresion,
+                  by = "ID_short")
 
 
 
