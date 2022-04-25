@@ -45,7 +45,7 @@ Gene_Expresion <- proteomes_raw[,c(1,4:86)] %>%
               values_from = "value") %>% 
   rename("TCGA ID" = name)
 
-# Adds "ID_short" to make merge easier
+# Adds "ID_short" to join easier
 patients <- patients_raw %>% 
   mutate("ID_short" = substr(patients_raw$`Complete TCGA ID`,6,nchar(patients_raw$`Complete TCGA ID`))) #ALL unique (105)
 Gene_Expresion <- Gene_Expresion %>% 
@@ -55,12 +55,13 @@ Gene_Expresion <- Gene_Expresion %>%
 table(substr(Gene_Expresion$`TCGA ID`,0,7))
 
 # Merge data
-my_data <- full_join(patients,
+BC_Data <- left_join(patients,
                   Gene_Expresion,
-                  by = "ID_short")
+                  by = "ID_short") %>% 
+  select(-c(`ID_short`))
+view(BC_Data)
 
-
-
+#correlation and how to take non unique into account
 Gene_Expresion[,1:200] %>% 
   select(-c(`TCGA ID`)) %>%
   cor(use="complete.obs")
