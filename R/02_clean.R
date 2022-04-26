@@ -7,37 +7,34 @@ library("dplyr")
 source(file = "R/99_project_functions.R")
 
 # Load data ---------------------------------------------------------------
-patients <- read_csv(file = "data/01_patients.csv")
-PAM50 <- read_csv(file = "data/01_PAM50.csv")
+patients  <- read_csv(file = "data/01_patients.csv")
+PAM50     <- read_csv(file = "data/01_PAM50.csv")
 proteomes <- read_csv(file = "data/01_proteomes.csv") 
 
 
 # Wrangle data ------------------------------------------------------------
-patients_clean <- patients
-
-
-PAM50_clean <- PAM50
+patients_clean  <- patients
+PAM50_clean     <- PAM50
+proteomes_clean <- proteomes
 
 
 #count_na_func <- function(x) sum(is.na(x)) 
 
-# Only selecting the proteomes that have XX% of data
-proteomes_clean %>%
-  mutate(frac_na = apply(., 1, count_na_func)/ncol(.)) %>% 
-  filter(frac_na < 0.10)
-
-# Modification of column names in proteomes
-adjusted_names <- proteomes_clean_aug %>% 
-  select(4:86) %>% 
+# Modification of column names in proteomes so they are comparable with patients_clean_aug
+adjusted_names <- proteomes_clean %>% 
+  select(-c("RefSeq_accession_number","gene_symbol","gene_name")) %>% 
   colnames() %>% 
   map(change_format)
-colnames(proteomes_clean_aug)[4:86] <- adjusted_names
+colnames(proteomes_clean)[4:86] <- adjusted_names
 
 
-# Creating new tibble that is a transposed and reduced version of proteomes_clean_aug
-Gene_Expresion_clean_aug <- proteomes_clean_aug %>%
-  select(-c(2,3,13,71,77)) %>%  #Deletes gene_symbol, gene_name and the 3 duplicates 
-  pivot_longer(cols= -1,
+# Creating new data sets with columns consisting of dublicates and too little data removed:
+proteomes_clean <- proteomes_clean %>% 
+  select(unique(colnames(.))) %>%                          # Removing duplicates
+  select(-c("gene_symbol","gene_name")) %>%                # Removing unnecessary describtions of protein
+  mutate(frac_na = apply(., 1, count_na_func)/ncol(.)) %>% 
+  filter(frac_na < 0.10) %>%                               # Removing columns consisting of more than 10% NAs
+  pivot_longer(cols= -1,                                   # Transposing
                names_repair = "check_unique") %>% 
   pivot_wider(names_from = "RefSeq_accession_number",
               values_from = "value") %>% 
@@ -45,17 +42,9 @@ Gene_Expresion_clean_aug <- proteomes_clean_aug %>%
 
 
 # Merge data --------------------------------------------------------------
-BC_data_clean_aug <- left_join(patients_clean_aug,                #WHAT JOIN
-                               Gene_Expresion_clean_aug,
+BC_data_clean_aug <- left_join(patients_clean,                #WHAT JOIN
+                               proteomes_clean,
                                by = c("Complete TCGA ID" = "TCGA ID"))
-
-
-# Wrangle data ------------------------------------------------------------
-BC_data_clean_aug <- BC_data_clean_aug %>%
-  mutate(Subtype = case_when('PAM50 mRNA' == "Luminal A" ~ 0,
-                             'PAM50 mRNA' == "Luminal B" ~ 1,
-                             'PAM50 mRNA' == "HER2-enriched" ~ 2,
-                             'PAM50 mRNA' == "Basal-like" ~ 3))
 
 
 

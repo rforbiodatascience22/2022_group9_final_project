@@ -1,3 +1,66 @@
+
+# Modification of column names in proteomes so they are comparable with patients_clean_aug
+adjusted_names <- proteomes_clean %>% 
+  select(-c("RefSeq_accession_number","gene_symbol","gene_name")) %>% 
+  colnames() %>% 
+  map(change_format)
+colnames(proteomes_clean)[4:86] <- adjusted_names
+
+
+# Creating new data sets with columns consisting of dublicates and too little data removed:
+proteomes_clean <- proteomes_clean %>% 
+  select(unique(colnames(.))) %>%                          # Removing duplicates
+  select(-c("gene_symbol","gene_name")) %>%                # Removing unnecessary describtions of protein
+  mutate(frac_na = apply(., 1, count_na_func)/ncol(.)) %>% 
+  filter(frac_na < 0.10) %>%                               # Removing columns consisting of more than 10% NAs
+  pivot_longer(cols= -1,                                   # Transposing
+               names_repair = "check_unique") %>% 
+  pivot_wider(names_from = "RefSeq_accession_number",
+              values_from = "value") %>% 
+  rename("TCGA ID" = name)
+
+
+proteomes_clean %>%
+  mutate(frac_na = apply(., 1, count_na_func)/ncol(.)) %>% 
+  filter(frac_na < 0.10)
+
+proteomes_clean_aug %>% 
+  select(unique(colnames(.))) %>%           # removing duplicates
+  select(-c("gene_symbol","gene_name")) %>% # removing unnecessary describtions of protein
+  mutate(frac_na = apply(., 1, count_na_func)/ncol(.)) %>% 
+  filter(frac_na < 0.10)                    # removing columns consisting of more than 10% NAs
+
+
+proteomes_clean_aug$gene_name
+
+colnames(proteomes_clean) %>% 
+  filter(colnames(proteomes_clean) == colnames(proteomes_clean))
+
+colnames(proteomes_clean)[duplicated(colnames(proteomes_clean_aug))]
+
+
+# Only selecting the proteomes that have XX% of data
+proteomes_clean %>%
+  mutate(frac_na = apply(., 1, count_na_func)/ncol(.)) %>% 
+  filter(frac_na < 0.10)
+
+
+
+
+
+
+
+# Creating new tibble that is a transposed and reduced version of proteomes_clean_aug
+Gene_Expresion_clean_aug <- proteomes_clean_aug %>%
+  select(-c(2,3,13,71,77)) %>%  #Deletes gene_symbol, gene_name and the 3 duplicates 
+  pivot_longer(cols= -1,
+               names_repair = "check_unique") %>% 
+  pivot_wider(names_from = "RefSeq_accession_number",
+              values_from = "value") %>% 
+  rename("TCGA ID" = name)
+
+
+
 # Transposed data
 Gene_Expresion <- proteomes_raw[,c(1,4:86)] %>% 
   pivot_longer(cols= -1) %>% 
@@ -13,110 +76,4 @@ gsub("TCGA-",substr(Gene_Expresion$`TCGA ID`,0,7))                              
 
 #Which ones are there several of?
 table(substr(Gene_Expresion$`TCGA ID`,0,7))
-
-
-# Adds "ID_short" to make merge easier
-patients <- patients_raw %>% 
-  mutate("ID_short" = substr(patients_raw$`Complete TCGA ID`,6,nchar(patients_raw$`Complete TCGA ID`))) 
-
-Gene_Expresion <- Gene_Expresion %>% 
-  mutate("ID_short" = substr(Gene_Expresion$`TCGA ID`,0,7)) 
-
-#### Wants to short this down and edit Gene_Expresion to be like patients_raw
-
-# Merge data
-test <- full_join(patients,
-                  Gene_Expresion,
-                  by = "ID_short")
-view(test)
-
-
-
-# TRASH ------------------------------------------------------------------------
-
-
-# Analyse data
-dim(proteomes_raw)
-view(proteomes_raw)
-view(PAM50_raw)
-view(patients_raw)
-length(unique(proteomes_raw$RefSeq_accession_number))
-
-
-
-#Edit gene names out of Proteomes:
-Gene_Expresion <-proteomes_raw[,c(1,4:86)] %>% 
-  column_to_rownames(var = "RefSeq_accession_number")
-view(Gene_Expresion)
-
-#transposed 
-Gene_Expresion <- proteomes_raw[,c(1,4:86)] %>% 
-  pivot_longer(cols= -1) %>% 
-  pivot_wider(names_from = "RefSeq_accession_number",
-              values_from = "value")
-
-
-
-view(proteomes_raw)
-
-Gene_Expresion %>% 
-  pivot_longer(cols = -people, names_to = 'People') %>% 
-  pivot_wider(names_from = people, values_from = value)
-
-#Transpose
-
-
-patients_raw %>% colnames(Gene_Expresion)(year,month)
-
-
-
-test <- full_join(patients_raw,
-                  Gene_Expresion,
-                  by = c("Complete TCGA ID" = "TCGA_ID"),
-                  suffix = c(".x", ".y")) %>% head()
-
-#gather and rather to transpose
-
-
-
-proteomes_raw$
-
-
-view(Gene_Expresion)
-
-column_to_rownames(proteomes_raw[,c(1,4:86)], var = "RefSeq_accession_number")  %>% head()
-
-proteomes_raw$RefSeq_accession_number
-
-has_rownames(Gene_Expresion)
-t(proteomes_raw[,4:86])
-view(Gene_Expresion)
-
-length(Gene_Expresion)
-length(proteomes_raw[,1])
-
-add_rownames(Gene_Expresion) <- c(proteomes_raw[,1])
-
-c(proteomes_raw[,1])
-  
-length(colnames(proteomes_raw[,4:86]))
-#12,553 x 86
-
-proteomes_raw
-#12,553 x 86
-
-proteomes_raw[]
-  
-colnames(proteomes_raw)
-
-proteomes_raw$RefSeq_accession_number
-
-patients_raw$`Complete TCGA ID`
-proteomes_long$TCGA_ID
-
-test <- full_join(patients_raw,
-                  proteomes_long,
-                  by = c("Complete TCGA ID" = "TCGA_ID")) %>%
-  
-
 

@@ -18,6 +18,13 @@ PAM50_clean_aug     <- PAM50_clean
 proteomes_clean_aug <- proteomes_clean
 
 
+# Modifying BC_data -Ccolumn: PAM50 mRNA
+BC_data_clean_aug <- BC_data_clean_aug %>%
+  mutate(Subtype = case_when('PAM50 mRNA' == "Luminal A" ~ 0,
+                             'PAM50 mRNA' == "Luminal B" ~ 1,
+                             'PAM50 mRNA' == "HER2-enriched" ~ 2,
+                             'PAM50 mRNA' == "Basal-like" ~ 3))
+
 
 # Write data --------------------------------------------------------------
 write_csv(x = patients_clean_aug,
