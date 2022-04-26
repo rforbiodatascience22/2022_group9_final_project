@@ -16,8 +16,8 @@ PAM50_raw     <- read_csv(file = "data/_raw/PAM50_proteins.csv")
 
 
 # Wrangle data ------------------------------------------------------------
-patients <- patients_raw
-PAM50 <- PAM50_raw
+patients  <- patients_raw
+PAM50     <- PAM50_raw
 proteomes <- proteomes_raw 
 
 

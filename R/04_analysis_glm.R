@@ -7,13 +7,13 @@ source(file = "R/99_project_functions.R")
 
 
 # Load data ---------------------------------------------------------------
-Gene_Expresion <- read_csv(file = "data/01_Gene_Expression.csv")
-BC_data_clean_aug <- read_csv(file = "data/03_BC_data_clean_aug.csv")
+Gene_Expresion_clean_aug <- read_csv(file = "data/03_Gene_Expresion_clean_aug.csv")
+BC_data_clean_aug        <- read_csv(file = "data/03_BC_data_clean_aug.csv")
 
 
 # Wrangle data ------------------------------------------------------------
 # Add subtype to Gene Expression data
-Expresion_Subtype <- left_join(Gene_Expresion,
+Expresion_Subtype <- left_join(Gene_Expresion_clean_aug,
                                     BC_data_clean_aug,
                                     by = c("TCGA ID" = "Complete TCGA ID")) %>%
   column_to_rownames(var = "TCGA ID") %>% 
