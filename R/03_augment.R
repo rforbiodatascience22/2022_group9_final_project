@@ -7,10 +7,10 @@ source(file = "R/99_project_functions.R")
 
 
 # Load data ---------------------------------------------------------------
-<<<<<<< HEAD
 patients <- read_csv(file = "data/01_patients.csv")
 PAM50 <- read_csv(file = "data/01_PAM50.csv")
 proteomes <- read_csv(file = "data/01_proteomes.csv") 
+
 
 # Wrangle data ------------------------------------------------------------
 # Modification of column names in proteomes
@@ -39,8 +39,7 @@ BC_Data <- left_join(patients,                #WHAT JOIN
 # Write data --------------------------------------------------------------
 write_csv(x = BC_Data,
           file = "data/01_BC_Data.csv")
-=======
-BC_data_clean <- read_csv(file = "data/02_BC_Data.csv")
+#BC_data_clean <- read_csv(file = "data/02_BC_Data.csv")
 
 
 # Wrangle data ------------------------------------------------------------
@@ -54,4 +53,3 @@ BC_data_clean_aug <- BC_data_clean %>%
 # Write data --------------------------------------------------------------
 write_csv(x = BC_data_clean_aug,
           file = "data/03_BC_data_clean_aug.csv")
->>>>>>> f73974b21a1ad37754ee3f1ea1527bf705ba01a3
