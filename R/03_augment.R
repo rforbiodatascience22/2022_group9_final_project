@@ -7,21 +7,27 @@ source(file = "R/99_project_functions.R")
 
 
 # Load data ---------------------------------------------------------------
-patients <- read_csv(file = "data/01_patients.csv")
-PAM50 <- read_csv(file = "data/01_PAM50.csv")
-proteomes <- read_csv(file = "data/01_proteomes.csv") 
+patients_clean  <- read_csv(file = "data/02_patients_clean.csv")
+PAM50_clean     <- read_csv(file = "data/02_PAM50_clean.csv")
+proteomes_clean <- read_csv(file = "data/02_proteomes_clean.csv")
 
 
 # Wrangle data ------------------------------------------------------------
+patients_clean_aug  <- patients_clean
+PAM50_clean_aug     <- PAM50_clean
+proteomes_clean_aug <- proteomes_clean
+
+
 # Modification of column names in proteomes
-adjusted_names <- proteomes %>% 
+adjusted_names <- proteomes_clean_aug %>% 
   select(4:86) %>% 
   colnames() %>% 
   map(change_format)
-colnames(proteomes)[4:86] <- adjusted_names
+colnames(proteomes_clean_aug)[4:86] <- adjusted_names
 
-# Creating new tibble that is a transposed reduced version of proteomes
-Gene_Expresion <- proteomes %>%
+
+# Creating new tibble that is a transposed and reduced version of proteomes_clean_aug
+Gene_Expresion <- proteomes_clean_aug %>%
   select(-c(2,3,13,71,77)) %>%  #Deletes gene_symbol, gene_name and the 3 duplicates 
   pivot_longer(cols= -1,
                names_repair = "check_unique") %>% 
@@ -31,15 +37,9 @@ Gene_Expresion <- proteomes %>%
 
 
 # Merge data --------------------------------------------------------------
-BC_Data <- left_join(patients,                #WHAT JOIN
+BC_Data <- left_join(patients_clean_aug,                #WHAT JOIN
                      Gene_Expresion,
                      by = c("Complete TCGA ID" = "TCGA ID"))
-
-
-# Write data --------------------------------------------------------------
-write_csv(x = BC_Data,
-          file = "data/01_BC_Data.csv")
-#BC_data_clean <- read_csv(file = "data/02_BC_Data.csv")
 
 
 # Wrangle data ------------------------------------------------------------
@@ -51,5 +51,8 @@ BC_data_clean_aug <- BC_data_clean %>%
 
 
 # Write data --------------------------------------------------------------
+write_csv(x = BC_Data,
+          file = "data/01_BC_Data.csv")
+#BC_data_clean <- read_csv(file = "data/02_BC_Data.csv")
 write_csv(x = BC_data_clean_aug,
           file = "data/03_BC_data_clean_aug.csv")
