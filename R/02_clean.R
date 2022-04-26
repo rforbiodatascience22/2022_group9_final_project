@@ -6,11 +6,15 @@ library("tidyverse")
 source(file = "R/99_project_functions.R")
 
 # Load data ---------------------------------------------------------------
-BC_Data <- read_csv(file = "data/01_BC_Data.csv")
+patients <- read_csv(file = "data/01_patients.csv")
+PAM50 <- read_csv(file = "data/01_PAM50.csv")
+proteomes <- read_csv(file = "data/01_proteomes.csv") 
 
 
 # Wrangle data ------------------------------------------------------------
-BC_Data <- my_data # %>% ...
+
+
+
 
 
 #library(dplyr)
@@ -37,9 +41,12 @@ BC_Data %>%
 
 # sum(is.na(BC_Data[1,]))/ncol(BC_Data[1,])
 
+
 # Write data --------------------------------------------------------------
 write_tsv(x = my_data_clean,
           file = "data/02_my_data_clean.tsv")
+write_csv(x = Gene_Expresion,
+          file = "data/01_Gene_Expresion.csv")
 
 # "data/01_proteomes.csv"
 # "data/01_patients.csv"
