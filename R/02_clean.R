@@ -34,6 +34,7 @@ proteomes_clean <- proteomes_clean %>%
   select(-c("gene_symbol","gene_name")) %>%                # Removing unnecessary describtions of protein
   mutate(frac_na = apply(., 1, count_na_func)/ncol(.)) %>% 
   filter(frac_na < 0.10) %>%                               # Removing columns consisting of more than 10% NAs
+  select(-c("frac_na")) %>% 
   pivot_longer(cols= -1,                                   # Transposing
                names_repair = "check_unique") %>% 
   pivot_wider(names_from = "RefSeq_accession_number",
@@ -42,10 +43,10 @@ proteomes_clean <- proteomes_clean %>%
 
 
 # Merge data --------------------------------------------------------------
-BC_data_clean_aug <- left_join(patients_clean,                #WHAT JOIN
+# SHOULD
+BC_data_clean <- right_join(patients_clean,                #WHAT JOIN
                                proteomes_clean,
                                by = c("Complete TCGA ID" = "TCGA ID"))
-
 
 
 # Write data --------------------------------------------------------------
@@ -55,6 +56,8 @@ write_csv(x = PAM50_clean,
           file = "data/02_PAM50_clean.csv")
 write_csv(x = proteomes_clean,
           file = "data/02_proteomes_clean.csv")
+write_csv(x = BC_data_clean,
+          file = "data/02_BC_data_clean.csv")
 
 # "data/01_proteomes.csv"
 # "data/01_patients.csv"
