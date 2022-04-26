@@ -41,6 +41,11 @@ Gene_Expresion <- proteomes %>%
               values_from = "value") %>% 
   rename("TCGA ID" = name)
 
+# How to find those with less than 20% 
+
+#proteomes_raw %>% 
+#  mutate(frac_NA = rowSums(is.na(.), na.rm = TRUE)/ncol(proteomes_raw)) %>% 
+#  filter(frac_NA < 0.20)
 
 # Merge data --------------------------------------------------------------
 BC_Data <- left_join(patients,                #WHAT JOIN
