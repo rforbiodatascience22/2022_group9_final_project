@@ -14,32 +14,18 @@ proteomes <- read_csv(file = "data/01_proteomes.csv")
 
 # Wrangle data ------------------------------------------------------------
 patients_clean <- patients
+
+
 PAM50_clean <- PAM50
-proteomes_clean <- proteomes
 
 
-# Which threshold should we set?
-# if I just write is.na(), it gives me na errors
+#count_na_func <- function(x) sum(is.na(x)) 
 
-# Only using those with a fraction of NAs less than XX%
-#BC_Data %>%
-#  mutate(frac_NA = rowSums(is.na(BC_Data), na.rm = TRUE)/ncol(BC_Data[1,])) %>% 
-#  filter(frac_NA < 0.20)
+proteomes_clean %>%
+  mutate(frac_na = apply(., 1, count_na_func)/ncol(.)) %>% 
+  filter(frac_na < 0.10)
 
-# Columns:
-#BC_Data %>%
-#  mutate(frac_NA = colSums(is.na(BC_Data), na.rm = TRUE)/nrow(BC_Data)) %>% 
-#  filter(frac_NA < 0.20)
-
-
-#colSums(is.na(BC_Data[, -c(1:32)]), na.rm=TRUE)
-#colSums(is.na(BC_Data[, -c(1:32)]), na.rm=TRUE)/nrow(BC_Data)
-
-#BC_Data %>%
-#  filter(map(~sum(is.na(.))/nrow(BC_Data) < 0.1))
-
-# sum(is.na(BC_Data[1,]))/ncol(BC_Data[1,])
-
+# Only selecting the proteomes that have XX% of data
 
 # Write data --------------------------------------------------------------
 write_csv(x = patients_clean,
