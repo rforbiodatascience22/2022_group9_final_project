@@ -7,8 +7,8 @@ library("dplyr")
 source(file = "R/99_project_functions.R")
 
 # Load data ---------------------------------------------------------------
-patients  <- read_csv(file = "data/01_patients.csv")
-PAM50     <- read_csv(file = "data/01_PAM50.csv")
+patients <- read_csv(file = "data/01_patients.csv")
+PAM50 <- read_csv(file = "data/01_PAM50.csv")
 proteomes <- read_csv(file = "data/01_proteomes.csv") 
 
 
