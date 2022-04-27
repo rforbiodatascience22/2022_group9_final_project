@@ -28,7 +28,7 @@ adjusted_names <- proteomes_clean %>%
 colnames(proteomes_clean)[4:86] <- adjusted_names
 
 
-# Creating new data sets with columns consisting of dublicates and too little data removed:
+# Creating new data sets with columns consisting of duplicates and too little data removed:
 proteomes_clean <- proteomes_clean %>% 
   select(unique(colnames(.))) %>%                          # Removing duplicates
   select(-c("gene_symbol","gene_name")) %>%                # Removing unnecessary describtions of protein
