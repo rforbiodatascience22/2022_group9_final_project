@@ -51,7 +51,7 @@ proteomes_clean <- proteomes_clean %>%
 
 # Merge data --------------------------------------------------------------
 # SHOULD
-BC_data_clean <- right_join(patients_clean,                #WHAT JOIN
+BC_data_clean <- inner_join(patients_clean,                #WHAT JOIN
                             proteomes_clean,
                             by = c("Complete TCGA ID" = "TCGA ID"))
 
