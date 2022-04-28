@@ -14,6 +14,8 @@ BC_data_clean_aug <- read_csv(file = "data/03_BC_data_clean_aug.csv")
 
 
 # Wrangle data ------------------------------------------------------------
+
+# Wrangling data so that it can be used for glm
 BC_data_clean_aug_test <- BC_data_clean_aug %>%
   select(c(Luminal_A,
            Luminal_B,
@@ -27,8 +29,30 @@ BC_data_clean_aug_test <- BC_data_clean_aug %>%
                names_to = "proteom",
                values_to = "expr_level") %>% 
   group_by(proteom) %>% 
-  nest()
+  nest() %>% 
+  ungroup()
 
+# Making four different logistic models for each of the subtypes
+BC_data_clean_aug_test_model = BC_data_clean_aug_test %>%
+  mutate(mdl_LuminalA = map(data, ~glm(Luminal_A ~ expr_level,
+                              data = .x,
+                              family = binomial(link = "logit"))),
+         mdl_LuminalB = map(data, ~glm(Luminal_B ~ expr_level,
+                                       data = .x,
+                                       family = binomial(link = "logit"))),
+         mdl_HER2 = map(data, ~glm(HER2_enriched ~ expr_level,
+                                       data = .x,
+                                       family = binomial(link = "logit"))),
+         mdl_Basal = map(data, ~glm(Basal_like ~ expr_level,
+                                       data = .x,
+                                       family = binomial(link = "logit"))))
+BC_data_clean_aug_test_model
+
+
+#BC_data_clean_aug_test_model = BC_data_clean_aug_test %>%
+#  mutate(mdl = map(data, ~glm(response ~ expr_lvl,
+#                              data = subset(BC_data_clean_aug_test == 0),
+#                              family = binomial(link = "logit"))))
 
 
 # Add subtype to Gene Expression data
