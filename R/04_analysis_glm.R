@@ -1,6 +1,7 @@
 # Load libraries ----------------------------------------------------------
 library("tidyverse")
 library("ggplot2")
+library("broom")
 
 
 # Define functions --------------------------------------------------------
@@ -33,21 +34,96 @@ BC_data_clean_aug_test <- BC_data_clean_aug %>%
   ungroup()
 
 # Making four different logistic models for each of the subtypes
-BC_data_clean_aug_test_model = BC_data_clean_aug_test %>%
+# Luminal A --------------------------------------------------------------------
+BC_data_clean_aug_LuminalA = BC_data_clean_aug_test %>%
   mutate(mdl_LuminalA = map(data, ~glm(Luminal_A ~ expr_level,
                               data = .x,
-                              family = binomial(link = "logit"))),
-         mdl_LuminalB = map(data, ~glm(Luminal_B ~ expr_level,
-                                       data = .x,
-                                       family = binomial(link = "logit"))),
-         mdl_HER2 = map(data, ~glm(HER2_enriched ~ expr_level,
-                                       data = .x,
-                                       family = binomial(link = "logit"))),
-         mdl_Basal = map(data, ~glm(Basal_like ~ expr_level,
+                              family = binomial(link = "logit"))))
+
+# Adding model information
+BC_data_clean_aug_LuminalA = BC_data_clean_aug_LuminalA %>%
+  mutate(mdl_LuminalA_tidy = map(mdl_LuminalA, ~tidy(.x, conf.int = TRUE))) %>% 
+  unnest(mdl_LuminalA_tidy) %>% 
+  filter(term != "(Intercept)") %>%  # Remove the (Intercept)-rows
+  mutate(identified_as = case_when(p.value < 0.05 ~ "significant",    # Add an indicator variable
+                                   p.value >= 0.05 ~ "insignificant"))
+
+# Luminal B --------------------------------------------------------------------
+BC_data_clean_aug_LuminalB = BC_data_clean_aug_test %>%
+  mutate(mdl_LuminalB = map(data, ~glm(Luminal_B ~ expr_level,
                                        data = .x,
                                        family = binomial(link = "logit"))))
-BC_data_clean_aug_test_model
 
+# Adding model information
+BC_data_clean_aug_LuminalB = BC_data_clean_aug_LuminalB %>%
+  mutate(mdl_LuminalB_tidy = map(mdl_LuminalB, ~tidy(.x, conf.int = TRUE))) %>% 
+  unnest(mdl_LuminalB_tidy) %>% 
+  filter(term != "(Intercept)") %>%  
+  mutate(identified_as = case_when(p.value < 0.05 ~ "significant",  
+                                   p.value >= 0.05 ~ "insignificant"))
+
+# HER2 --------------------------------------------------------------------
+BC_data_clean_aug_HER2 = BC_data_clean_aug_test %>%
+  mutate(mdl_HER2 = map(data, ~glm(HER2_enriched ~ expr_level,
+                                       data = .x,
+                                       family = binomial(link = "logit"))))
+
+# Adding model information
+BC_data_clean_aug_HER2 = BC_data_clean_aug_HER2 %>%
+  mutate(mdl_HER2_tidy = map(mdl_HER2, ~tidy(.x, conf.int = TRUE))) %>% 
+  unnest(mdl_HER2_tidy) %>% 
+  filter(term != "(Intercept)") %>%  
+  mutate(identified_as = case_when(p.value < 0.05 ~ "significant",  
+                                   p.value >= 0.05 ~ "insignificant"))
+
+# Basal-like -------------------------------------------------------------------
+BC_data_clean_aug_basal = BC_data_clean_aug_test %>%
+  mutate(mdl_basal = map(data, ~glm(Basal_like ~ expr_level,
+                                       data = .x,
+                                       family = binomial(link = "logit"))))
+
+# Adding model information
+BC_data_clean_aug_basal = BC_data_clean_aug_basal %>%
+  mutate(mdl_basal_tidy = map(mdl_basal, ~tidy(.x, conf.int = TRUE))) %>% 
+  unnest(mdl_basal_tidy) %>% 
+  filter(term != "(Intercept)") %>%  
+  mutate(identified_as = case_when(p.value < 0.05 ~ "significant",  
+                                   p.value >= 0.05 ~ "insignificant"))
+
+
+# TRIED TO PUT EVERYTHING IN ONE, BUT THINK IT IS TOO LONG
+#BC_data_clean_aug_test_model = BC_data_clean_aug_test %>%
+#  mutate(mdl_LuminalA = map(data, ~glm(Luminal_A ~ expr_level,
+#                                       data = .x,
+#                                       family = binomial(link = "logit"))),
+#         mdl_LuminalB = map(data, ~glm(Luminal_B ~ expr_level,
+#                                       data = .x,
+#                                       family = binomial(link = "logit"))),
+#         mdl_HER2 = map(data, ~glm(HER2_enriched ~ expr_level,
+#                                   data = .x,
+#                                   family = binomial(link = "logit"))),
+#         mdl_Basal = map(data, ~glm(Basal_like ~ expr_level,
+#                                    data = .x,
+#                                    family = binomial(link = "logit"))))
+
+
+# Adding model information
+BC_data_clean_aug_test_model = BC_data_clean_aug_test_model %>%
+  mutate(mdl_LuminalA_tidy = map(mdl_LuminalA, ~tidy(.x, conf.int = TRUE))) %>% 
+  unnest(mdl_LuminalA_tidy)
+         #mdl_LuminalB_tidy = map(mdl_LuminalB, ~tidy(.x, conf.int = TRUE)),
+         #mdl_HER2_tidy = map(mdl_HER2, ~tidy(.x, conf.int = TRUE)),
+         #mdl_Basal_tidy = map(mdl_Basal, ~tidy(.x, conf.int = TRUE))) %>% 
+         #mdl_LuminalB_tidy,
+         #mdl_HER2_tidy,
+         #mdl_Basal_tidy)
+
+
+
+gene_expr_data_long_nested = gene_expr_data_long_nested %>%
+  mutate(mdl_tidy = map(mdl, ~tidy(.x, conf.int = TRUE))) %>% 
+  unnest(mdl_tidy)
+gene_expr_data_long_nested
 
 #BC_data_clean_aug_test_model = BC_data_clean_aug_test %>%
 #  mutate(mdl = map(data, ~glm(response ~ expr_lvl,
