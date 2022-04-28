@@ -6,17 +6,18 @@ library("dplyr")
 # Define functions --------------------------------------------------------
 source(file = "R/99_project_functions.R")
 
+
 # Load data ---------------------------------------------------------------
-patients <- read_csv(file = "data/01_patients.csv")
-PAM50 <- read_csv(file = "data/01_PAM50.csv")
+patients  <- read_csv(file = "data/01_patients.csv")
+PAM50     <- read_csv(file = "data/01_PAM50.csv")
 proteomes <- read_csv(file = "data/01_proteomes.csv") 
 
 
 # Wrangle data ------------------------------------------------------------
-PAM50_clean     <- PAM50
+PAM50_clean <- PAM50
 
 # Patients: Reducing
-patients_clean  <- patients %>% 
+patients_clean <- patients %>% 
   select(-starts_with("Days"))
 
 # Proteomes: Modifies column names to be compatible with 'patients'
