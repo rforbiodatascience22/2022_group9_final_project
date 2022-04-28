@@ -2,6 +2,8 @@
 library("tidyverse")
 library("ggplot2")
 library("broom")
+library("purrr")
+library("vroom")
 
 
 # Define functions --------------------------------------------------------
@@ -46,6 +48,17 @@ BC_data_clean_aug_LuminalA = BC_data_clean_aug_test %>%
                                    p.value >= 0.05 ~ "insignificant"),
          identified_as_LuminalA = as.factor(identified_as_LuminalA))
   
+
+# Density plot of Luminal A
+BC_data_clean_aug_LuminalA %>%
+  ggplot(aes(estimate,
+             fill = identified_as_LuminalA)) +
+  geom_density(alpha = 0.6) +
+  theme_classic(base_family = "Avenir",
+                base_size = 8) +
+  theme(axis.text.y = element_text(),
+        legend.position = "bottom")
+# Missing labels etc.
 
 
 # Luminal B --------------------------------------------------------------------
