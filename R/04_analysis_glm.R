@@ -116,18 +116,30 @@ BC_data_clean_aug_HER2 %>%
 
 
 # Basal-like -------------------------------------------------------------------
+
 BC_data_clean_aug_basal = BC_data_clean_aug_test %>%
   mutate(mdl_basal = map(data, ~glm(Basal_like ~ expr_level,
-                                       data = .x,
-                                       family = binomial(link = "logit"))))
-
-# Adding model information
-BC_data_clean_aug_basal = BC_data_clean_aug_basal %>%
-  mutate(mdl_basal_tidy = map(mdl_basal, ~tidy(.x, conf.int = TRUE))) %>% 
+                                       data = .,
+                                       family = binomial(link = "logit"))),
+         mdl_basal_tidy = map(mdl_basal, tidy, conf.int = TRUE)) %>% 
   unnest(mdl_basal_tidy) %>% 
-  filter(term != "(Intercept)") %>%  
-  mutate(identified_as = case_when(p.value < 0.05 ~ "significant",  
-                                   p.value >= 0.05 ~ "insignificant"))
+  filter(term != "(Intercept)") %>% 
+  mutate(identified_as_basal = case_when(p.value < 0.05 ~ "significant",    # Add an indicator variable
+                                            p.value >= 0.05 ~ "insignificant"),
+         identified_as_basal = as.factor(identified_as_basal))
+
+# Density plot
+BC_data_clean_aug_basal %>%
+  ggplot(aes(estimate,
+             fill = identified_as_basal)) +
+  geom_density(alpha = 0.6) +
+  theme_classic(base_family = "Avenir",
+                base_size = 8) +
+  theme(axis.text.y = element_text(),
+        legend.position = "bottom")
+
+
+# 9,274 to 2,503
 
 
 # TRIED TO PUT EVERYTHING IN ONE, BUT THINK IT IS TOO LONG
@@ -145,7 +157,7 @@ BC_data_clean_aug_basal = BC_data_clean_aug_basal %>%
 #                                    data = .x,
 #                                    family = binomial(link = "logit"))))
 
-
+# ------------------------------------------------------------------------------
 
 gene_expr_data_long_nested = gene_expr_data_long_nested %>%
   mutate(mdl_tidy = map(mdl, ~tidy(.x, conf.int = TRUE))) %>% 
@@ -221,5 +233,19 @@ Expresion_Subtype_long_nested %>%
 
 
 # Write data ---------------------------------------------------------------
-write_csv(Expresion_Subtype_long_nested, file = "data/04_glm_result.csv")
+write_csv(Expresion_Subtype_long_nested, 
+          file = "data/04_glm_result.csv")
+
+write_csv(BC_data_clean_aug_LuminalA, 
+          file = "data/04_glm_result.csv")
+
+write_csv(BC_data_clean_aug_LuminalB, 
+          file = "data/04_glm_result.csv")
+
+write_csv(BC_data_clean_aug_HER2, 
+          file = "data/04_glm_result.csv")
+
+write_csv(BC_data_clean_aug_basal, 
+          file = "data/04_glm_result.csv")
+
 ggsave(...)
