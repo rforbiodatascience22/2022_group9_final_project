@@ -1,3 +1,18 @@
+#analysis
+
+view(BC_data_clean_aug)
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Modification of column names in proteomes so they are comparable with patients_clean_aug
 adjusted_names <- proteomes_clean %>% 
