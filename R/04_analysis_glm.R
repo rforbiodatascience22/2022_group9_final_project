@@ -37,16 +37,16 @@ BC_data_clean_aug_test <- BC_data_clean_aug %>%
 # Luminal A --------------------------------------------------------------------
 BC_data_clean_aug_LuminalA = BC_data_clean_aug_test %>%
   mutate(mdl_LuminalA = map(data, ~glm(Luminal_A ~ expr_level,
-                              data = .x,
-                              family = binomial(link = "logit"))))
-
-# Adding model information
-BC_data_clean_aug_LuminalA = BC_data_clean_aug_LuminalA %>%
-  mutate(mdl_LuminalA_tidy = map(mdl_LuminalA, ~tidy(.x, conf.int = TRUE))) %>% 
+                              data = .,
+                              family = binomial(link = "logit"))),
+         mdl_LuminalA_tidy = map(mdl_LuminalA, tidy, conf.int = TRUE)) %>% 
   unnest(mdl_LuminalA_tidy) %>% 
-  filter(term != "(Intercept)") %>%  # Remove the (Intercept)-rows
-  mutate(identified_as = case_when(p.value < 0.05 ~ "significant",    # Add an indicator variable
-                                   p.value >= 0.05 ~ "insignificant"))
+  filter(term != "(Intercept)") %>% 
+  mutate(identified_as_LuminalA = case_when(p.value < 0.05 ~ "significant",    # Add an indicator variable
+                                   p.value >= 0.05 ~ "insignificant"),
+         identified_as_LuminalA = as.factor(identified_as_LuminalA))
+  
+
 
 # Luminal B --------------------------------------------------------------------
 BC_data_clean_aug_LuminalB = BC_data_clean_aug_test %>%
