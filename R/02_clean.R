@@ -14,7 +14,13 @@ proteomes <- read_csv(file = "data/01_proteomes.csv")
 
 
 # Wrangle data ------------------------------------------------------------
+<<<<<<< HEAD
 PAM50_clean <- PAM50
+=======
+patients_clean  <- patients
+PAM50_clean     <- PAM50
+proteomes_clean <- proteomes
+>>>>>>> 02ecb84d06a44a607aa524f3397d35a8f2d1c7d9
 
 # Patients: Reducing
 patients_clean <- patients %>% 
@@ -23,19 +29,31 @@ patients_clean <- patients %>%
 # Proteomes: Modifies column names to be compatible with 'patients'
 proteomes_clean <- proteomes
 
+<<<<<<< HEAD
+=======
+#count_na_func <- function(x) sum(is.na(x)) 
+
+# Modification of column names in proteomes so they are comparable with patients_clean_aug
+>>>>>>> 02ecb84d06a44a607aa524f3397d35a8f2d1c7d9
 adjusted_names <- proteomes_clean %>% 
-  select(-c("RefSeq_accession_number",
-            "gene_symbol",
-            "gene_name")) %>% 
+  select(-c("RefSeq_accession_number","gene_symbol","gene_name")) %>% 
   colnames() %>% 
   map(change_format)
 colnames(proteomes_clean)[4:86] <- adjusted_names
 
+<<<<<<< HEAD
 # Proteomes: Reduces and transposes to be compatible with 'patients'
 proteomes_clean <- proteomes %>% 
   select(unique(colnames(.))) %>%                          # Removing duplicates
   select(-c("gene_symbol",
             "gene_name")) %>%                              # Removing unnecessary descriptions of protein
+=======
+
+# Creating new data sets with columns consisting of dublicates and too little data removed:
+proteomes_clean <- proteomes_clean %>% 
+  select(unique(colnames(.))) %>%                          # Removing duplicates
+  select(-c("gene_symbol","gene_name")) %>%                # Removing unnecessary describtions of protein
+>>>>>>> 02ecb84d06a44a607aa524f3397d35a8f2d1c7d9
   mutate(frac_na = apply(., 1, count_na_func)/ncol(.)) %>% 
   filter(frac_na < 0.10) %>%                               # Removing columns consisting of more than 10% NAs
   select(-c("frac_na")) %>% 
@@ -47,7 +65,8 @@ proteomes_clean <- proteomes %>%
 
 
 # Merge data --------------------------------------------------------------
-BC_data_clean <- inner_join(patients_clean, 
+# SHOULD
+BC_data_clean <- right_join(patients_clean,                #WHAT JOIN
                             proteomes_clean,
                             by = c("Complete TCGA ID" = "TCGA ID"))
 
@@ -61,3 +80,8 @@ write_csv(x = proteomes_clean,
           file = "data/02_proteomes_clean.csv")
 write_csv(x = BC_data_clean,
           file = "data/02_BC_data_clean.csv")
+
+# "data/01_proteomes.csv"
+# "data/01_patients.csv"
+# "data/01_PAM50.csv"
+# "data/01_BC_Data.csv"
