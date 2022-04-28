@@ -8,12 +8,9 @@ source(file = "R/99_project_functions.R")
 
 
 # Load data ---------------------------------------------------------------
-<<<<<<< HEAD
 proteomes_clean_aug <- read_csv(file = "data/03_proteomes_clean_aug.csv")
 BC_data_clean_aug   <- read_csv(file = "data/03_BC_data_clean_aug.csv")
-=======
 BC_data_clean_aug <- read_csv(file = "data/03_BC_data_clean_aug.csv")
->>>>>>> 9f24866f1c91c060df444e040a654955095a0794
 
 
 # Wrangle data ------------------------------------------------------------
