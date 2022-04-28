@@ -14,11 +14,30 @@ BC_data_clean_aug <- read_csv(file = "data/03_BC_data_clean_aug.csv")
 
 
 # Wrangle data ------------------------------------------------------------
+BC_data_clean_aug_test <- BC_data_clean_aug %>%
+  select(c(Luminal_A,
+           Luminal_B,
+           HER2_enriched,
+           Basal_like,
+           starts_with("NP"))) %>% 
+  pivot_longer(cols = -c(Luminal_A,
+                         Luminal_B,
+                         HER2_enriched,
+                         Basal_like),
+               names_to = "proteom",
+               values_to = "expr_level") %>% 
+  group_by(proteom) %>% 
+  nest()
+
+
+
 # Add subtype to Gene Expression data
 Expresion_Subtype <- BC_data_clean_aug %>%
   column_to_rownames(var = "Complete TCGA ID") %>% 
   select(-c(1:29)) %>% 
   relocate(Subtype)
+
+
 
 
 # Create long table
