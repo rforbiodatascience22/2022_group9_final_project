@@ -33,7 +33,5 @@ write_csv(x = PAM50_clean_aug,
           file = "data/03_PAM50_clean_aug.csv")
 write_csv(x = proteomes_clean_aug,
           file = "data/03_proteomes_clean_aug.csv")
-write_csv(x = Gene_Expresion_clean_aug,
-          file = "data/03_Gene_Expresion_clean_aug.csv")
 write_csv(x = BC_data_clean_aug,
           file = "data/03_BC_data_clean_aug.csv")
