@@ -36,6 +36,7 @@ BC_data_clean_aug_test <- BC_data_clean_aug %>%
   ungroup()
 
 # Making four different logistic models for each of the subtypes
+
 # Luminal A --------------------------------------------------------------------
 BC_data_clean_aug_LuminalA = BC_data_clean_aug_test %>%
   mutate(mdl_LuminalA = map(data, ~glm(Luminal_A ~ expr_level,
@@ -64,6 +65,7 @@ BC_data_clean_aug_LuminalA %>%
 # Reduction: 9274 to 1,861
 
 # Luminal B --------------------------------------------------------------------
+
 BC_data_clean_aug_LuminalB = BC_data_clean_aug_test %>%
   mutate(mdl_LuminalB = map(data, ~glm(Luminal_B ~ expr_level,
                                        data = .,
@@ -85,20 +87,33 @@ BC_data_clean_aug_LuminalB %>%
   theme(axis.text.y = element_text(),
         legend.position = "bottom")
 
+# BC_data_clean_aug_LuminalB %>% filter(identified_as_LuminalB == "significant")
+# 9,274 to 1,435
 
-# HER2 --------------------------------------------------------------------
+
+# HER2 enriched --------------------------------------------------------------------
+
 BC_data_clean_aug_HER2 = BC_data_clean_aug_test %>%
   mutate(mdl_HER2 = map(data, ~glm(HER2_enriched ~ expr_level,
-                                       data = .x,
-                                       family = binomial(link = "logit"))))
-
-# Adding model information
-BC_data_clean_aug_HER2 = BC_data_clean_aug_HER2 %>%
-  mutate(mdl_HER2_tidy = map(mdl_HER2, ~tidy(.x, conf.int = TRUE))) %>% 
+                                       data = .,
+                                       family = binomial(link = "logit"))),
+         mdl_HER2_tidy = map(mdl_HER2, tidy, conf.int = TRUE)) %>% 
   unnest(mdl_HER2_tidy) %>% 
-  filter(term != "(Intercept)") %>%  
-  mutate(identified_as = case_when(p.value < 0.05 ~ "significant",  
-                                   p.value >= 0.05 ~ "insignificant"))
+  filter(term != "(Intercept)") %>% 
+  mutate(identified_as_HER2 = case_when(p.value < 0.05 ~ "significant",    # Add an indicator variable
+                                            p.value >= 0.05 ~ "insignificant"),
+         identified_as_HER2 = as.factor(identified_as_HER2))
+
+# Plot
+BC_data_clean_aug_HER2 %>%
+  ggplot(aes(estimate,
+             fill = identified_as_HER2)) +
+  geom_density(alpha = 0.6) +
+  theme_classic(base_family = "Avenir",
+                base_size = 8) +
+  theme(axis.text.y = element_text(),
+        legend.position = "bottom")
+
 
 # Basal-like -------------------------------------------------------------------
 BC_data_clean_aug_basal = BC_data_clean_aug_test %>%
