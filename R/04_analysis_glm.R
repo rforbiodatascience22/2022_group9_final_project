@@ -39,8 +39,8 @@ BC_data_clean_aug_test <- BC_data_clean_aug %>%
 # Luminal A --------------------------------------------------------------------
 BC_data_clean_aug_LuminalA = BC_data_clean_aug_test %>%
   mutate(mdl_LuminalA = map(data, ~glm(Luminal_A ~ expr_level,
-                              data = .,
-                              family = binomial(link = "logit"))),
+                                       data = .,
+                                       family = binomial(link = "logit"))),
          mdl_LuminalA_tidy = map(mdl_LuminalA, tidy, conf.int = TRUE)) %>% 
   unnest(mdl_LuminalA_tidy) %>% 
   filter(term != "(Intercept)") %>% 
@@ -57,23 +57,34 @@ BC_data_clean_aug_LuminalA %>%
   theme_classic(base_family = "Avenir",
                 base_size = 8) +
   theme(axis.text.y = element_text(),
-        legend.position = "bottom")
-# Missing labels etc.
+        legend.position = "bottom") # Missing labels etc.
 
+# Finding only significant proteomes
+#BC_data_clean_aug_LuminalA %>% filter(identified_as_LuminalA == "significant")
+# Reduction: 9274 to 1,861
 
 # Luminal B --------------------------------------------------------------------
 BC_data_clean_aug_LuminalB = BC_data_clean_aug_test %>%
   mutate(mdl_LuminalB = map(data, ~glm(Luminal_B ~ expr_level,
-                                       data = .x,
-                                       family = binomial(link = "logit"))))
-
-# Adding model information
-BC_data_clean_aug_LuminalB = BC_data_clean_aug_LuminalB %>%
-  mutate(mdl_LuminalB_tidy = map(mdl_LuminalB, ~tidy(.x, conf.int = TRUE))) %>% 
+                                       data = .,
+                                       family = binomial(link = "logit"))),
+         mdl_LuminalB_tidy = map(mdl_LuminalB, tidy, conf.int = TRUE)) %>% 
   unnest(mdl_LuminalB_tidy) %>% 
-  filter(term != "(Intercept)") %>%  
-  mutate(identified_as = case_when(p.value < 0.05 ~ "significant",  
-                                   p.value >= 0.05 ~ "insignificant"))
+  filter(term != "(Intercept)") %>% 
+  mutate(identified_as_LuminalB = case_when(p.value < 0.05 ~ "significant",    # Add an indicator variable
+                                            p.value >= 0.05 ~ "insignificant"),
+         identified_as_LuminalB = as.factor(identified_as_LuminalB))
+
+# Density plot of Luminal B
+BC_data_clean_aug_LuminalB %>%
+  ggplot(aes(estimate,
+             fill = identified_as_LuminalB)) +
+  geom_density(alpha = 0.6) +
+  theme_classic(base_family = "Avenir",
+                base_size = 8) +
+  theme(axis.text.y = element_text(),
+        legend.position = "bottom")
+
 
 # HER2 --------------------------------------------------------------------
 BC_data_clean_aug_HER2 = BC_data_clean_aug_test %>%
@@ -118,18 +129,6 @@ BC_data_clean_aug_basal = BC_data_clean_aug_basal %>%
 #         mdl_Basal = map(data, ~glm(Basal_like ~ expr_level,
 #                                    data = .x,
 #                                    family = binomial(link = "logit"))))
-
-
-# Adding model information
-BC_data_clean_aug_test_model = BC_data_clean_aug_test_model %>%
-  mutate(mdl_LuminalA_tidy = map(mdl_LuminalA, ~tidy(.x, conf.int = TRUE))) %>% 
-  unnest(mdl_LuminalA_tidy)
-         #mdl_LuminalB_tidy = map(mdl_LuminalB, ~tidy(.x, conf.int = TRUE)),
-         #mdl_HER2_tidy = map(mdl_HER2, ~tidy(.x, conf.int = TRUE)),
-         #mdl_Basal_tidy = map(mdl_Basal, ~tidy(.x, conf.int = TRUE))) %>% 
-         #mdl_LuminalB_tidy,
-         #mdl_HER2_tidy,
-         #mdl_Basal_tidy)
 
 
 
