@@ -1,17 +1,23 @@
 #analysis
 
-view(BC_data_clean_aug)
+BC_data_clean_aug %>% 
+  select(c("PAM50 mRNA",starts_with("NP"))) %>% 
+  colnames()
+
+#^the data we want to do a linear Regression on
+#Next up: respond numbers (PAM50). convert into 1's and 0's
+#then follow week 6.
 
 
 
+BC_data_clean_aug %>% 
+  select("PAM50 mRNA") %>% 
+  mutate(respons = case_when("Basal-like", respons=1))
 
 
+BC_data_clean_aug$`PAM50 mRNA`=="Basal-like"
 
-
-
-
-
-
+BC_data_clean_aug$Subtype
 
 
 # Modification of column names in proteomes so they are comparable with patients_clean_aug
