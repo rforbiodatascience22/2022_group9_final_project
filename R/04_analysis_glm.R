@@ -18,22 +18,10 @@ BC_data_clean_aug <- read_csv(file = "data/03_BC_data_clean_aug.csv")
 
 # Wrangle data ------------------------------------------------------------
 # Add subtype to Gene Expression data
-
-
-#### WHICH ONE OF THESE ?
-Expresion_Subtype <- left_join(proteomes_clean_aug,
-                               BC_data_clean_aug,
-                               by = c("TCGA ID" = "Complete TCGA ID")) %>%
-  column_to_rownames(var = "TCGA ID") %>% 
-  select(c(1:12553), "Subtype")
-
-
 Expresion_Subtype <- BC_data_clean_aug %>%
   column_to_rownames(var = "Complete TCGA ID") %>% 
   select(-c(1:29)) %>% 
   relocate(Subtype)
-#### WHICH ONE OF THESE ?
-
 
 
 # Create long table
