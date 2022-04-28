@@ -1,10 +1,46 @@
 
+
+change_format <- function(ID){
+  string <- str_split(ID, pattern = ".\\d\\dTCGA")[[1]]
+  string <- str_c("TCGA-", string)[1]
+  return(string)
+}
+
+
 # Modification of column names in proteomes so they are comparable with patients_clean_aug
 adjusted_names <- proteomes_clean %>% 
-  select(-c("RefSeq_accession_number","gene_symbol","gene_name")) %>% 
+  select(-c("RefSeq_accession_number",
+            "gene_symbol",
+            "gene_name")) %>% 
   colnames() %>% 
   map(change_format)
 colnames(proteomes_clean)[4:86] <- adjusted_names
+
+
+#NEW TRY
+proteomes_clean %>% 
+  select(-c("RefSeq_accession_number",
+            "gene_symbol",
+            "gene_name")) %>% 
+  rename_with(~ change_format)
+              names_repair = "check_unique") %>% 
+  select(unique(colnames(.)))
+
+colnames(proteomes_clean) %>% 
+  substr(colnames(proteomes_clean),1,7)
+
+
+colnames(proteomes_clean)  
+  
+  colnames() %>% 
+  map(change_format)
+colnames(proteomes_clean)[4:86] <- adjusted_names
+
+
+
+
+
+
 
 
 # Creating new data sets with columns consisting of dublicates and too little data removed:
