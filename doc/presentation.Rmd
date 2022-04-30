@@ -1,6 +1,6 @@
 ---
 title: "Breast cancer classification using proteomic data"
-author: "Group 9"
+author: "G9 - Huang Yi, Liu Yu, Rossen Anne Marie Nørrelykke, Spjelkavik Synne."
 date: '2022-04-19'
 output:
   ioslides_presentation:
@@ -9,19 +9,28 @@ output:
   smaller: true
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
 
-## abstruct
+```{r include=FALSE}
+library(tidyverse)
+library(knitr)
+```
 
-- introduction
-- database establishment
+
+## Contents
+
+- Introduction
+- Materials
   -data selection
   -merge
-  
-- methods  
-- results
-- conclusion
+- Methods  
+- Results and Discussion
+- Conclusion
+---
 
-## Introduction
+# Introduction
 - this data was selected from the Breast cancer.based on the PAM50 gene was devide into 4 subtypes.
 - in this study we try to use this dataset to detect different gene contribute to the subtype devision based on theie expression level.
 
