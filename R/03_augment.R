@@ -20,11 +20,7 @@ BC_data_clean_aug   <- BC_data_clean
 
 # Modifying BC_data -Ccolumn: PAM50 mRNA  ##DOESNT WORK --> CREATES NA's###
 BC_data_clean_aug <- BC_data_clean_aug %>%
-  mutate(Subtype = case_when(`PAM50 mRNA` == "Luminal A" ~ 0,
-                             `PAM50 mRNA` == "Luminal B" ~ 1,
-                             `PAM50 mRNA` == "HER2-enriched" ~ 2,
-                             `PAM50 mRNA` == "Basal-like" ~ 3),
-         Luminal_A = if_else(`PAM50 mRNA` == "Luminal A", 1, 0),
+  mutate(Luminal_A = if_else(`PAM50 mRNA` == "Luminal A", 1, 0),
          Luminal_B = if_else(`PAM50 mRNA` == "Luminal B", 1, 0),
          HER2_enriched = if_else(`PAM50 mRNA` == "HER2-enriched", 1, 0),
          Basal_like = if_else(`PAM50 mRNA` == "Basal-like", 1, 0))
