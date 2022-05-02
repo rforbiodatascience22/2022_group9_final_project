@@ -13,7 +13,6 @@ source(file = "R/99_project_functions.R")
 # Load data ---------------------------------------------------------------
 proteomes_clean_aug <- read_csv(file = "data/03_proteomes_clean_aug.csv")
 BC_data_clean_aug   <- read_csv(file = "data/03_BC_data_clean_aug.csv")
-BC_data_clean_aug <- read_csv(file = "data/03_BC_data_clean_aug.csv")
 
 
 # Wrangle data ------------------------------------------------------------
@@ -246,6 +245,6 @@ write_csv(BC_data_clean_aug_HER2,
           file = "data/04_glm_result.csv")
 
 write_csv(BC_data_clean_aug_basal, 
-          file = "data/04_glm_result.csv")
+          file = "results/04_glm_result.csv")
 
 ggsave(...)
