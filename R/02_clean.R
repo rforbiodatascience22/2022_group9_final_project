@@ -40,7 +40,7 @@ proteomes_clean <- proteomes_clean %>%
   select(unique(colnames(.))) %>%                          # Removing duplicates
   select(-c("gene_symbol","gene_name")) %>%                # Removing unnecessary describtions of protein
   mutate(frac_na = apply(., 1, count_na_func)/ncol(.)) %>% 
-  filter(frac_na < 0.10) %>%                               # Removing columns consisting of more than 10% NAs
+  filter(frac_na < 0.01) %>%                               # Removing columns consisting of less than 99% of the data
   select(-c("frac_na")) %>% 
   pivot_longer(cols= -1,                                   # Transposing
                names_repair = "check_unique") %>% 
