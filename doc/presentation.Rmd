@@ -1,7 +1,7 @@
 ---
 title: "Breast cancer classification using proteomic data"
-author: "G9 - Huang Yi, Liu Yu, Rossen Anne Marie Nørrelykke, Spjelkavik Synne."
-date: '2022-04-19'
+author: "G9 - Huang Yi, Liu Yu, Anne Rossen, Synne Spjelkavik"
+date: '2022-05-09'
 output:
   ioslides_presentation:
   incremental: true
@@ -34,10 +34,18 @@ library(knitr)
 - this data was selected from the Breast cancer.based on the PAM50 gene was devide into 4 subtypes.
 - in this study we try to use this dataset to detect different gene contribute to the subtype devision based on theie expression level.
 
+# DataSets
+The project consits of 3 Datasets:
+- "Patients":
+- "Proteoms": States the expresion of each gene for each patient (77 cancer patients and 3 healthy)
+- "PAM50": Database that describes each protiein futher
+
+
 ## introduction
 -this dataset contains 77 patients' and 3 health samples.
--Afer cleaned it we merged the 3 data and plot all the attributes basd on their subtypes.and then we decide to select some of the attributes and do PCA to see if the attribute is related to it's subtype devision.
+-After cleaned it we merged the 3 data and plot all the attributes based on their subtypes.and then we decide to select some of the attributes and do PCA to see if the attribute is related to it's subtype devision.
 
+![](../results/04_plot_AgeVitalCancerType.png){width=99%}
 
 ## Slide with Plot
 - t
