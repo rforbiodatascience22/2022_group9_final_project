@@ -4,6 +4,7 @@ library("ggplot2")
 library("broom")
 library("purrr")
 library("vroom")
+rm(list=ls())
 
 
 # Define functions -------------------------------------------------------------
@@ -11,7 +12,7 @@ source(file = "R/99_project_functions.R")
 
 
 # Load data --------------------------------------------------------------------
-proteomes_clean_aug <- read_csv(file = "data/03_proteomes_clean_aug.csv")
+proteomes_clean <- read_csv(file = "data/02_proteomes_clean.csv")
 BC_data_clean_aug   <- read_csv(file = "data/03_BC_data_clean_aug.csv")
 
 
