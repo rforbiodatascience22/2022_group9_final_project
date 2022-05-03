@@ -30,7 +30,6 @@ Her2_glm <- subtype_glm("HER2_enriched", BC_data_clean_aug)
 # Basal-like
 Basal_glm <- subtype_glm("Basal_like", BC_data_clean_aug)
 
-
 # Visualise data ---------------------------------------------------------------
 # Density plot of Luminal A
 LumA_glm %>%
@@ -45,7 +44,6 @@ LumA_glm %>%
 # Finding only significant proteomes
 #BC_data_clean_aug_LuminalA %>% filter(identified_as_LuminalA == "significant")
 # Reduction: 9274 to 1,861
-
 
 # Density plot of Luminal B
 LumB_glm %>%
