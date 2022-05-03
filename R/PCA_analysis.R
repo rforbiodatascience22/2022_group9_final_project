@@ -68,4 +68,4 @@ ggplot(perc_data, aes(x = PC, y = percent)) + geom_col()
 
 
 ### as we can see that the demension1 contains over 99% of the information 
-### I suggest that we make a only one dimension plot 
+### I suggest that we make a only one dimension plot
