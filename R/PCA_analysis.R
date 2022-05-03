@@ -11,7 +11,7 @@ library(dplyr)
 
 BC_PCA <- BC_data_clean %>% 
   select(29:33) %>% # as there are too much demensions I decide to have 
-                    # the first 4 dimensions 
+  # the first 4 dimensions 
   scale() %>% 
   prcomp() ## run PCA
 
