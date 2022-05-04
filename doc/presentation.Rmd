@@ -1,6 +1,6 @@
 ---
 title: "Breast cancer classification using proteomic data"
-author: "G9 - Huang Yi, Liu Yu, Anne Rossen, Synne Spjelkavik"
+author: "Group 9 - Huang Yi, Liu Yu, Anne Rossen, Synne Spjelkavik"
 date: '2022-05-09'
 output:
   ioslides_presentation:
@@ -23,29 +23,58 @@ library(knitr)
 
 - Introduction
 - Materials
-  -data selection
-  -merge
 - Methods  
 - Results and Discussion
 - Conclusion
----
 
-# Introduction
-- this data was selected from the Breast cancer.based on the PAM50 gene was devide into 4 subtypes.
-- in this study we try to use this dataset to detect different gene contribute to the subtype devision based on theie expression level.
+## Introduction: Breast Cancer
 
-# DataSets
-The project consits of 3 Datasets:
-- "Patients":
-- "Proteoms": States the expresion of each gene for each patient (77 cancer patients and 3 healthy)
-- "PAM50": Database that describes each protiein futher
+Prevalence: 12% in women.
+
+Mortality rate: 2,7%.
+
+Breats cancer is often refered to as one disease, however several types exist and are based on varying types of tumors. 
+
+Characteristics that affect prognosis:
+
+- Location of tumor
+- Size of tumor
+- Shape of tumor
+- Severity of tumor
+- Hormone receptor status 
+- HER2
+
+## Introduction: Aim
+
+With this project we wish to analyse breast cancer data and identify possible riskfactors.
+
+
+## Introduction Data
+
+The raw data consist of 3 datasets:
+
+- "patients": Describes patients on 29 variables (105 cancer patients)
+- "proteomes": States the protein expression of 12553 genes for each patient (77 cancer patients, 3 dublicates and 3 healthy)
+- "PAM50": Database that describes each gene further
+
+
+Modified Data:
+
+- "BC_Data": Describes patients on 29 variables and the protein expression of 12553 genes (77 cancer patients)
+
+
+## Investigating the cancer types
+
+![](../results/04_plot_AgeVitalCancerType.png){width=99%}
+
+Age is a significant survival factor for the Luminal breast cancers
 
 
 ## introduction
+
 -this dataset contains 77 patients' and 3 health samples.
 -After cleaned it we merged the 3 data and plot all the attributes based on their subtypes.and then we decide to select some of the attributes and do PCA to see if the attribute is related to it's subtype devision.
 
-![](../results/04_plot_AgeVitalCancerType.png){width=99%}
 
 ## Slide with Plot
 - t
