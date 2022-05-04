@@ -9,43 +9,48 @@ source(file = "R/99_project_functions.R")
 
 # Load data ---------------------------------------------------------------
 patients  <- read_csv(file = "data/01_patients.csv")
-proteomes <- read_csv(file = "data/01_proteomes.csv") 
+proteomes <- read_csv(file = "data/01_proteomes.csv")
 
 
 # Wrangle data ------------------------------------------------------------
 
-# Patients: Reducing
+# For patients: 
+# Reduce meaningless variables
 patients_clean <- patients %>% 
   select(-starts_with("Days"))
 
-# Proteomes: Modifies column names to be compatible with 'patients'
-proteomes_clean <- proteomes
-
-# Modification of column names in proteomes so they are comparable with patients_clean_aug
-adjusted_names <- proteomes_clean %>% 
+# For proteomes: 
+# Create new column names
+adjusted_names <- proteomes %>% 
   select(-c("RefSeq_accession_number","gene_symbol","gene_name")) %>% 
   colnames() %>% 
-  map(change_format)
-colnames(proteomes_clean)[4:86] <- adjusted_names
+  map(change_format) %>% 
+  unlist() %>% 
+  unique()
 
-
-# Creating new data sets with columns consisting of dublicates and too little data removed:
-proteomes_clean <- proteomes_clean %>% 
-  select(unique(colnames(.))) %>%                          # Removing duplicates
-  select(-c("gene_symbol","gene_name")) %>%                # Removing unnecessary describtions of protein
-  mutate(frac_na = apply(., 1, count_na_func)/ncol(.)) %>% 
-  filter(frac_na < 0.01) %>%                               # Removing columns consisting of less than 99% of the data
+# Wrangle proteomes
+proteomes_clean <- proteomes %>% 
+  select(-c("AO-A12D.05TCGA",
+            "C8-A131.32TCGA",
+            "AO-A12B.34TCGA")) %>%         # Remove duplicates
+  rename_with(~ adjusted_names,
+              .cols = -c(1:3)) %>%         # Rename protein columns
+  select(-c("gene_symbol",
+            "gene_name")) %>%              # Remove unnecessary descriptions
+  mutate(frac_na = apply(.,
+                         1,
+                         count_na_func)/ncol(.)) %>% 
+  filter(frac_na < 0.01) %>%               # Remove columns consisting of less than 99% of the data
   select(-c("frac_na")) %>% 
-  pivot_longer(cols= -1,                                   # Transposing
+  pivot_longer(cols= -1,                            
                names_repair = "check_unique") %>% 
   pivot_wider(names_from = "RefSeq_accession_number",
-              values_from = "value") %>% 
+              values_from = "value") %>%   # Transpose data frame
   rename("TCGA ID" = name)
 
 
 # Merge data --------------------------------------------------------------
-# SHOULD
-BC_data_clean <- inner_join(patients_clean,                #WHAT JOIN
+BC_data_clean <- inner_join(patients_clean,           
                             proteomes_clean,
                             by = c("Complete TCGA ID" = "TCGA ID"))
 
@@ -57,8 +62,3 @@ write_csv(x = proteomes_clean,
           file = "data/02_proteomes_clean.csv")
 write_csv(x = BC_data_clean,
           file = "data/02_BC_data_clean.csv")
-
-# "data/01_proteomes.csv"
-# "data/01_patients.csv"
-# "data/01_PAM50.csv"
-# "data/01_BC_Data.csv"
