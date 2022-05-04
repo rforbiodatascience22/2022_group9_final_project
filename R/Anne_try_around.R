@@ -1,5 +1,62 @@
 #analysis
 
+
+BC_variable <- BC_data_clean_aug %>%
+  select(-starts_with(c("NP","XP","YP"))) %>% 
+  select(-Subtype) %>% 
+  colnames() %>% 
+  c(.,"NP_XXXXXX")
+
+BC_variable_explinaion <- c("Patient ID (80 patients)",
+                            "(All Female)",
+                            "Age When Diagnosed (30-88 years)",
+                            "ER Status",
+                            "PR Status",                          
+                            "HER2 Final Status",                  
+                            "Tumor",                 
+                            "Tumor--T1 Coded",                
+                            "Node",               
+                            "Node-Coded",               
+                            "Metastasis",              
+                            "Metastasis-Coded",             
+                            "AJCC Stage",            
+                            "Converted Stage",           
+                            "Survival Data Form",          
+                            "Vital Status",         
+                            "Days to Date of Last Contact",       
+                            "Days to date of Death",       
+                            "OS event",      
+                            "OS Time",     
+                            "PAM50 mRNA",    
+                            "SigClust Unsupervised mRNA",   
+                            "SigClust Intrinsic mRNA",  
+                            "miRNA Clusters", 
+                            "methylation Clusters",
+                            "RPPA Clusters",
+                            "CN Clusters",
+                            "Integrated Clusters (with PAM50)",
+                            "Integrated Clusters (no exp)",
+                            "Integrated Clusters (unsup exp)",
+                            "NP_958782")
+
+BC_var_table <- tibble(BC_variable,BC_variable_explinaion)
+print(BC_var_table, n=31)
+
+
+
+
+
+# Wrangle data ------------------------------------------------------------
+my_data_clean_aug %>% ...
+
+
+# Model data
+my_data_clean_aug %>% ...
+
+
+# Visualise data ----------------------------------------------------------
+
+
 BC_data_clean_aug %>% 
   select(c("PAM50 mRNA",starts_with("NP"))) %>% 
   colnames()

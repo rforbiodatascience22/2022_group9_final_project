@@ -54,6 +54,11 @@ The raw datasets:
 - "PAM50": Describes each gene further
 
 
+## Presenting Data
+
+![](../results/04_plot_AgeVitalCancerType.png){width=99%}
+
+
 ## Methods: Data Modifications
 
 Data modifications
@@ -63,24 +68,33 @@ Data modifications
 Argumentation:
 - changed X from characters to 1's and 0's
 
-
-## Presenting Data
-
-![](../results/04_plot_AgeVitalCancerType.png){width=99%}
-
 ## Methods: Analysis
 
 GLM on each Breast Cancer Type
 
 Venn-diagram to observe common genes
 
-## Methods: Common genes
+Gene expression profiling of the common genes
+
+common genes with PAM50 Dataset
+
+PCA and clustering
+
+## Results: Common genes after GLM
 
 ![](../results/06_venndiagram.png){width=85%}
 
 ## Results: Genes expression in common genes for each patient
 
 ![](../results/06_subtype_heatmap.png){width=85%}
+
+
+
+## Methods: Analysis
+
+PCA
+
+
 
 ## old text:
 
