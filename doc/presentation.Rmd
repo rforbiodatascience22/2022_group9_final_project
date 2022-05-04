@@ -47,39 +47,51 @@ Tumor types: (Vary in location, size, shape and severity)
 
 Data Origin
 
-- ???
+The raw datasets:
 
-The raw data consist of 3 datasets:
-
-- "patients": Describes patients on 29 variables (105 cancer patients)
-- "proteomes": States the protein expression of 12553 genes for each patient (77 cancer patients, 3 dublicates and 3 healthy)
-- "PAM50": Database that describes each gene further
+- "patients": 105 cancer patients, 29 variables
+- "proteomes": protein expression of 12553 genes for 77 cancer patients, 3 duplicates and 3 healthy.
+- "PAM50": Describes each gene further
 
 
-## Methods: modifications
+## Methods: Data Modifications
 
-Merged: ("patients" + "proteomes")
-
+Data modifications
+- Merging: ("patients" + "proteomes")
 - "BC_Data": Describes patients on 29 variables and the protein expression of 12553 genes (77 cancer patients)
 
 Argumentation:
-
 - changed X from characters to 1's and 0's
 
 
-## Investigating the cancer types
+## Presenting Data
 
 ![](../results/04_plot_AgeVitalCancerType.png){width=99%}
 
-Age is a significant survival factor for the Luminal breast cancers
+## Methods: Analysis
 
+GLM on each Breast Cancer Type
 
-## introduction
+Venn-diagram to observe common genes
+
+## Methods: Common genes
+
+![](../results/06_venndiagram.png){width=85%}
+
+## Results: Genes expression in common genes for each patient
+
+![](../results/06_subtype_heatmap.png){width=85%}
+
+## old text:
+
+PCA
 
 -this dataset contains 77 patients' and 3 health samples.
 -After cleaned it we merged the 3 data and plot all the attributes based on their subtypes.and then we decide to select some of the attributes and do PCA to see if the attribute is related to it's subtype devision.
 
-![](../results/04_plot_AgeVitalCancerType.png){width=70%}
 
-## Slide with Plot
-- t
+
+
+
+
+
