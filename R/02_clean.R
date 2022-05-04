@@ -9,7 +9,7 @@ source(file = "R/99_project_functions.R")
 
 # Load data ---------------------------------------------------------------
 patients  <- read_csv(file = "data/01_patients.csv")
-proteomes <- read_csv(file = "data/01_proteomes.csv") 
+proteomes <- read_csv(file = "data/01_proteomes.csv")
 
 
 # Wrangle data ------------------------------------------------------------

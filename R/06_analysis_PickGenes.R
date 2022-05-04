@@ -34,7 +34,12 @@ significant_proteins <- list(
     pull(proteome)
 )
 # Plot Venn diagram
-ggvenn(significant_proteins)
+significant_proteins %>% 
+  ggvenn()
+ggsave(file = "results/06_venndiagram.png",
+       width = 7, 
+       height = 6, 
+       dpi = 150)
 
 # Find overlapping proteins
 overlap_pro <- intersect(intersect(intersect(significant_proteins[["Basal"]], 
@@ -63,6 +68,10 @@ LumB_unique <- setdiff(setdiff(setdiff(significant_proteins[["LumB"]],
                                significant_proteins[["LumA"]]),
                        significant_proteins[["Her2"]]) #460
 
+# Build new data frame for overlap proteins
+BC_overlap_genes <- BC_data_clean_aug %>% 
+  select(c(overlap_pro),
+         `PAM50 mRNA`)
 
 # Visualization ----------------------------------------------------------------
 # Overlap gene expression heatmap
@@ -170,3 +179,16 @@ pl4 <- ggplot(data = BC_data_clean_aug %>%
   labs(title = "Luminal B")
 
 (pl1+pl2)/(pl3+pl4)
+ggsave(file = "results/06_subtype_heatmap.png",
+       width = 8, 
+       height = 6.5, 
+       dpi = 150)
+
+
+
+
+# Save files -------------------------------------------------------------------
+save(significant_proteins,
+     file = "results/06_significant_proteins.rda")
+write_csv(x = BC_overlap_genes,
+          file = "results/06_BC_overlap_genes.csv")
