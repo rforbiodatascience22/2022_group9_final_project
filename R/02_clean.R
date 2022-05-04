@@ -1,7 +1,7 @@
 # Load libraries ----------------------------------------------------------
 library("tidyverse")
 library("dplyr")
-
+rm(list=ls())
 
 # Define functions --------------------------------------------------------
 source(file = "R/99_project_functions.R")
@@ -9,15 +9,10 @@ source(file = "R/99_project_functions.R")
 
 # Load data ---------------------------------------------------------------
 patients  <- read_csv(file = "data/01_patients.csv")
-PAM50     <- read_csv(file = "data/01_PAM50.csv")
 proteomes <- read_csv(file = "data/01_proteomes.csv") 
 
 
 # Wrangle data ------------------------------------------------------------
-PAM50_clean <- PAM50
-patients_clean  <- patients
-PAM50_clean     <- PAM50
-proteomes_clean <- proteomes
 
 # Patients: Reducing
 patients_clean <- patients %>% 
@@ -25,7 +20,6 @@ patients_clean <- patients %>%
 
 # Proteomes: Modifies column names to be compatible with 'patients'
 proteomes_clean <- proteomes
-
 
 # Modification of column names in proteomes so they are comparable with patients_clean_aug
 adjusted_names <- proteomes_clean %>% 
@@ -59,8 +53,6 @@ BC_data_clean <- inner_join(patients_clean,                #WHAT JOIN
 # Write data --------------------------------------------------------------
 write_csv(x = patients_clean,
           file = "data/02_patients_clean.csv")
-write_csv(x = PAM50_clean,
-          file = "data/02_PAM50_clean.csv")
 write_csv(x = proteomes_clean,
           file = "data/02_proteomes_clean.csv")
 write_csv(x = BC_data_clean,

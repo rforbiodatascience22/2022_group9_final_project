@@ -75,6 +75,10 @@ Age is a significant survival factor for the Luminal breast cancers
 -this dataset contains 77 patients' and 3 health samples.
 -After cleaned it we merged the 3 data and plot all the attributes based on their subtypes.and then we decide to select some of the attributes and do PCA to see if the attribute is related to it's subtype devision.
 
+<<<<<<< HEAD
+=======
+![](../results/04_plot_AgeVitalCancerType.png){width=70%}
+>>>>>>> c8df77946333f99cc84719a4bb6c39a1e31d002b
 
 ## Slide with Plot
 - t
