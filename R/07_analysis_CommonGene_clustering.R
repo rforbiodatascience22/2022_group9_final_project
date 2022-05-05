@@ -117,7 +117,8 @@ pca_aug_K_pca %>%
   summarise(score_org_CommonGenes = mean(cluster_org_CommonGenes_correct),
             score_pca_CommonGenes = mean(cluster_pca_CommonGenes_correct))
 
-### from the result we can see that we have only 0.418 accuracy. 
+### from the result we can see that the origin data have only 0.351 accuracy
+### and the PCA data have only 0.026 accuracy. 
 ### seems not so good.
 
 
