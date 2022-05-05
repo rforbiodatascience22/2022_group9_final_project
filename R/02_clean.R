@@ -39,24 +39,24 @@ PAM50_clean <- PAM50 %>%
   as_tibble()
 
 
-# Wrangle proteomes
+# Wrangle proteomes (removing duplicates, renaming proteins)
 proteomes_clean <- proteomes %>% 
   select(-c("AO-A12D.05TCGA",
             "C8-A131.32TCGA",
-            "AO-A12B.34TCGA")) %>%         # Remove duplicates
+            "AO-A12B.34TCGA")) %>%         
   rename_with(~ adjusted_names,
-              .cols = -c(1:3)) %>%         # Rename protein columns
+              .cols = -c(1:3)) %>%        
   select(-c("gene_symbol",
-            "gene_name")) %>%              # Remove unnecessary descriptions
+            "gene_name")) %>%              
   mutate(frac_na = apply(.,
                          1,
                          count_na_func)/ncol(.)) %>% 
-  filter(frac_na < 0.01) %>%               # Remove columns consisting of less than 99% of the data
+  filter(frac_na < 0.01) %>%               
   select(-c("frac_na")) %>% 
   pivot_longer(cols= -1,                            
                names_repair = "check_unique") %>% 
   pivot_wider(names_from = "RefSeq_accession_number",
-              values_from = "value") %>%   # Transpose data frame
+              values_from = "value") %>%  
   rename("TCGA ID" = name)
 
 
@@ -80,4 +80,4 @@ write_csv(x = proteomes_clean,
 write_csv(x = BC_data_clean,
           file = "data/02_BC_data_clean.csv")
 write_csv(x = BC_data_PAM50_clean,
-          file = "data/02_BC_data_clean.csv")
+          file = "data/02_BC_data_PAM50_clean.csv")

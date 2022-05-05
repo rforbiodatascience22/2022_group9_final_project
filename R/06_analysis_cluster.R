@@ -10,51 +10,34 @@ library(cowplot)
 source(file = "R/99_project_functions.R")
 
 BC_data_clean_aug   <- read_csv(file = "data/03_BC_data_clean_aug.csv")
-PAM50_data <- read_csv(file = "data/01_PAM50.csv")
-
-# Modifying data files ---------------------------------------------------------
-
-# Transforming PAM50 data (NB: SHOULD BOTH BE MOVE TO CLEANING PART?)
-#PAM50_selected <- PAM50_data %>%
-#  pivot_longer(cols = -RefSeqProteinID) %>%
-#  pivot_wider(names_from = RefSeqProteinID) %>%
-#  rename("RefSeqProteinID" = 1) %>%
-#  as_tibble()
-
-
-#BC_data_clean_aug_PAM50 <- BC_data_clean_aug %>% 
-#  select(c(1:28),
-#         names(BC_data_clean_aug)[names(BC_data_clean_aug) %in% names(PAM50_selected)])
-
-# Selecing the ones that are the same for both
-
+BC_data_PAM50_clean <- read_csv(file = "data/02_BC_data_PAM50_clean.csv")
 
 # PCA analysis  ----------------------------------------------------------------
 
 # Doing a PCA analysis - only numerical data for protein IDs
-pca_fit_ori <- BC_data_clean_aug %>% 
+pca_ori <- BC_data_clean_aug %>% 
   select(c(29:8022)) %>% 
   select(where(is.numeric)) %>% # retain only numeric columns
   prcomp(center = TRUE, scale. = TRUE)
 
 # Adding original data back
-pca_fit_ori_aug <- pca_fit_ori %>% 
+pca_ori_aug <- pca_ori %>% 
   augment(BC_data_clean_aug)
 
 # PCA on reduced version
-pca_fit_reduced <- BC_data_clean_aug_PAM50 %>% 
+pca_red <- BC_data_PAM50_clean %>% 
   select(c(29:54)) %>% 
   select(where(is.numeric)) %>% # retain only numeric columns
   prcomp(center = TRUE, scale. = TRUE)
 
 # Adding original data back
-pca_fit_red_aug <- pca_fit_reduced %>% 
-  augment(BC_data_clean_aug_PAM50)
+pca_red_aug <- pca_red %>% 
+  augment(BC_data_PAM50_clean)
 
 # Visualizing the results  -----------------------------------------------------
 
 # Scatter plot of 1st and 2nd PC - Original data
-pca_fit_original_plot <- pca_fit_ori_aug %>% # add original dataset back in
+pca_ori_plot <- pca_ori_aug %>% # add original dataset back in
   ggplot(aes(.fittedPC1, 
              .fittedPC2, 
              color = `PAM50 mRNA`)) + 
@@ -63,7 +46,7 @@ pca_fit_original_plot <- pca_fit_ori_aug %>% # add original dataset back in
   background_grid()
 
 # Scatter plot of 1st and 2nd PC - Reduced data
-pca_fit_reduced_plot <- pca_fit_red_aug %>%
+pca_red_plot <- pca_red_aug %>%
   ggplot(aes(.fittedPC1, 
              .fittedPC2, 
              color = `PAM50 mRNA`)) + 
@@ -72,7 +55,7 @@ pca_fit_reduced_plot <- pca_fit_red_aug %>%
   background_grid()
 
 # Variance explained by each PC (plots) - Original data
-pca_fit_original_PC_plot <- pca_fit_original %>%
+pca_ori_PC_plot <- pca_ori %>%
   tidy("pcs") %>%
   ggplot(aes(PC, percent)) +
   geom_col(fill = "#56B4E9", alpha = 0.8) +
@@ -83,7 +66,7 @@ pca_fit_original_PC_plot <- pca_fit_original %>%
 
 
 # Variance explained by each PC (plots) - Reduced data
-pca_fit_reduced_PC_plot <- pca_fit_reduced %>%
+pca_red_PC_plot <- pca_red %>%
   tidy("pcs") %>%
   ggplot(aes(PC, percent)) +
   geom_col(fill = "#56B4E9", alpha = 0.8) +
@@ -93,8 +76,8 @@ pca_fit_reduced_PC_plot <- pca_fit_reduced %>%
   theme_half_open(12)
 
 # Plots all together
-(pca_fit_original_plot + pca_fit_reduced_plot +  plot_layout(guides = 'auto'))/
-  (pca_fit_original_PC_plot + pca_fit_reduced_PC_plot) + 
+(pca_ori_plot + pca_red_plot +  plot_layout(guides = 'auto'))/
+  (pca_ori_PC_plot + pca_red_PC_plot) + 
   plot_layout(guides = 'collect') & 
   theme(legend.position = "top")
 
