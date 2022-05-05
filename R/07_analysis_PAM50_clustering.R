@@ -85,22 +85,22 @@ pca_red_PC_plot <- pca_red %>%
 # K-means analysis (original data) ---------------------------------------------
 set.seed(4)
 
-my_k_org <- pca_fit_ori_aug %>%
+k_org <- pca_ori_aug %>%
   select(.fittedPC1, .fittedPC2) %>%
   kmeans(centers = 4)
 
-my_pca_aug_k_org <- my_k_org %>%
-  augment(pca_fit_ori_aug) %>% 
+pca_aug_k_org <- k_org %>%
+  augment(pca_ori_aug) %>% 
   rename(cluster_org = .cluster)
-my_pca_aug_k_org
+pca_aug_k_org
 
 
-pl1 <- my_pca_aug_k_org %>%
+pl1 <- pca_aug_k_org %>%
   ggplot(aes(x = .fittedPC1, y = .fittedPC2, colour = `PAM50 mRNA`)) +
   geom_point() +
   theme(legend.position = "bottom")
 
-pl2 <- my_pca_aug_k_org %>%
+pl2 <- pca_aug_k_org %>%
   ggplot(aes(x = .fittedPC1, y = .fittedPC2, colour = cluster_org)) +
   geom_point() +
   theme(legend.position = "bottom")
@@ -110,93 +110,25 @@ pl1 + pl2
 
 # K-means analysis (Reduced data) ----------------------------------------------
 set.seed(4)
-my_k_red <- pca_fit_red_aug %>%
+k_red <- pca_red_aug %>%
   select(.fittedPC1, .fittedPC2) %>%
   kmeans(centers = 4)
 
-my_pca_aug_k_red <- my_k_red %>%
-  augment(pca_fit_red_aug) %>% 
+pca_aug_k_red <- k_red %>%
+  augment(pca_red_aug) %>% 
   rename(cluster_org = .cluster)
 my_pca_aug_k_red
 
 
-pl3 <- my_pca_aug_k_red %>%
+pl3 <- pca_aug_k_red %>%
   ggplot(aes(x = .fittedPC1, y = .fittedPC2, colour = `PAM50 mRNA`)) +
   geom_point() +
   theme(legend.position = "bottom")
 
-pl4 <- my_pca_aug_k_red %>%
+pl4 <- pca_aug_k_red %>%
   ggplot(aes(x = .fittedPC1, y = .fittedPC2, colour = cluster_org)) +
   geom_point() +
   theme(legend.position = "bottom")
 
 pl3 + pl4
 
-
-# TRASH ?? ---------------------------------------------------------------------
-
-my_k_red <- pca_fit_reduced %>%
-  augment(BC_data_clean_aug_PAM50) %>% 
-  select(.fittedPC1, .fittedPC2) %>%
-  kmeans(centers = 4)
-
-
-pl1 <- my_k_org %>%
-  ggplot(aes(x = .fittedPC1, y = .fittedPC2, colour = `PAM50 mRNA`)) +
-  geom_point() +
-  theme(legend.position = "bottom")
-
-pl2 <- my_pca_aug_k_org_pca %>%
-  ggplot(aes(x = .fittedPC1, y = .fittedPC2, colour = cluster_org)) +
-  geom_point() +
-  theme(legend.position = "bottom")
-
-
-
-points <- BC_data_clean_aug %>% 
-  select(c(29:8022))
-
-k_means <- BC_data_clean_aug %>% 
-  select(c(29:8022)) %>% 
-  na.omit() %>% 
-  kmeans(centers = 4)
-
-
-
-
-#augment(k_means, BC_data_clean_aug)
-
-#tidy(k_means)
-
-#glance(k_means)
-  
-kclusts <- 
-  tibble(k = 1:9) %>%
-  mutate(
-    kclust = map(k, ~kmeans(points, .x)),
-    tidied = map(kclust, tidy),
-    glanced = map(kclust, glance),
-    augmented = map(kclust, augment, BC_data_clean_aug)
-  )
-
-kclusts
-
-clusters <- 
-  kclusts %>%
-  unnest(cols = c(tidied))
-
-assignments <- 
-  kclusts %>% 
-  unnest(cols = c(augmented))
-
-clusterings <- 
-  kclusts %>%
-  unnest(cols = c(glanced))
-
-
-
-p1 <- 
-  ggplot(assignments, aes(x = NP_958782, y = NP_000436)) +
-  geom_point(aes(color = .cluster), alpha = 0.8) + 
-  facet_wrap(~ k)
-p1
