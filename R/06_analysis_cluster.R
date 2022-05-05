@@ -13,25 +13,20 @@ BC_data_clean_aug   <- read_csv(file = "data/03_BC_data_clean_aug.csv")
 PAM50_data <- read_csv(file = "data/01_PAM50.csv")
 
 # Modifying data files ---------------------------------------------------------
-# Transforming PAM50 data
-PAM50_selected <- PAM50_data %>%
-  pivot_longer(cols = -RefSeqProteinID) %>%
-  pivot_wider(names_from = RefSeqProteinID) %>%
-  rename("RefSeqProteinID" = 1) %>%
-  as_tibble()
 
-# Making a list containing the column names
-PAM50_selected_names <- PAM50_selected %>% 
-  names() %>% 
-  select(-c(1))
+# Transforming PAM50 data (NB: SHOULD BOTH BE MOVE TO CLEANING PART?)
+#PAM50_selected <- PAM50_data %>%
+#  pivot_longer(cols = -RefSeqProteinID) %>%
+#  pivot_wider(names_from = RefSeqProteinID) %>%
+#  rename("RefSeqProteinID" = 1) %>%
+#  as_tibble()
 
-BC_data_clean_aug_names <- BC_data_clean_aug %>% 
-  names()
+
+#BC_data_clean_aug_PAM50 <- BC_data_clean_aug %>% 
+#  select(c(1:28),
+#         names(BC_data_clean_aug)[names(BC_data_clean_aug) %in% names(PAM50_selected)])
 
 # Selecing the ones that are the same for both
-BC_data_clean_aug_PAM50 <- BC_data_clean_aug %>% 
-  select(c(1:28),
-         BC_data_clean_aug_names[BC_data_clean_aug_names %in% PAM50_selected_names])
 
 
 # PCA analysis  ----------------------------------------------------------------
