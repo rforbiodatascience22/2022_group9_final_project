@@ -10,11 +10,11 @@ library(cowplot)
 source(file = "R/99_project_functions.R")
 
 BC_data_clean_aug   <- read_csv(file = "data/03_BC_data_clean_aug.csv")
-
+PAM50_data <- read_csv(file = "data/01_PAM50.csv")
 
 # Modifying data files ---------------------------------------------------------
 # Transforming PAM50 data
-PAM50_selected <- PAM50 %>%
+PAM50_selected <- PAM50_data %>%
   pivot_longer(cols = -RefSeqProteinID) %>%
   pivot_wider(names_from = RefSeqProteinID) %>%
   rename("RefSeqProteinID" = 1) %>%
