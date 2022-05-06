@@ -110,6 +110,10 @@ pl1 <- pca_aug_k_org %>%
              y = .fittedPC2, 
              colour = `PAM50 mRNA`)) +
   geom_point() +
+  scale_color_manual(values = c("Basal-like" = "#00688B",
+                                "HER2-enriched" = "#00CD66",
+                                "Luminal A"="#FFA500",
+                                "Luminal B" = "#CD3278")) +
   theme(legend.position = "bottom")
 
 # Coloured according to clusters
@@ -118,18 +122,19 @@ pl2 <- pca_aug_k_org %>%
              y = .fittedPC2, 
              colour = cluster_org)) +
   geom_point() +
+  scale_color_manual(values = c("1" = "#FFA500",
+                                "2" = "#FFA500",
+                                "3"="#00688B",
+                                "4" = "#00CD66")) +
   theme(legend.position = "bottom")
 
 # Plot of both
 pl1 + pl2 +  plot_layout(guides = 'collect') &
-  scale_x_continuous(expand = c(0, 0)) &
-  scale_y_continuous(labels = scales::percent_format(),
-                     expand = expansion(mult = c(0, 0.01))) &
   theme_half_open(12) &
   theme(text = element_text(family = "Avenir",
                             size = 12))
 
-# Reduced version
+# Scatter plot reduced version (subtype)
 pl3 <- pca_aug_k_red %>%
   ggplot(aes(x = .fittedPC1, 
              y = .fittedPC2, 
@@ -145,8 +150,7 @@ pl3 <- pca_aug_k_red %>%
                                 "Luminal B" = "#CD3278")) +
   theme(legend.position = "bottom")
 
-#scale_fill_brewer(palette = "Set2") +
-
+# Scatter plot reduced version (cluster)
 pl4 <- pca_aug_k_red %>%
   ggplot(aes(x = .fittedPC1, 
              y = .fittedPC2, 
@@ -163,6 +167,7 @@ pl4 <- pca_aug_k_red %>%
                                 "4" = "#00CD66")) + 
   theme(legend.position = 'bottom')
 
+# Comparison of subtype and cluster (reduced version)
 pl3 + pl4 &
   theme_half_open(12) &
   theme(text = element_text(family = "Avenir",
@@ -171,10 +176,10 @@ pl3 + pl4 &
 # 
 pca_aug_k_red %>%
   select(`PAM50 mRNA`, cluster_red, cluster_red) %>%
-  mutate(cluster_red = case_when(cluster_red == 1 ~ "Luminal A",
-                                 cluster_red == 2 ~ "HER2-enriched",
+  mutate(cluster_red = case_when(cluster_red == 1 ~ "Luminal B",
+                                 cluster_red == 2 ~ "Luminal A",
                                  cluster_red == 3 ~ "Basal-like",
-                                 cluster_red == 4 ~ "Luminal B"),
+                                 cluster_red == 4 ~ "HER2-enriched"),
          cluster_pca_correct = case_when(`PAM50 mRNA` == cluster_red ~ 1,
                                          `PAM50 mRNA` != cluster_red ~ 0)) %>% 
   summarise(score_pca = mean(cluster_pca_correct))
