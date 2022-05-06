@@ -14,9 +14,9 @@ BC_data_PAM50_clean <- read_csv(file = "data/02_BC_data_PAM50_clean.csv")
 
 # PCA analysis  ----------------------------------------------------------------
 
-# Doing a PCA analysis - only numerical data for protein IDs
+# For full BC_data set
 pca_ori <- BC_data_clean_aug %>% 
-  select(c(29:8022)) %>% 
+  select(starts_with(c("NP","XP","YP"))) %>% 
   select(where(is.numeric)) %>% # retain only numeric columns
   prcomp(center = TRUE, scale. = TRUE)
 
@@ -24,9 +24,9 @@ pca_ori <- BC_data_clean_aug %>%
 pca_ori_aug <- pca_ori %>% 
   augment(BC_data_clean_aug)
 
-# PCA on reduced version
+# Reduced version (protein IDs common in PAM50 and BC_data_clean_aug)
 pca_red <- BC_data_PAM50_clean %>% 
-  select(c(29:54)) %>% 
+  select(starts_with(c("NP","XP","YP"))) %>% 
   select(where(is.numeric)) %>% # retain only numeric columns
   prcomp(center = TRUE, scale. = TRUE)
 
@@ -34,52 +34,72 @@ pca_red <- BC_data_PAM50_clean %>%
 pca_red_aug <- pca_red %>% 
   augment(BC_data_PAM50_clean)
 
+# K-means analysis -------------------------------------------------------------
+set.seed(4)
+
+# For full BC_data set
+k_org <- pca_ori_aug %>%
+  select(starts_with(c("NP","XP","YP"))) %>%
+  kmeans(centers = 4)
+
+# Adding original data back and renaming .cluster
+pca_aug_k_org <- k_org %>%
+  augment(pca_ori_aug) %>% 
+  rename(cluster_org = .cluster)
+
+# For reduced version (protein IDs common in PAM50 and BC_data_clean_aug)
+k_red <- pca_red_aug %>%
+  select(starts_with(c("NP","XP","YP"))) %>%
+  select(c(1:14)) %>% 
+  kmeans(centers = 4)
+
+# Adding original data back and renaming .cluster
+pca_aug_k_red <- k_red %>%
+  augment(pca_red_aug) %>% 
+  rename(cluster_red = .cluster)
+
 # Visualizing the results  -----------------------------------------------------
 
-# Scatter plot of 1st and 2nd PC - Original data
-pca_ori_plot <- pca_ori_aug %>% # add original dataset back in
-  ggplot(aes(.fittedPC1, 
-             .fittedPC2, 
-             color = `PAM50 mRNA`)) + 
-  geom_point(size = 1.5) +
-  theme_half_open(12) + 
-  background_grid()
-
-# Scatter plot of 1st and 2nd PC - Reduced data
-pca_red_plot <- pca_red_aug %>%
-  ggplot(aes(.fittedPC1, 
-             .fittedPC2, 
-             color = `PAM50 mRNA`)) + 
-  geom_point(size = 1.5) +
-  theme_half_open(12) + 
-  background_grid()
-
-# Variance explained by each PC (plots) - Original data
-pca_ori_PC_plot <- pca_ori %>%
+plot_pca_ori_cumulative <- pca_ori %>%
   tidy("pcs") %>%
-  ggplot(aes(PC, percent)) +
-  geom_col(fill = "#56B4E9", alpha = 0.8) +
-  scale_y_continuous(
-    labels = scales::percent_format(),
-    expand = expansion(mult = c(0, 0.01))) +
-  theme_half_open(12)
+  ggplot(aes(PC, cumulative)) +
+  geom_col(fill = "turquoise3",
+           alpha = 0.7) +
+  labs(y = "Cumulative variance",
+       subtitle = "a) Full data set") +
+  geom_hline(yintercept = 0.95,
+             linetype = "dashed") +
+  geom_text(aes(x = 5,
+                y = 0.90,
+                label = "95%",
+                vjust = -1))
 
 
-# Variance explained by each PC (plots) - Reduced data
-pca_red_PC_plot <- pca_red %>%
+
+# Reduced version (protein IDs common in PAM50 and BC_data_clean_aug)
+plot_pca_red_cumulative <- pca_red %>%
   tidy("pcs") %>%
-  ggplot(aes(PC, percent)) +
-  geom_col(fill = "#56B4E9", alpha = 0.8) +
-  scale_y_continuous(
-    labels = scales::percent_format(),
-    expand = expansion(mult = c(0, 0.01))) +
-  theme_half_open(12)
+  ggplot(aes(PC, cumulative)) +
+  geom_col(fill = "turquoise3",
+           alpha = 0.7) +
+  labs(y = "Cumulative variance",
+       subtitle = "b) Reduced version") +
+  geom_hline(yintercept = 0.95,
+             linetype = "dashed") +
+  geom_text(aes(x = 2,
+                y = 0.90,
+                label = "95%",
+                vjust = -1))
 
-# Plots all together
-(pca_ori_plot + pca_red_plot +  plot_layout(guides = 'auto'))/
-  (pca_ori_PC_plot + pca_red_PC_plot) + 
-  plot_layout(guides = 'collect') & 
-  theme(legend.position = "top")
+
+(plot_pca_ori_cumulative + plot_pca_red_cumulative) +
+  plot_layout(guides = 'collect') &
+  scale_x_continuous(expand = c(0, 0)) &
+  scale_y_continuous(labels = scales::percent_format(),
+                     expand = expansion(mult = c(0, 0.01))) &
+  theme_half_open(12) &
+  theme(text = element_text(family = "Avenir",
+                            size = 12))
 
 
 # K-means analysis (original data) ---------------------------------------------
