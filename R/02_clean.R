@@ -68,7 +68,7 @@ BC_data_clean <- inner_join(patients_clean,
 
 # Subset data ------------------------------------------------------------------
 BC_data_PAM50_clean <- BC_data_clean %>% 
-  select(c(1:28),
+  select(-starts_with(c("NP","XP","YP")),
          names(BC_data_clean)[names(BC_data_clean) %in% names(PAM50_clean)])
 
 
