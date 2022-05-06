@@ -116,19 +116,33 @@ k_red <- pca_red_aug %>%
 
 pca_aug_k_red <- k_red %>%
   augment(pca_red_aug) %>% 
-  rename(cluster_org = .cluster)
+  rename(cluster_red = .cluster)
 my_pca_aug_k_red
 
 
 pl3 <- pca_aug_k_red %>%
   ggplot(aes(x = .fittedPC1, y = .fittedPC2, colour = `PAM50 mRNA`)) +
   geom_point() +
+  theme_bw() +
   theme(legend.position = "bottom")
 
+
 pl4 <- pca_aug_k_red %>%
-  ggplot(aes(x = .fittedPC1, y = .fittedPC2, colour = cluster_org)) +
+  ggplot(aes(x = .fittedPC1, y = .fittedPC2, colour = cluster_red)) +
   geom_point() +
+  theme_bw() +
   theme(legend.position = "bottom")
 
 pl3 + pl4
 
+
+# 
+pca_aug_k_red %>%
+  select(`PAM50 mRNA`, cluster_red, cluster_red) %>%
+  mutate(cluster_red = case_when(cluster_red == 1 ~ "Luminal B",
+                                 cluster_red == 2 ~ "HER2-enriched",
+                                 cluster_red == 3 ~ "Basal-like",
+                                 cluster_red == 4 ~ "Luminal A"),
+         cluster_pca_correct = case_when(`PAM50 mRNA` == cluster_red ~ 1,
+                                         `PAM50 mRNA` != cluster_red ~ 0)) %>% 
+  summarise(score_pca = mean(cluster_pca_correct))
