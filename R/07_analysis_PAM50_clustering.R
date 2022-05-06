@@ -137,11 +137,12 @@ pl3 <- pca_aug_k_red %>%
   geom_point() +
   labs(x = "PC1 (XX%)",
        y = "PC2 (YY%)",
-       subtitle = "hhh") +
-  scale_color_manual(values = c("Basal-like" = "#00CDCD",
-                                "HER2-enriched" = "#9A32CD",
-                                "Luminal A"="#66CD00",
-                                "Luminal B" = "#CD6839")) +
+       color = "Subtype",
+       subtitle = "a) Full data set") +
+  scale_color_manual(values = c("Basal-like" = "#555599",
+                                "HER2-enriched" = "#66BBBB",
+                                "Luminal A"="#DD4444",
+                                "Luminal B" = "#AC18D9")) +
   theme(legend.position = "bottom")
 
 
@@ -152,20 +153,19 @@ pl4 <- pca_aug_k_red %>%
   geom_point() +
   labs(x = "PC1 (XX%)",
        y = "PC2 (YY%)",
-       subtitle = "hhh") +
+       color = "Cluster",
+       subtitle = "b) Reduced version") +
   theme(legend.position = "bottom") + 
-  scale_color_manual(values = c("1" = "steelblue",
-                                "2" = "orange",
-                                "3"="purple",
-                                "4" = "green"))
+  scale_color_manual(values = c("1" = "#AC18D9",
+                                "2" = "#DD4444",
+                                "3"="#555599",
+                                "4" = "#66BBBB")) + 
+  theme(legend.position = 'bottom')
 
-
-pl3 + pl4 + plot_layout(guides = 'collect') &
+pl3 + pl4 &
   theme_half_open(12) &
   theme(text = element_text(family = "Avenir",
                             size = 12))
-
-
 
 # 
 pca_aug_k_red %>%
