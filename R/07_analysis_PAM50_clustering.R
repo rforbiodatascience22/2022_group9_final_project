@@ -139,12 +139,13 @@ pl3 <- pca_aug_k_red %>%
        y = "PC2 (YY%)",
        color = "Subtype",
        subtitle = "a) Full data set") +
-  scale_color_manual(values = c("Basal-like" = "#555599",
-                                "HER2-enriched" = "#66BBBB",
-                                "Luminal A"="#DD4444",
-                                "Luminal B" = "#AC18D9")) +
+  scale_color_manual(values = c("Basal-like" = "#00688B",
+                                "HER2-enriched" = "#00CD66",
+                                "Luminal A"="#FFA500",
+                                "Luminal B" = "#CD3278")) +
   theme(legend.position = "bottom")
 
+#scale_fill_brewer(palette = "Set2") +
 
 pl4 <- pca_aug_k_red %>%
   ggplot(aes(x = .fittedPC1, 
@@ -156,10 +157,10 @@ pl4 <- pca_aug_k_red %>%
        color = "Cluster",
        subtitle = "b) Reduced version") +
   theme(legend.position = "bottom") + 
-  scale_color_manual(values = c("1" = "#AC18D9",
-                                "2" = "#DD4444",
-                                "3"="#555599",
-                                "4" = "#66BBBB")) + 
+  scale_color_manual(values = c("1" = "#CD3278",
+                                "2" = "#FFA500",
+                                "3"="#00688B",
+                                "4" = "#00CD66")) + 
   theme(legend.position = 'bottom')
 
 pl3 + pl4 &
