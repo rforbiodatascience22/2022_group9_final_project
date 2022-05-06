@@ -3,7 +3,6 @@ library("ggplot2")
 library("broom")
 library("purrr")
 library("vroom")
-# library("tidymodels")
 library("cowplot")
 
 # Define functions -------------------------------------------------------------
@@ -101,20 +100,11 @@ plot_pca_red_cumulative <- pca_red %>%
   theme(text = element_text(family = "Avenir",
                             size = 12))
 
+# Scatter plot (K-means) -------------------------------------------------------
 
-# K-means analysis (original data) ---------------------------------------------
-set.seed(4)
+# Original data
 
-#k_org <- pca_ori_aug %>%
-#  select(.fittedPC1, 
- #        .fittedPC2) %>%
-#  kmeans(centers = 4)
-
-#pca_aug_k_org <- k_org %>%
-#  augment(pca_ori_aug) %>% 
-#  rename(cluster_org = .cluster)
-#pca_aug_k_org
-
+# Coloured according to PAM50 mRNA
 pl1 <- pca_aug_k_org %>%
   ggplot(aes(x = .fittedPC1, 
              y = .fittedPC2, 
@@ -122,6 +112,7 @@ pl1 <- pca_aug_k_org %>%
   geom_point() +
   theme(legend.position = "bottom")
 
+# Coloured according to clusters
 pl2 <- pca_aug_k_org %>%
   ggplot(aes(x = .fittedPC1, 
              y = .fittedPC2, 
@@ -129,19 +120,29 @@ pl2 <- pca_aug_k_org %>%
   geom_point() +
   theme(legend.position = "bottom")
 
-pl1 + pl2
+# Plot of both
+pl1 + pl2 +  plot_layout(guides = 'collect') &
+  scale_x_continuous(expand = c(0, 0)) &
+  scale_y_continuous(labels = scales::percent_format(),
+                     expand = expansion(mult = c(0, 0.01))) &
+  theme_half_open(12) &
+  theme(text = element_text(family = "Avenir",
+                            size = 12))
 
+# Reduced version
 pl3 <- pca_aug_k_red %>%
   ggplot(aes(x = .fittedPC1, 
              y = .fittedPC2, 
              colour = `PAM50 mRNA`)) +
   geom_point() +
-  theme_bw() +
-  theme(legend.position = "bottom") +
-  scale_color_manual(values = c("Basal-like" = "#305D63",
-                                "HER2-enriched" = "#B2E7E8",
-                                "Luminal A"="#F2D096",
-                                "Luminal B" = "green"))
+  labs(x = "PC1 (XX%)",
+       y = "PC2 (YY%)",
+       subtitle = "hhh") +
+  scale_color_manual(values = c("Basal-like" = "#00CDCD",
+                                "HER2-enriched" = "#9A32CD",
+                                "Luminal A"="#66CD00",
+                                "Luminal B" = "#CD6839")) +
+  theme(legend.position = "bottom")
 
 
 pl4 <- pca_aug_k_red %>%
@@ -149,17 +150,21 @@ pl4 <- pca_aug_k_red %>%
              y = .fittedPC2, 
              colour = cluster_red)) +
   geom_point() +
-  theme_bw() +
+  labs(x = "PC1 (XX%)",
+       y = "PC2 (YY%)",
+       subtitle = "hhh") +
   theme(legend.position = "bottom") + 
   scale_color_manual(values = c("1" = "steelblue",
                                 "2" = "orange",
                                 "3"="purple",
                                 "4" = "green"))
 
-pl3 + pl4
 
+pl3 + pl4 + plot_layout(guides = 'collect') &
+  theme_half_open(12) &
+  theme(text = element_text(family = "Avenir",
+                            size = 12))
 
-pl3 + pl4
 
 
 # 
