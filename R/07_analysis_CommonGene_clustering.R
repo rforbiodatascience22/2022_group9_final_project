@@ -26,17 +26,13 @@ pca_aug <- pca_fit %>%
 
 
 #Clustering by kmeans 
-## Cluster original data
-pca_aug_K_org <- pca_aug %>% 
-  select(contains('NP')) %>%
-  kmeans(centers = 4) %>% 
-  augment(pca_aug) %>% 
-  rename(cluster_org_CommonGenes = .cluster)
-
 ## Cluster PCA data
-pca_aug_K_pca <- pca_aug_K_org %>% 
+set.seed(7)
+k_pca <- pca_aug_K_org %>% 
   select(str_c(".fittedPC", 1:17)) %>%
-  kmeans(centers = 4) %>% 
+  kmeans(centers = 4)
+
+pca_aug_K_pca <- k_pca %>% 
   augment(pca_aug_K_org) %>% 
   rename(cluster_pca_CommonGenes = .cluster)
 
@@ -97,9 +93,9 @@ pl3 <- pca_aug_K_pca %>%
   geom_point() +
   theme(legend.position = "bottom")
 
-pl1 + pl2 + pl3
+pl1 + pl3
 
-#4) Calculate the accuracy of the predictions
+#4) Calculate the accuracy of the predictions ?????
 pca_aug_K_pca %>% 
   select(PAM50.mRNA, cluster_org_CommonGenes, cluster_pca_CommonGenes) %>% 
   mutate(cluster_org_CommonGenes = case_when(cluster_org_CommonGenes == 1 ~ 'Basal-like',
@@ -117,8 +113,7 @@ pca_aug_K_pca %>%
   summarise(score_org_CommonGenes = mean(cluster_org_CommonGenes_correct),
             score_pca_CommonGenes = mean(cluster_pca_CommonGenes_correct))
 
-### from the result we can see that the origin data have only 0.351 accuracy
-### and the PCA data have only 0.026 accuracy. 
-### seems not so good.
 
+# Calculate BSS/TSS ratio
+k_pca$betweenss/k_pca$totss
 

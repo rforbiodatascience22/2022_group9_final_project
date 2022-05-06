@@ -3,11 +3,11 @@ library("ggplot2")
 library("broom")
 library("purrr")
 library("vroom")
-library("tidymodels")
-library(cowplot)
+# library("tidymodels")
+library("cowplot")
 
 # Define functions -------------------------------------------------------------
-source(file = "R/99_project_functions.R")
+source(file = "./R/99_project_functions.R")
 
 BC_data_clean_aug   <- read_csv(file = "data/03_BC_data_clean_aug.csv")
 BC_data_PAM50_clean <- read_csv(file = "data/02_BC_data_PAM50_clean.csv")
@@ -117,7 +117,6 @@ k_red <- pca_red_aug %>%
 pca_aug_k_red <- k_red %>%
   augment(pca_red_aug) %>% 
   rename(cluster_org = .cluster)
-my_pca_aug_k_red
 
 
 pl3 <- pca_aug_k_red %>%
@@ -132,3 +131,6 @@ pl4 <- pca_aug_k_red %>%
 
 pl3 + pl4
 
+
+# Calculate BSS/TSS ratio ------------------------------------------------------
+k_red$betweenss/k_red$totss
