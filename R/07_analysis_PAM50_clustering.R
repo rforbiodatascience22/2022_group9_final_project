@@ -60,6 +60,7 @@ pca_aug_k_red <- k_red %>%
 
 # Visualizing the results  -----------------------------------------------------
 
+# For full BC_data set
 plot_pca_ori_cumulative <- pca_ori %>%
   tidy("pcs") %>%
   ggplot(aes(PC, cumulative)) +
@@ -73,7 +74,6 @@ plot_pca_ori_cumulative <- pca_ori %>%
                 y = 0.90,
                 label = "95%",
                 vjust = -1))
-
 
 
 # Reduced version (protein IDs common in PAM50 and BC_data_clean_aug)
@@ -91,7 +91,7 @@ plot_pca_red_cumulative <- pca_red %>%
                 label = "95%",
                 vjust = -1))
 
-
+# Plot of the full and reduced version
 (plot_pca_ori_cumulative + plot_pca_red_cumulative) +
   plot_layout(guides = 'collect') &
   scale_x_continuous(expand = c(0, 0)) &
@@ -105,52 +105,72 @@ plot_pca_red_cumulative <- pca_red %>%
 # K-means analysis (original data) ---------------------------------------------
 set.seed(4)
 
-k_org <- pca_ori_aug %>%
-  select(.fittedPC1, .fittedPC2) %>%
-  kmeans(centers = 4)
+#k_org <- pca_ori_aug %>%
+#  select(.fittedPC1, 
+ #        .fittedPC2) %>%
+#  kmeans(centers = 4)
 
-pca_aug_k_org <- k_org %>%
-  augment(pca_ori_aug) %>% 
-  rename(cluster_org = .cluster)
-pca_aug_k_org
-
+#pca_aug_k_org <- k_org %>%
+#  augment(pca_ori_aug) %>% 
+#  rename(cluster_org = .cluster)
+#pca_aug_k_org
 
 pl1 <- pca_aug_k_org %>%
-  ggplot(aes(x = .fittedPC1, y = .fittedPC2, colour = `PAM50 mRNA`)) +
+  ggplot(aes(x = .fittedPC1, 
+             y = .fittedPC2, 
+             colour = `PAM50 mRNA`)) +
   geom_point() +
   theme(legend.position = "bottom")
 
 pl2 <- pca_aug_k_org %>%
-  ggplot(aes(x = .fittedPC1, y = .fittedPC2, colour = cluster_org)) +
+  ggplot(aes(x = .fittedPC1, 
+             y = .fittedPC2, 
+             colour = cluster_org)) +
   geom_point() +
   theme(legend.position = "bottom")
 
 pl1 + pl2
 
-
-# K-means analysis (Reduced data) ----------------------------------------------
-set.seed(4)
-k_red <- pca_red_aug %>%
-  select(.fittedPC1, .fittedPC2) %>%
-  kmeans(centers = 4)
-
-pca_aug_k_red <- k_red %>%
-  augment(pca_red_aug) %>% 
-  rename(cluster_org = .cluster)
-
-
 pl3 <- pca_aug_k_red %>%
-  ggplot(aes(x = .fittedPC1, y = .fittedPC2, colour = `PAM50 mRNA`)) +
+  ggplot(aes(x = .fittedPC1, 
+             y = .fittedPC2, 
+             colour = `PAM50 mRNA`)) +
   geom_point() +
-  theme(legend.position = "bottom")
+  theme_bw() +
+  theme(legend.position = "bottom") +
+  scale_color_manual(values = c("Basal-like" = "#305D63",
+                                "HER2-enriched" = "#B2E7E8",
+                                "Luminal A"="#F2D096",
+                                "Luminal B" = "green"))
+
 
 pl4 <- pca_aug_k_red %>%
-  ggplot(aes(x = .fittedPC1, y = .fittedPC2, colour = cluster_org)) +
+  ggplot(aes(x = .fittedPC1, 
+             y = .fittedPC2, 
+             colour = cluster_red)) +
   geom_point() +
-  theme(legend.position = "bottom")
+  theme_bw() +
+  theme(legend.position = "bottom") + 
+  scale_color_manual(values = c("1" = "steelblue",
+                                "2" = "orange",
+                                "3"="purple",
+                                "4" = "green"))
 
 pl3 + pl4
 
 
+pl3 + pl4
+
+
+# 
+pca_aug_k_red %>%
+  select(`PAM50 mRNA`, cluster_red, cluster_red) %>%
+  mutate(cluster_red = case_when(cluster_red == 1 ~ "Luminal A",
+                                 cluster_red == 2 ~ "HER2-enriched",
+                                 cluster_red == 3 ~ "Basal-like",
+                                 cluster_red == 4 ~ "Luminal B"),
+         cluster_pca_correct = case_when(`PAM50 mRNA` == cluster_red ~ 1,
+                                         `PAM50 mRNA` != cluster_red ~ 0)) %>% 
+  summarise(score_pca = mean(cluster_pca_correct))
+
 # Calculate BSS/TSS ratio ------------------------------------------------------
-k_red$betweenss/k_red$totss
