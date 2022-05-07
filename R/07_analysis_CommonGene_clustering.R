@@ -64,7 +64,7 @@ pca_BC_overlap %>%
                             size = 12))
 
 # Save plot ---------------------------------------------------------------
-ggsave(file = "results/07_BC_overlap.png",
+ggsave(file = "results/07_BC_overlap_PCvariance.png",
        width = 8.56, 
        height = 5.42, 
        dpi = 150)
@@ -78,8 +78,8 @@ plot_k_pca_BC_overlap_subtypes <- pca_aug_k_pca_BC_overlap %>%
                        y = .fittedPC2,
                        colour = PAM50.mRNA)) + 
   geom_point() + 
-  labs(x = "PC1 (XX%)",
-       y = "PC2 (XXX%)",
+  labs(x = "PC1 (43.1%)",
+       y = "PC2 (8.4%)",
        color = "Subtype") +
   scale_color_manual(values = c("Basal-like" = "#00688B",
                                 "HER2-enriched" = "#00CD66",
@@ -93,8 +93,8 @@ plot_k_pca_BC_overlap_cluster <- pca_aug_k_pca_BC_overlap %>%
                        y = .fittedPC2,
                        colour = cluster_pca_CommonGenes)) + 
   geom_point() + 
-  labs(x = "PC1 (XX%)",
-       y = "PC2 (XXX%)",
+  labs(x = "PC1 (43.1%)",
+       y = "PC2 (8.4%)",
        color = "Cluster") +
   scale_color_manual(values = c("1" = "#00688B",
                                 "2" = "#00CD66",
@@ -120,70 +120,17 @@ ggsave(file = "results/07_BC_overlap_PCA_Cluster.png",
 
 
 # The accuracy of the predictions ????? ----------------------------------------
-pca_aug_K_pca %>% 
-  select(PAM50.mRNA, cluster_org_CommonGenes, cluster_pca_CommonGenes) %>% 
-  mutate(cluster_org_CommonGenes = case_when(cluster_org_CommonGenes == 1 ~ 'Basal-like',
-                                             cluster_org_CommonGenes == 2 ~ 'Luminal A',
-                                             cluster_org_CommonGenes == 3 ~ 'Luminal B',
-                                             cluster_org_CommonGenes == 4 ~ 'HER2-enriched'),
-         cluster_pca_CommonGenes = case_when(cluster_pca_CommonGenes == 1 ~ 'Luminal A',
+pca_aug_k_pca_BC_overlap %>% 
+  select(PAM50.mRNA, cluster_pca_CommonGenes) %>% 
+  mutate(cluster_pca_CommonGenes = case_when(cluster_pca_CommonGenes == 1 ~ 'Luminal A',
                                              cluster_pca_CommonGenes == 2 ~ 'HER2-enriched',
                                              cluster_pca_CommonGenes == 3 ~ 'Basal-like',
                                              cluster_pca_CommonGenes == 4 ~ 'Luminal B'),
-         cluster_org_CommonGenes_correct = case_when(cluster_org_CommonGenes == PAM50.mRNA ~ 1,
-                                                     cluster_org_CommonGenes != PAM50.mRNA ~ 0),
          cluster_pca_CommonGenes_correct = case_when(cluster_pca_CommonGenes == PAM50.mRNA ~ 1,
                                                      cluster_pca_CommonGenes != PAM50.mRNA ~ 0)) %>% 
-  summarise(score_org_CommonGenes = mean(cluster_org_CommonGenes_correct),
-            score_pca_CommonGenes = mean(cluster_pca_CommonGenes_correct))
+  summarise(score_pca_CommonGenes = mean(cluster_pca_CommonGenes_correct))
 
 
 # Calculate BSS/TSS ratio
-k_pca$betweenss/k_pca$totss
+k_pca_BC_overlap$betweenss/k_pca_BC_overlap$totss
 
-
-
-# Trash?? ----------------------------------------------------------------------
-
-
-#pca_aug <- pca_fit %>% 
-#  augment(BC_overlap_genes)
-
-#Clustering by kmeans 
-## Cluster PCA data
-
-
-
-#Individual variance
-#pca_fit %>%
-#  tidy("pcs") %>%
-#  filter(PC <= 10) %>%  # Only look at top10th PC
-#  ggplot(aes(PC, percent)) +
-#  geom_col(fill = "#56B4E9", alpha = 0.8) +
-#  scale_x_continuous(breaks = 1:24)+
-#  scale_y_continuous(
-#    labels = scales::percent_format(),
-#    expand = expansion(mult = c(0, 0.01))
-#  ) +
-#  theme_minimal_hgrid(12)
-
-#2) PC1 & PC2 scatter plot on original data
-
-
-#3) Compare the clustering results to the ground truth 
-#pl1 <- pca_aug_K_pca %>%
-#  ggplot(aes(x = .fittedPC1, y = .fittedPC2, colour = PAM50.mRNA)) +
-#  geom_point() +
-#  theme(legend.position = "bottom")
-
-#pl2 <- pca_aug_K_pca %>%
-#  ggplot(aes(x = .fittedPC1, y = .fittedPC2, colour = cluster_org_CommonGenes)) +
-#  geom_point() +
-#  theme(legend.position = "bottom")
-
-#pl3 <- pca_aug_K_pca %>%
-#  ggplot(aes(x = .fittedPC1, y = .fittedPC2, colour = cluster_pca_CommonGenes)) +
-#  geom_point() +
-#  theme(legend.position = "bottom")
-
-#pl1 + pl3
