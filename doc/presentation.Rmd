@@ -3,10 +3,11 @@ title: "Breast Cancer Classification using Proteomic Data"
 author: "Group 9 - Huang Yi, Liu Yu, Anne Rossen, Synne Spjelkavik"
 date: '2022-05-09'
 output:
-  ioslides_presentation:
-  incremental: true
-  widescreen: true
-  smaller: true
+  ioslides_presentation: null
+  incremental: yes
+  widescreen: yes
+  smaller: yes
+  slidy_presentation: default
 ---
 
 ```{r setup, include=FALSE}
@@ -59,33 +60,11 @@ The raw datasets:
 ![](../results/04_plot_AgeVitalCancerType.png){width=99%}
 
 
-## Methods: Data Modifications
-
-'proteomes'
-
-- removed 8 columns (2 insignificant, 3 duplicates, 3 healthy)
-
-'patients'
-
-- merged with modified 'proteomes' to create 'BC_data'
-
-'BC_data' 
-
-- 77 cancer patients, 29+12553 variables
-- Argumentation: changed some column elements from text to numeric
+## Methods: Data Modifications and analysis
 
 
-## Methods: Analysis
+![](../doc/images/WorkFlow.png){width=99%}
 
-GLM on each Breast Cancer Type
-
-Venn-diagram to observe common significant genes
-
-Gene expression profiling of the common genes
-
-common genes with PAM50 Dataset
-
-PCA and clustering
 
 ## Results: Common genes after GLM
 
