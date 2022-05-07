@@ -62,7 +62,6 @@ The raw datasets:
 
 ## Methods: Data Modifications and analysis
 
-
 ![](../doc/images/WorkFlow.png){width=99%}
 
 
@@ -74,11 +73,18 @@ The raw datasets:
 
 ![](../results/06_subtype_heatmap.png){width=85%}
 
-## Results: PAM50
+## Results:
 
-![](../results/BC_overlap_PCA.png){width=85%}
+![](../results/07_BC_overlap.png){width=90%}
+
+## Results: 1
+
+![](../results/07_BC_overlap_PCA_Cluster.png){width=85%}
+
+## Results: 2
 
 ![](../results/common_gne.png){width=85%}
+
 
 ![](../results/pam50_cluster.png){width=85%}
 

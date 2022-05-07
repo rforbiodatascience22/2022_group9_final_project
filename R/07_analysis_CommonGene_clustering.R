@@ -9,6 +9,7 @@ library(vroom)
 library(purrr)
 rm(list = ls())
 
+
 # Load data ----------------------------------------------------------------
 BC_overlap_genes <- read.csv('results/06_BC_overlap_genes.csv')
 
@@ -62,7 +63,12 @@ pca_BC_overlap %>%
   theme(text = element_text(family = "Avenir",
                             size = 12))
 
-# NB: SAVE PLOT
+# Save plot ---------------------------------------------------------------
+ggsave(file = "results/07_BC_overlap.png",
+       width = 8.56, 
+       height = 5.42, 
+       dpi = 150)
+
 
 # K-means - Scatter plot -------------------------------------------------------
 
@@ -97,7 +103,7 @@ plot_k_pca_BC_overlap_cluster <- pca_aug_k_pca_BC_overlap %>%
 
 
 # Both plots together
-(plot_k_pca_BC_overlap_subtypes/plot_pca_aug_k_pca_BC_overlap) &
+(plot_k_pca_BC_overlap_subtypes/plot_k_pca_BC_overlap_cluster) &
   theme_half_open(12) &
   plot_annotation(title = "Common genes",
                   theme = theme(plot.title = element_text(size = 14))) &
@@ -106,7 +112,11 @@ plot_k_pca_BC_overlap_cluster <- pca_aug_k_pca_BC_overlap %>%
         text = element_text(family = "Avenir",
                             size = 12))
 
-# NB: SAVE PLOT
+# Save plot ---------------------------------------------------------------
+ggsave(file = "results/07_BC_overlap_PCA_Cluster.png",
+       width = 8.56, 
+       height = 6.42, 
+       dpi = 150)
 
 
 # The accuracy of the predictions ????? ----------------------------------------
@@ -130,6 +140,8 @@ pca_aug_K_pca %>%
 
 # Calculate BSS/TSS ratio
 k_pca$betweenss/k_pca$totss
+
+
 
 # Trash?? ----------------------------------------------------------------------
 

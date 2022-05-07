@@ -1,8 +1,9 @@
 # Load libraries ----------------------------------------------------------
-library("tidyverse")
-library('readr')
-library('ggplot2')
-library('patchwork')
+library(tidyverse)
+library(readr)
+library(ggplot2)
+library(patchwork)
+library(ggthemes)
 
 
 # Define functions --------------------------------------------------------
@@ -44,7 +45,6 @@ Plot_AgeVitalCtype <- (p_AVC1 + p_AVC2) +
                                                           size = 16)))
 
 # Save plot ---------------------------------------------------------------
-
 ggsave(file = "results/04_plot_AgeVitalCancerType.png",
        width = 8.96, 
        height = 5.42, 
