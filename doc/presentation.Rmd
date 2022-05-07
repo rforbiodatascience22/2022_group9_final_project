@@ -67,11 +67,11 @@ The raw datasets:
 
 ## Results: Common genes after GLM
 
-![](../results/06_venndiagram.png){width=85%}
+![](../results/06_venndiagram.png){width=99%}
 
-## Results: Genes expression of common genes for each patient
+## Results: Gene expression profiling
 
-![](../results/06_subtype_heatmap.png){width=85%}
+![](../results/06_subtype_heatmap.png){width=99%}
 
 ## Results:
 

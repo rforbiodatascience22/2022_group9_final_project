@@ -33,15 +33,19 @@ significant_proteins <- list(
     filter(identified_as == "significant") %>% 
     pull(proteome)
 )
-# Plot Venn diagram
+
+# Plot Venn diagram ------------------------------------------------------------
 significant_proteins %>% 
   ggvenn()
+
+# Save plot --------------------------------------------------------------------
 ggsave(file = "results/06_venndiagram.png",
-       width = 7, 
-       height = 6, 
+       width = 10, 
+       height = 7, 
        dpi = 150)
 
-# Find overlapping proteins
+
+# Find overlapping proteins ----------------------------------------------------
 overlap_pro <- intersect(intersect(intersect(significant_proteins[["Basal"]], 
                                              significant_proteins[["Her2"]]), 
                                    significant_proteins[["LumA"]]),
@@ -178,10 +182,13 @@ pl4 <- ggplot(data = BC_data_clean_aug %>%
                                    hjust = 1)) +
   labs(title = "Luminal B")
 
-(pl1+pl2)/(pl3+pl4)
+(pl1+pl2)/(pl3+pl4) +
+  plot_annotation(title = "Protein Expression of 24 common signigicant genes for each patient grouped by tumor type")
+
+# Save plot --------------------------------------------------------------------
 ggsave(file = "results/06_subtype_heatmap.png",
-       width = 8, 
-       height = 6.5, 
+       width = 10, 
+       height = 7, 
        dpi = 150)
 
 
