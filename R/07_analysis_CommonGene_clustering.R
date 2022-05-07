@@ -62,6 +62,8 @@ pca_BC_overlap %>%
   theme(text = element_text(family = "Avenir",
                             size = 12))
 
+# NB: SAVE PLOT
+
 # K-means - Scatter plot -------------------------------------------------------
 
 # Plot coloured according to subtypes
@@ -79,7 +81,7 @@ plot_k_pca_BC_overlap_subtypes <- pca_aug_k_pca_BC_overlap %>%
                                 "Luminal B" = "#CD3278"))
 
 
-# Plot coloured according to cluster
+# Plot coloured according to cluster (NB: MATCH COLORS OF CLUSTERS)
 plot_k_pca_BC_overlap_cluster <- pca_aug_k_pca_BC_overlap %>% 
   ggplot(mapping = aes(x= .fittedPC1, 
                        y = .fittedPC2,
@@ -104,9 +106,10 @@ plot_k_pca_BC_overlap_cluster <- pca_aug_k_pca_BC_overlap %>%
         text = element_text(family = "Avenir",
                             size = 12))
 
+# NB: SAVE PLOT
 
 
-#4) Calculate the accuracy of the predictions ?????
+# The accuracy of the predictions ????? ----------------------------------------
 pca_aug_K_pca %>% 
   select(PAM50.mRNA, cluster_org_CommonGenes, cluster_pca_CommonGenes) %>% 
   mutate(cluster_org_CommonGenes = case_when(cluster_org_CommonGenes == 1 ~ 'Basal-like',
