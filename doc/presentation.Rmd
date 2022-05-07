@@ -1,5 +1,5 @@
 ---
-title: "Breast cancer classification using proteomic data"
+title: "Breast Cancer Classification using Proteomic Data"
 author: "Group 9 - Huang Yi, Liu Yu, Anne Rossen, Synne Spjelkavik"
 date: '2022-05-09'
 output:
@@ -72,7 +72,7 @@ The raw datasets:
 'BC_data' 
 
 - 77 cancer patients, 29+12553 variables
-- Argumentation: changed some text columns to numeric
+- Argumentation: changed some column elements from text to numeric
 
 
 ## Methods: Analysis
@@ -96,6 +96,14 @@ PCA and clustering
 ![](../results/06_subtype_heatmap.png){width=85%}
 
 ## Results: PAM50
+
+![](../results/BC_overlap_PCA.png){width=85%}
+
+![](../results/common_gne.png){width=85%}
+
+![](../results/pam50_cluster.png){width=85%}
+
+![](../results/pam50_pca.png){width=85%}
 
 ## Discussion
 
