@@ -111,7 +111,13 @@ plot_pca_org_cum +
   theme(text = element_text(family = "Avenir",
                             size = 12))
 
-# NB: SAVE LAST PLOT (LOOK AT THE DISTANCE BETWEEN BARS AND 95% THRESHOLD)
+
+# Save plot ---------------------------------------------------------------
+ggsave(file = "results/07_CumVar_Comparison.png",
+       width = 8.96, 
+       height = 5.42, 
+       dpi = 150)
+
 
 
 # K-means - Scatter plot -------------------------------------------------------
@@ -154,7 +160,12 @@ plot_pca_aug_k_org_clusters <- pca_aug_k_org %>%
         text = element_text(family = "Avenir",
                             size = 12))
 
-# NB: SAVE PLOT ABOVE (AS QUADRATIC AS POSSIBLE?)
+
+# Save plot ---------------------------------------------------------------
+ggsave(file = "results/07_BC_data_K_means.png",
+       width = 8.56, 
+       height = 6.42, 
+       dpi = 150)
 
 
 # Scatter plot reduced version (subtype)
@@ -198,7 +209,11 @@ plot_pca_aug_k_red_cluster <- pca_aug_k_red %>%
         text = element_text(family = "Avenir",
                             size = 12))
 
-# NB: SAVE PLOT ABOVE (AS QUADRATIC AS POSSIBLE?)
+# Save plot ---------------------------------------------------------------
+ggsave(file = "results/07_BC_data_PAM50_reduced.png",
+       width = 8.56, 
+       height = 6.42, 
+       dpi = 150)
 
 
 # Comparison of match ----------------------------------------------------------
