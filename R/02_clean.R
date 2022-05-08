@@ -1,6 +1,6 @@
 # Load libraries ----------------------------------------------------------
-library("tidyverse")
-library("dplyr")
+library(tidyverse)
+library(dplyr)
 rm(list=ls())
 
 # Define functions --------------------------------------------------------
@@ -16,6 +16,7 @@ proteomes <- read_csv(file = "data/01_proteomes.csv")
 # Wrangle data ------------------------------------------------------------
 
 # For PAM50
+# Transpose
 PAM50_clean <- PAM50 %>%
   pivot_longer(cols = -RefSeqProteinID) %>%
   pivot_wider(names_from = RefSeqProteinID) %>%
@@ -34,7 +35,7 @@ adjusted_names <- proteomes %>%
   unlist() %>% 
   unique()
 
-# Wrangle proteomes (removing duplicates, renaming proteins)
+# Remove duplicates and rename proteins
 proteomes_clean <- proteomes %>% 
   select(-c("AO-A12D.05TCGA",
             "C8-A131.32TCGA",
@@ -56,7 +57,7 @@ proteomes_clean <- proteomes %>%
 
 
 # Merge data --------------------------------------------------------------
-BC_data_clean <- inner_join(patients_clean,           
+BC_data_clean <- inner_join(patients,           
                             proteomes_clean,
                             by = c("Complete TCGA ID" = "TCGA ID"))
 
@@ -64,9 +65,7 @@ BC_data_clean <- inner_join(patients_clean,
 # Subset data (Common genes in PAM50 and BC_data) -------------------------
 BC_data_PAM50_clean <- BC_data_clean %>% 
   select(-starts_with(c("NP","XP","YP")),
-         names(BC_data_clean)[names(BC_data_clean) %in% names(PAM50_clean)])
-
-## is there a way to do it not using base R? ^^^
+         colnames(BC_data_clean)[colnames(BC_data_clean) %in% colnames(PAM50_clean)])
 
 
 # Write data --------------------------------------------------------------
