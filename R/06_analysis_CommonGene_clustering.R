@@ -117,14 +117,13 @@ plot_k_pca_BC_overlap_cluster <- pca_aug_k_pca_BC_overlap %>%
 
 # Both plots together
 plot_bar_PC_CumVar + 
-  (plot_k_pca_BC_overlap_subtypes / plot_k_pca_BC_overlap_cluster) + 
-  plot_annotation(title = "BC overlap data")
+  (plot_k_pca_BC_overlap_subtypes / plot_k_pca_BC_overlap_cluster)
 
 
 # Save plot ---------------------------------------------------------------
 ggsave(file = "results/06_BC_overlap_PCA.png",
-       width = 10, 
-       height = 6.25, 
+       width = 12, 
+       height = 5, 
        dpi = 150)
 
 
