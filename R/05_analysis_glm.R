@@ -42,5 +42,3 @@ write_csv(Her2_glm,
 
 write_csv(Basal_glm, 
           file = "results/05_Basal_glm.csv")
-
-ggsave(...)
