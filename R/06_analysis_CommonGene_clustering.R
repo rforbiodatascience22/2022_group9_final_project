@@ -4,7 +4,7 @@ library("ggplot2")
 library("broom")
 library("purrr")
 library("vroom")
-library("cowplot")
+library("ggthemes")
 rm(list = ls())
 
 # Define functions -------------------------------------------------------------
