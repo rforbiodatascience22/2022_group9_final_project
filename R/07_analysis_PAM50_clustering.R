@@ -81,9 +81,9 @@ pca_aug_k_red <- k_red %>%
   augment(pca_red_aug) %>% 
   rename(cluster_red = .cluster)
 
-# Visualizing the cumulative variance  -----------------------------------------
+# Plots of the cumulative variance  --------------------------------------------
 
-# For full BC_data set (PC 1 to 64 selected for K-means)
+# For full BC_data set
 plot_pca_org_cum <- pca_org %>%
   tidy("pcs") %>%
   ggplot(aes(PC, cumulative)) +
@@ -102,7 +102,7 @@ plot_pca_org_cum <- pca_org %>%
                      expand = expansion(mult = c(0, 0.01))) +
   new_theme
 
-# Reduced version (PC 1 to 15 chosen for K-means)
+# Reduced version
 plot_pca_red_cum <- pca_red %>%
   tidy("pcs") %>%
   ggplot(aes(PC, cumulative)) +
@@ -120,21 +120,6 @@ plot_pca_red_cum <- pca_red %>%
   scale_y_continuous(labels = scales::percent_format(),
                      expand = expansion(mult = c(0, 0.01))) +
   new_theme
-  
-
-# Plot both
-#(plot_pca_org_cum + plot_pca_red_cum) +
-#  plot_layout(guides = 'collect') &
-#  scale_x_continuous(expand = c(0, 0)) &
-#  scale_y_continuous(labels = scales::percent_format(),
-#                     expand = expansion(mult = c(0, 0.01))) &
-#  plot_annotation(title = "Selecting the PCs that explain 95% of the variance")
-
-# Save plot ---------------------------------------------------------------
-#ggsave(file = "results/07_CumVar_Comparison.png",
-#       width = 13, 
-#       height = 5.5, 
-#       dpi = 150)
 
 # K-means - Scatter plot -------------------------------------------------------
 
@@ -171,18 +156,6 @@ plot_pca_aug_k_org_clusters <- pca_aug_k_org %>%
   new_theme +
   theme(legend.position = "right")
 
-# Plot of both
-#(plot_pca_aug_k_org_subtypes + plot_pca_aug_k_org_clusters) &
-#  plot_annotation(title = "K-means clustering after PCA of BC data")
-
-
-# Save plot --------------------------------------------------------------------
-#ggsave(file = "results/07_BC_data_K_means.png",
-#       width = 10, 
-#       height = 5.5, 
-#       dpi = 150)
-
-
 # Scatter plot reduced version (subtype)
 plot_pca_aug_k_red_subtypes <- pca_aug_k_red %>%
   ggplot(aes(x = .fittedPC1, 
@@ -217,10 +190,6 @@ plot_pca_aug_k_red_cluster <- pca_aug_k_red %>%
   new_theme +
   theme(legend.position = "right")
 
-# Comparison of subtype and cluster (reduced version)
-#(plot_pca_aug_k_red_subtypes + plot_pca_aug_k_red_cluster) &
- # plot_annotation(title = "K-means clustering after PCA for protein IDs common between PAM50 data and BC data")
-
 # Cumulative variance and k-means clustering plots -----------------------------
 
 # Original data
@@ -230,7 +199,7 @@ plot_pca_org_cum +
 
 ggsave(file = "results/07_BC_data_cumulative_kmeans.png",
        width = 10, 
-       height = 5.5, 
+       height = 6.25, 
        dpi = 150)
 
 # Reduced data
@@ -241,20 +210,8 @@ plot_pca_red_cum +
 
 ggsave(file = "results/07_BC_data_PAM50_cumulative_kmeans.png",
        width = 10, 
-       height = 5.5, 
+       height = 6.25, 
        dpi = 150)
-
-# Save plot ---------------------------------------------------------------
-#ggsave(file = "results/07_BC_data_PAM50_reduced.png",
-##       width = 10, 
-#       height = 5.5, 
-#       dpi = 150)
-
-#ggsave(file = "results/07_BC_data_PAM50_reduced.png",
-#       width = 10, 
-#       height = 5.5, 
-#       dpi = 150)
-
 
 # Comparison of match ----------------------------------------------------------
 
@@ -281,5 +238,3 @@ pca_aug_k_red %>%
          cluster_pca_correct = case_when(`PAM50 mRNA` == cluster_red ~ 1,
                                          `PAM50 mRNA` != cluster_red ~ 0)) %>% 
   summarise(score_pca_red = mean(cluster_pca_correct))
-
-# Calculate BSS/TSS ratio ------------------------------------------------------
