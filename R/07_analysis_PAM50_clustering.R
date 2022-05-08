@@ -9,32 +9,33 @@ rm(list = ls())
 # Define functions -------------------------------------------------------------
 source(file = "./R/99_project_functions.R")
 
-# Load data ----------------------------------------------------------------
+# Load data --------------------------------------------------------------------
 BC_data_clean_aug   <- read_csv(file = "data/03_BC_data_clean_aug.csv")
 BC_data_PAM50_clean <- read_csv(file = "data/02_BC_data_PAM50_clean.csv")
 
 # PCA analysis  ----------------------------------------------------------------
 
-# For full BC_data set
+# For the BC data set
 pca_org <- BC_data_clean_aug %>% 
   select(starts_with(c("NP","XP","YP"))) %>% 
   select(where(is.numeric)) %>%
-  prcomp(center = TRUE, scale. = TRUE)
+  prcomp(center = TRUE, 
+         scale. = TRUE)
 
 # Adding original data back
 pca_org_aug <- pca_org %>% 
   augment(BC_data_clean_aug)
 
-# Reduced version (protein IDs common in PAM50 and BC_data_clean_aug)  ### New reference in stead on "reduced"
+# For the common protein IDs between PAM50 and BC data
 pca_red <- BC_data_PAM50_clean %>% 
   select(starts_with(c("NP","XP","YP"))) %>% 
   select(where(is.numeric)) %>%
-  prcomp(center = TRUE, scale. = TRUE)
+  prcomp(center = TRUE, 
+         scale. = TRUE)
 
 # Adding original data back
 pca_red_aug <- pca_red %>% 
   augment(BC_data_PAM50_clean)
-
 
 # K-means analysis -------------------------------------------------------------
 
@@ -83,7 +84,7 @@ pca_aug_k_red <- k_red %>%
 
 # Plots of the cumulative variance  --------------------------------------------
 
-# For full BC_data set
+# For the BC data set
 plot_pca_org_cum <- pca_org %>%
   tidy("pcs") %>%
   ggplot(aes(PC, cumulative)) +
@@ -102,7 +103,7 @@ plot_pca_org_cum <- pca_org %>%
                      expand = expansion(mult = c(0, 0.01))) +
   new_theme
 
-# Reduced version
+# For the common protein IDs between PAM50 and BC data
 plot_pca_red_cum <- pca_red %>%
   tidy("pcs") %>%
   ggplot(aes(PC, cumulative)) +
@@ -123,7 +124,9 @@ plot_pca_red_cum <- pca_red %>%
 
 # K-means - Scatter plot -------------------------------------------------------
 
-# Extract PC1 and PC2 for full data
+# ***** For full BC_data set *****
+
+# Extract the variance explained by PC1 and PC2
 org_pc1 <- pca_org %>%
   tidy("pcs") %>% 
   filter(PC == 1) %>% 
@@ -138,7 +141,7 @@ org_pc2 <- pca_org %>%
                          digits = 1)) %>% 
   pull(percent) 
 
-# Original data (colored according to PAM50 mRNA)
+# Scatter plot colored according to subtype
 plot_pca_aug_k_org_subtypes <- pca_aug_k_org %>%
   ggplot(aes(x = .fittedPC1, 
              y = .fittedPC2, 
@@ -155,7 +158,7 @@ plot_pca_aug_k_org_subtypes <- pca_aug_k_org %>%
   new_theme +
   theme(legend.position = "right")
 
-# Colored according to clusters (NB: WAY OF EXTRACTING PERCENTAGE OF PCA DIRECTLY?)
+# Scatter plot colored according to cluster
 plot_pca_aug_k_org_clusters <- pca_aug_k_org %>%
   ggplot(aes(x = .fittedPC1, 
              y = .fittedPC2, 
@@ -172,9 +175,9 @@ plot_pca_aug_k_org_clusters <- pca_aug_k_org %>%
   theme(legend.position = "right")
 
 
+# ***** For PAM50 version *****
 
-
-# Extract PC1 and PC2 values for reduced data
+# Extract the variance explained by PC1 and PC2
 red_pc1 <- pca_red %>%
   tidy("pcs") %>% 
   filter(PC == 1) %>% 
@@ -189,7 +192,7 @@ red_pc2 <- pca_red %>%
                          digits = 1)) %>% 
   pull(percent) 
 
-# Scatter plot reduced version (subtype)
+# Scatter plot colored according to subtype
 plot_pca_aug_k_red_subtypes <- pca_aug_k_red %>%
   ggplot(aes(x = .fittedPC1, 
              y = .fittedPC2, 
@@ -207,7 +210,7 @@ plot_pca_aug_k_red_subtypes <- pca_aug_k_red %>%
   theme(legend.position = "right")
   
 
-# Scatter plot reduced version (cluster)
+# Scatter plot colored according to cluster
 plot_pca_aug_k_red_cluster <- pca_aug_k_red %>%
   ggplot(aes(x = .fittedPC1, 
              y = .fittedPC2, 
@@ -225,7 +228,8 @@ plot_pca_aug_k_red_cluster <- pca_aug_k_red %>%
 
 # Cumulative variance and k-means clustering plots -----------------------------
 
-# Original data
+# ***** For full BC_data set *****
+
 plot_pca_org_cum + 
   (plot_pca_aug_k_org_subtypes/plot_pca_aug_k_org_clusters) + 
   plot_annotation(title = "BC data")
@@ -235,7 +239,8 @@ ggsave(file = "results/07_BC_data_cumulative_kmeans.png",
        height = 6.25, 
        dpi = 150)
 
-# Reduced data
+# ***** For PAM50 version *****
+
 plot_pca_red_cum + 
   (plot_pca_aug_k_red_subtypes/plot_pca_aug_k_red_cluster) + 
   plot_annotation(title = "Protein IDs common between PAM50 data and BC data")
@@ -248,7 +253,8 @@ ggsave(file = "results/07_BC_data_PAM50_cumulative_kmeans.png",
 
 # Comparison of match ----------------------------------------------------------
 
-# Original data
+# ***** For full BC_data set *****
+
 pca_aug_k_org %>%
   select(`PAM50 mRNA`, 
          cluster_org) %>%
@@ -260,7 +266,8 @@ pca_aug_k_org %>%
                                          `PAM50 mRNA` != cluster_org ~ 0)) %>% 
   summarise(score_pca_org = mean(cluster_pca_correct))
 
-# Reduced data
+# ***** For PAM50 version *****
+
 pca_aug_k_red %>%
   select(`PAM50 mRNA`, 
          cluster_red) %>%
