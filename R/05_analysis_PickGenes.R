@@ -51,7 +51,7 @@ if (!file.exists("results/05_Her2_glm.csv")){
 }
 
 # Basal-like
-if (!file.exists("results/Basal_glm.csv")){
+if (!file.exists("results/05_Basal_glm.csv")){
   Basal_glm <- subtype_glm("Basal_like", 
                            BC_data_clean_aug)
   write_csv(Basal_glm,
