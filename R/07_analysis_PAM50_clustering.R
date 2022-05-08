@@ -9,11 +9,7 @@ library("cowplot")
 source(file = "./R/99_project_functions.R")
 
 # Load data ----------------------------------------------------------------
-
-# Original data
 BC_data_clean_aug   <- read_csv(file = "data/03_BC_data_clean_aug.csv")
-
-# Reduced version (common protein IDs in BC_data and PAM50)
 BC_data_PAM50_clean <- read_csv(file = "data/02_BC_data_PAM50_clean.csv")
 
 # PCA analysis  ----------------------------------------------------------------
@@ -28,7 +24,7 @@ pca_org <- BC_data_clean_aug %>%
 pca_org_aug <- pca_org %>% 
   augment(BC_data_clean_aug)
 
-# Reduced version (protein IDs common in PAM50 and BC_data_clean_aug)
+# Reduced version (protein IDs common in PAM50 and BC_data_clean_aug)  ### New reference in stead on "reduced"
 pca_red <- BC_data_PAM50_clean %>% 
   select(starts_with(c("NP","XP","YP"))) %>% 
   select(where(is.numeric)) %>%
@@ -40,6 +36,8 @@ pca_red_aug <- pca_red %>%
 
 
 # K-means analysis -------------------------------------------------------------
+
+# Yi Huang will fix something here *****
 
 set.seed(4)
 
