@@ -1,8 +1,7 @@
 # Load libraries ----------------------------------------------------------
 library("tidyverse")
-library('dplyr')
-library("data.table")
-library('readr')
+library("data.table") # check if we use this
+library("readr")
 
 
 # Define functions --------------------------------------------------------
