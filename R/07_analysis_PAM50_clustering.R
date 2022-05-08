@@ -3,33 +3,35 @@ library("ggplot2")
 library("broom")
 library("purrr")
 library("vroom")
-library("cowplot")
+library("ggthemes")
 rm(list = ls())
 
 # Define functions -------------------------------------------------------------
 source(file = "./R/99_project_functions.R")
 
-# Load data ----------------------------------------------------------------
+# Load data --------------------------------------------------------------------
 BC_data_clean_aug   <- read_csv(file = "data/03_BC_data_clean_aug.csv")
 BC_data_PAM50_clean <- read_csv(file = "data/02_BC_data_PAM50_clean.csv")
 
 # PCA analysis  ----------------------------------------------------------------
 
-# For full BC_data set
+# For the BC data set
 pca_org <- BC_data_clean_aug %>% 
   select(starts_with(c("NP","XP","YP"))) %>% 
   select(where(is.numeric)) %>%
-  prcomp(center = TRUE, scale. = TRUE)
+  prcomp(center = TRUE,
+         scale. = TRUE)
 
 # Adding original data back
 pca_org_aug <- pca_org %>% 
   augment(BC_data_clean_aug)
 
-# Reduced version (protein IDs common in PAM50 and BC_data_clean_aug)  ### New reference in stead on "reduced"
+# For the common protein IDs between PAM50 and BC data
 pca_red <- BC_data_PAM50_clean %>% 
   select(starts_with(c("NP","XP","YP"))) %>% 
   select(where(is.numeric)) %>%
-  prcomp(center = TRUE, scale. = TRUE)
+  prcomp(center = TRUE, 
+         scale. = TRUE)
 
 # Adding original data back
 pca_red_aug <- pca_red %>% 
@@ -40,7 +42,7 @@ pca_red_aug <- pca_red %>%
 
 # ***** For full BC_data set *****
 
-# Extract the maximum PC that explain 95% of the cumulative variance
+# Extract the variance explained by PC1 and PC2
 max_PC_org <- pca_org %>%
   tidy("pcs") %>% 
   filter(cumulative <= 0.96) %>% 
