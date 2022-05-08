@@ -27,23 +27,23 @@ library(knitr)
 - Results
 - Discussion
 
-## Introduction - Breast Cancer
+## Introduction
 
-- Prevalence: 12% in women.
-- Mortality rate: 2,7%.
-- Symptoms: little to no before it is widespread
-- 4 Tumor types: Vary in location, size, shape and severity
+- <font size="4"> Prevalence: 12% in women (CITE) </font>
+- <font size="4"> Mortality rate: 2.7% (CITE) </font>
+- <font size="4"> Symptoms: little to no before it is widespread </font>
+- <font size="4"> 4 Tumor types: Vary in location, size, shape and severity </font>
 
 ![](../results/04_plot_AgeVitalCancerType.png){width=99%}
 
 
 ## Aim
 
-Breast cancer is found to have 4 subtypes at gene expression level and they can be detected by using a panel of 50 genes, namely the “PAM50”. In this project we will look at cancer patients with 4 subtypes, try to cluster the samples by using different sets of protein expression data, and evaluate the clustering results to see if the PAM50 gene list makes the most sense.
+<font size="4"> Breast cancer is found to have 4 subtypes at gene expression level and they can be detected by using a panel of 50 genes, namely the “PAM50”. In this project we will look at cancer patients with 4 subtypes, try to cluster the samples by using different sets of protein expression data, and evaluate the clustering results to see if the PAM50 gene list makes the most sense. </font>
 
 ** take a look at later **
 
-We are investigating whether the 4 subtypes can be detected and classified correctly by the gene expression Using the proteomic data. 
+<font size="4"> We are investigating whether the 4 subtypes can be detected and classified correctly by the gene expression Using the proteomic data. </font>
 
 
 
@@ -52,26 +52,26 @@ We are investigating whether the 4 subtypes can be detected and classified corre
 ![](../doc/images/WorkFlow.png){width=99%}
 
 
-<font size="1">Mertins, P., Mani, D., Ruggles, K. et al. Proteogenomics connects somatic mutations to signalling in breast cancer. *Nature* 534, 55–62 (2016). https://doi.org/10.1038/nature18003</font>
+<font size="1">Mertins, P., Mani, D., Ruggles, K. et al. Proteogenomics connects somatic mutations to signalling in breast cancer. Nature 534, 55–62 (2016). https://doi.org/10.1038/nature18003</font>
 
 
 ## Results - Common proteins after GLM
-- Still found 1000 more significant proteins in each subtype after `glm()`
-- `ggvenn()`
-- Only 24 significant proteins were founded in all 4 subtypes
+- <font size="4"> Still found 1000 more significant proteins in each subtype after `glm()` </font>
+- <font size="4"> `ggvenn()` </font>
+- <font size="4"> Only 24 significant proteins were founded in all 4 subtypes </font>
 
 ![](../doc/images/Venndiagram_screenshot.png){width=70%}
 
 ## Results - Common proteins after GLM
-- LumA and B look more similar, while Basal and Her2 look more similar.
-- Within each heat map, protein expression levels between each patient are also similar.
+- <font size="4"> LumA and B look more similar, while Basal and Her2 look more similar. </font>
+- <font size="4"> Within each heat map, protein expression levels between each patient are also similar. </font>
 
 ![](../results/05_subtype_heatmap.png){width=85%}
 
-## Results: Common Protein BC Data
-- The first 17 PCs were chosen for clustering.
-- Cluster distributions are not similar to subtype distributions.
-- Accuracy: 16.9%
+## Results - Common Protein BC Data
+- <font size="4"> The first 17 PCs were chosen for clustering. </font>
+- <font size="4"> Cluster distributions are not similar to subtype distributions. </font>
+- <font size="4"> Accuracy: 16.9% </font>
 
 <right>
 ![](../results/06_BC_overlap_PCA.png){width=82%}
