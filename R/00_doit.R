@@ -6,4 +6,5 @@ source(file = "R/03_augment.R")
 source(file = "R/05_analysis_glm.R")
 source(file = "R/06_analysis_PickGenes.R")
 
+# Add all files
 # Make sure to include a programmatic call to knitr at the end of your doit-script

@@ -8,16 +8,20 @@ source(file = "R/99_project_functions.R")
 
 
 # Load data ---------------------------------------------------------------
+PAM50     <- read_csv(file = "data/01_PAM50.csv")
 patients  <- read_csv(file = "data/01_patients.csv")
 proteomes <- read_csv(file = "data/01_proteomes.csv")
-PAM50 <- read_csv(file = "data/01_PAM50.csv")
+
 
 # Wrangle data ------------------------------------------------------------
 
-# For patients: 
-# Reduce meaningless variables
-patients_clean <- patients %>% 
-  select(-starts_with("Days"))
+# For PAM50
+PAM50_clean <- PAM50 %>%
+  pivot_longer(cols = -RefSeqProteinID) %>%
+  pivot_wider(names_from = RefSeqProteinID) %>%
+  rename("RefSeqProteinID" = 1) %>%
+  as_tibble()
+
 
 # For proteomes: 
 # Create new column names
@@ -29,15 +33,6 @@ adjusted_names <- proteomes %>%
   map(change_format) %>% 
   unlist() %>% 
   unique()
-
-
-# For PAM50
-PAM50_clean <- PAM50 %>%
-  pivot_longer(cols = -RefSeqProteinID) %>%
-  pivot_wider(names_from = RefSeqProteinID) %>%
-  rename("RefSeqProteinID" = 1) %>%
-  as_tibble()
-
 
 # Wrangle proteomes (removing duplicates, renaming proteins)
 proteomes_clean <- proteomes %>% 
@@ -66,10 +61,12 @@ BC_data_clean <- inner_join(patients_clean,
                             by = c("Complete TCGA ID" = "TCGA ID"))
 
 
-# Subset data ------------------------------------------------------------------
+# Subset data (Common genes in PAM50 and BC_data) -------------------------
 BC_data_PAM50_clean <- BC_data_clean %>% 
   select(-starts_with(c("NP","XP","YP")),
          names(BC_data_clean)[names(BC_data_clean) %in% names(PAM50_clean)])
+
+## is there a way to do it not using base R? ^^^
 
 
 # Write data --------------------------------------------------------------
