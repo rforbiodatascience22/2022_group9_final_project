@@ -107,13 +107,13 @@ plot_bar_PC_CumVar +
 
 
 # Save plot ---------------------------------------------------------------
-ggsave(file = "results/07_BC_overlap_PCA.png",
+ggsave(file = "results/06_BC_overlap_PCA.png",
        width = 10, 
        height = 6.25, 
        dpi = 150)
 
 
-# The accuracy of the predictions ????? ----------------------------------------
+# The accuracy of the predictions ----------------------------------------
 pca_aug_k_pca_BC_overlap %>% 
   select(PAM50.mRNA, cluster_pca_CommonGenes) %>% 
   mutate(cluster_pca_CommonGenes = case_when(cluster_pca_CommonGenes == 1 ~ 'Luminal A',
