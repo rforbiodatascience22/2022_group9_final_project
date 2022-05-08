@@ -43,26 +43,25 @@ Tumor types: (Vary in location, size, shape and severity)
 - Luminal A
 - Luminal B
 
-
-## Materials: Data
-
-Data Origin
-
-The raw datasets:
-
-- 'patients': 105 cancer patients, 29 variables
-- 'proteomes': protein expression of 12553 genes for 77 cancer patients, 3 duplicates and 3 healthy.
-- 'PAM50': Describes each gene further
-
+**** combine with next slide 
 
 ## Presenting Data
 
 ![](../results/04_plot_AgeVitalCancerType.png){width=99%}
 
 
+## aim
+
+Breast cancer is found to have 4 subtypes at gene expression level and they can be detected by using a panel of 50 genes, namely the “PAM50”. In this project we will look at cancer patients with 4 subtypes, try to cluster the samples by using different sets of protein expression data, and evaluate the clustering results to see if the PAM50 gene list makes the most sense.
+
+** take a look at later **
+
+
 ## Methods: Data Modifications and analysis
 
 ![](../doc/images/WorkFlow.png){width=99%}
+
+** take a look at **
 
 
 ## Results: Common genes after GLM
@@ -95,6 +94,8 @@ The raw datasets:
 
 ## Discussion
 
+- only half is explained by the clustering
 - Data lacks non cancer cases.
+- reproducability
 
 
