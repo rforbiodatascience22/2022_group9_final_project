@@ -43,7 +43,6 @@ p_AVC2 <- ggplot(data = patients,
 # Plot of the two combined
 (p_AVC1 + p_AVC2) +
   plot_annotation(title = "Breast cancer data for different subtypes",
-                  caption = "SOURCE DATA",
                   theme = theme(plot.title = element_text(hjust = 0.5,
                                                           size = 16)))
 #NB: ADD SOURCE DATA
