@@ -58,20 +58,22 @@ library(knitr)
 ## Results - Common proteins after GLM
 - <font size="4"> Still found 1000 more significant proteins in each subtype after `glm()` </font>
 - <font size="4"> `ggvenn()` </font>
-- <font size="4"> Only 24 significant proteins were founded in all 4 subtypes </font>
+- <font size="4"> Only 24 significant protein IDs common for all the 4 subtypes </font>
 
 ![](../doc/images/Venndiagram_screenshot.png){width=70%}
 
 ## Results - Common proteins after GLM
-- <font size="4"> LumA and B look more similar, while Basal and Her2 look more similar. </font>
-- <font size="4"> Within each heat map, protein expression levels between each patient are also similar. </font>
 
-![](../results/05_subtype_heatmap.png){width=85%}
+- <font size="4"> Downregulated: Basal-like and HER2-enriched. </font>
+- <font size="4"> Upregulated: Luminal-A and Luminal-B </font>
+- <font size="4"> Similar protein expression levels between each patient within heat maps </font>
+
+![](../results/05_subtype_heatmap.png){width=99%}
 
 ## Results - Common Protein BC Data
 - <font size="4"> The first 17 PCs were chosen for clustering. </font>
 - <font size="4"> Cluster distributions are not similar to subtype distributions. </font>
-- <font size="4"> Accuracy: 16.9% </font>
+- <font size="4"> Accuracy of plot: 16.9% </font>
 
 <right>
 ![](../results/06_BC_overlap_PCA.png){width=82%}
