@@ -8,5 +8,6 @@ source(file = "R/06_analysis_CommonGene_clustering.R")
 source(file = "R/07_analysis_PAM50_clustering.R")
 
 # Knit presentation
-rmarkdown::render(input = "/cloud/project/doc/presentation.Rmd")
-
+rmarkdown::render(input = "doc/presentation.Rmd",
+                  output_file="../doc/group9_presentation.html", 
+                  knit_root_dir = "..")
