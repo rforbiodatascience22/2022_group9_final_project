@@ -14,12 +14,12 @@ source(file = "R/99_project_functions.R")
 patients  <- read_csv(file = "data/01_patients.csv")
 
 
-# visualise data ----------------------------------------------------------
+# Visualise data ----------------------------------------------------------
 
 # Box plot of the age of diagnosis for the different subtypes 
 p_AVC1 <- ggplot(data = patients,
                  mapping = aes(x = `PAM50 mRNA`,
-                               y = `Age at initial pathologic diagnosis`,
+                               y = `Age at Initial Pathologic Diagnosis`,
                                fill = `Vital Status`)) +
   geom_boxplot(alpha = 0.5) +
   expand_limits(y = c(0, NA)) + 

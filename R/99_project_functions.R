@@ -31,8 +31,14 @@ subtype_glm <- function(subtype, BC_data){
 }
 
 
-new_theme <- theme_half_open(12) +
-  theme(legend.title = element_text(size = 10),
-        legend.text = element_text(size = 8),
-        text = element_text(family = "Avenir",
-                            size = 12))
+new_theme <- theme(legend.position = "none",
+                   panel.grid.major = element_blank(), 
+                   panel.grid.minor = element_blank(),
+                   panel.background = element_blank(), 
+                   axis.text = element_text(colour = "black"),
+                   axis.line = element_line(colour = "black"),
+                   legend.key=element_blank(),
+                   legend.title = element_text(size = 10),
+                   legend.text = element_text(size = 8),
+                   text = element_text(family = "Avenir",
+                                       size = 12))
