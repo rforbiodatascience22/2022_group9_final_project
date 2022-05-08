@@ -16,7 +16,8 @@ BC_overlap_genes <- read.csv('results/06_BC_overlap_genes.csv')
 # PCA analysis -----------------------------------------------------------------
 pca_BC_overlap <- BC_overlap_genes %>% 
   select(-PAM50.mRNA) %>% 
-  prcomp(center = TRUE, scale. = TRUE)
+  prcomp(center = TRUE, 
+         scale. = TRUE)
 
 # Adding original data back
 pca_BC_overlap_aug <- pca_BC_overlap %>% 
@@ -61,8 +62,6 @@ plot_bar_PC_CumVar <- pca_BC_overlap %>%
                      expand = expansion(mult = c(0, 0.01))) +
   new_theme
 
-# change title ^^^
-
 # K-means - Scatter plot -------------------------------------------------------
 
 # Extract PC1 and PC2 values
@@ -98,7 +97,7 @@ plot_k_pca_BC_overlap_subtypes <- pca_aug_k_pca_BC_overlap %>%
   theme(legend.position = "right")
 
 
-# Plot coloured according to cluster (NB: MATCH COLORS OF CLUSTERS)
+# Plot coloured according to cluster -------------------------------------------
 plot_k_pca_BC_overlap_cluster <- pca_aug_k_pca_BC_overlap %>% 
   ggplot(mapping = aes(x= .fittedPC1, 
                        y = .fittedPC2,
@@ -120,14 +119,14 @@ plot_bar_PC_CumVar +
   (plot_k_pca_BC_overlap_subtypes / plot_k_pca_BC_overlap_cluster)
 
 
-# Save plot ---------------------------------------------------------------
+# Save plot --------------------------------------------------------------------
 ggsave(file = "results/06_BC_overlap_PCA.png",
        width = 12, 
        height = 5, 
        dpi = 150)
 
 
-# The accuracy of the predictions ----------------------------------------
+# The accuracy of the predictions ----------------------------------------------
 pca_aug_k_pca_BC_overlap %>% 
   select(PAM50.mRNA, cluster_pca_CommonGenes) %>% 
   mutate(cluster_pca_CommonGenes = case_when(cluster_pca_CommonGenes == 1 ~ 'Luminal A',
@@ -137,10 +136,4 @@ pca_aug_k_pca_BC_overlap %>%
          cluster_pca_CommonGenes_correct = case_when(cluster_pca_CommonGenes == PAM50.mRNA ~ 1,
                                                      cluster_pca_CommonGenes != PAM50.mRNA ~ 0)) %>% 
   summarise(score_pca_CommonGenes = mean(cluster_pca_CommonGenes_correct))
-
-
-# Calculate BSS/TSS ratio
-#k_pca_BC_overlap$betweenss/k_pca_BC_overlap$totss
-
-#Base R ^^^^
 
