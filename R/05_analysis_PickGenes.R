@@ -8,12 +8,10 @@ rm(list=ls())
 # Define functions -------------------------------------------------------------
 source(file = "R/99_project_functions.R")
 
-
 # Load data --------------------------------------------------------------------
 BC_data_clean_aug <- read_csv(file = "data/03_BC_data_clean_aug.csv")
 
-
-# Model data -------------------------------------------------------------------
+# Model data (logit model for each subtype) ------------------------------------
 
 # Make/Load 4 different logistic models for each subtype
 # NOTE: If there're certain glm result files, the program will directly read
@@ -28,7 +26,6 @@ if (!file.exists("results/05_LumA_glm.csv")){
 }else{
   LumA_glm <- read_csv("results/05_LumA_glm.csv")
 }
-
 
 # Luminal B
 if (!file.exists("results/05_LumB_glm.csv")){
@@ -63,7 +60,7 @@ if (!file.exists("results/05_Basal_glm.csv")){
 
 # Wrangle data -----------------------------------------------------------------
 
-# Find significant proteins
+# Find significant proteins based on p-value
 significant_proteins <- list(
   Basal = Basal_glm %>% 
     filter(identified_as == "significant") %>% 
@@ -79,7 +76,7 @@ significant_proteins <- list(
     pull(proteome))
 
 
-# Find overlapping proteins
+# Find overlapping protein IDs between each subtype
 overlap_pro <- intersect(intersect(intersect(significant_proteins[["Basal"]], 
                                              significant_proteins[["Her2"]]), 
                                    significant_proteins[["LumA"]]),
@@ -91,9 +88,7 @@ BC_overlap_genes <- BC_data_clean_aug %>%
   select(c(overlap_pro),
          `PAM50 mRNA`)
 
-# Visualize data ---------------------------------------------------------------
-
-# Venn diagram 
+# Visualize data - Venn diagram ------------------------------------------------
 significant_proteins %>% 
   ggvenn()
 
@@ -103,8 +98,9 @@ ggsave(file = "results/05_venndiagram.png",
        height = 7, 
        dpi = 150)
 
+# Heatmaps ---------------------------------------------------------------------
 
-# Overlap gene expression heatmap for Basal like subtype
+# Overlap gene expression for Basal like
 Basal_pl1 <- BC_data_clean_aug %>% 
   filter(Basal_like == 1) %>% 
   select(`Complete TCGA ID`,
@@ -127,7 +123,7 @@ Basal_pl1 <- BC_data_clean_aug %>%
   labs(title = "Basal-like",
        fill = "Expression level")
 
-# Overlap gene expression heatmap for HER2 enriched subtype
+# Overlap gene expression for HER2 enriched
 Her2_pl2 <- Her2_pl2 <- BC_data_clean_aug %>% 
   filter(HER2_enriched == 1) %>% 
   select(`Complete TCGA ID`,
@@ -150,7 +146,7 @@ Her2_pl2 <- Her2_pl2 <- BC_data_clean_aug %>%
   labs(title = "Her2-enriched",
        fill = "Expression level")
 
-# Overlap gene expression heatmap for Luminal A subtype
+# Overlap gene expression for Luminal A
 LumA_pl3 <- BC_data_clean_aug %>% 
   filter(Luminal_A == 1) %>% 
   select(`Complete TCGA ID`,
@@ -173,7 +169,7 @@ LumA_pl3 <- BC_data_clean_aug %>%
   labs(title = "Luminal A",
        fill = "Expression level")
 
-# Overlap gene expression heatmap for Luminal B subtype
+# Overlap gene expression for Luminal B
 LumB_pl4 <- BC_data_clean_aug %>% 
   filter(Luminal_B == 1) %>% 
   select(`Complete TCGA ID`,
@@ -197,7 +193,7 @@ LumB_pl4 <- BC_data_clean_aug %>%
        fill = "Expression level")
 
 
-# Overlap gene expression heatmap for all subtypes
+# Combined plot with heatmaps for all the subtypes
 (Basal_pl1+Her2_pl2)/(LumA_pl3+LumB_pl4) + 
   plot_layout(guides = "collect") & 
   plot_annotation(title = "Protein expression of the 24 common significant genes") 
