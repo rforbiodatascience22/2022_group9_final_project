@@ -51,7 +51,8 @@ We are investigating whether the 4 subtypes can be detected and classified corre
 
 ![](../doc/images/WorkFlow.png){width=99%}
 
-** take a look at **
+
+<font size="1">Mertins, P., Mani, D., Ruggles, K. et al. Proteogenomics connects somatic mutations to signalling in breast cancer. *Nature* 534, 55–62 (2016). https://doi.org/10.1038/nature18003</font>
 
 
 ## Results: Common proteins after GLM
@@ -77,6 +78,12 @@ We are investigating whether the 4 subtypes can be detected and classified corre
 </right>
 
 ## Results: Original BC data
+
+- Number of PCA reduced from 77 to 65
+- No clear patterns
+- Little of the variance is explained by PC1 and PC2
+- Accuracy of plot: 36.4%
+
 
 ![](../results/07_BC_data_cumulative_kmeans.png){width=85%}
 
