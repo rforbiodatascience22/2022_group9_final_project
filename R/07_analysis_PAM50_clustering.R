@@ -78,8 +78,8 @@ plot_pca_org_cum <- pca_org %>%
        subtitle = "a) BC_data") +
   geom_hline(yintercept = 0.95,
              linetype = "dashed") +
-  geom_text(aes(x = 5,
-                y = 0.90,
+  geom_text(aes(x = 8,
+                y = 0.95,
                 label = "95%",
                 vjust = -1))
 
@@ -93,8 +93,8 @@ plot_pca_red_cum <- pca_red %>%
        subtitle = "b) BC_data_PAM50") +
   geom_hline(yintercept = 0.95,
              linetype = "dashed") +
-  geom_text(aes(x = 2,
-                y = 0.90,
+  geom_text(aes(x = 3,
+                y = 0.95,
                 label = "95%",
                 vjust = -1))
 
@@ -133,7 +133,13 @@ plot_pca_aug_k_org_subtypes <- pca_aug_k_org %>%
   scale_color_manual(values = c("Basal-like" = "#00688B",
                                 "HER2-enriched" = "#00CD66",
                                 "Luminal A"="#FFA500",
-                                "Luminal B" = "#CD3278"))
+                                "Luminal B" = "#CD3278")) +
+  theme_half_open(12) +
+  theme(legend.title = element_text(size = 10),
+        legend.text = element_text(size = 8),
+        legend.position = "bottom",
+        text = element_text(family = "Avenir",
+                            size = 12))
 
 # Colored according to clusters (NB: WAY OF EXTRACTING PERCENTAGE OF PCA DIRECTLY?)
 plot_pca_aug_k_org_clusters <- pca_aug_k_org %>%
@@ -147,20 +153,20 @@ plot_pca_aug_k_org_clusters <- pca_aug_k_org %>%
   scale_color_manual(values = c("1" = "#CD3278",
                                 "2" = "#FFA500",
                                 "3"="#00688B",
-                                "4" = "#00CD66"))
-
-# Plot of both
-(plot_pca_aug_k_org_subtypes/plot_pca_aug_k_org_clusters) &
-  theme_half_open(12) &
-  plot_annotation(title = "Full breast cancer data",
-                  theme = theme(plot.title = element_text(size = 14))) &
+                                "4" = "#00CD66")) +
+  theme_half_open(12) +
   theme(legend.title = element_text(size = 10),
         legend.text = element_text(size = 8),
+        legend.position = "bottom",
         text = element_text(family = "Avenir",
                             size = 12))
 
+# Plot of both
+(plot_pca_aug_k_org_subtypes + plot_pca_aug_k_org_clusters) &
+  plot_annotation(title = "K-means clustering after PCA of BC data")
 
-# Save plot ---------------------------------------------------------------
+
+# Save plot --------------------------------------------------------------------
 ggsave(file = "results/07_BC_data_K_means.png",
        width = 8.56, 
        height = 6.42, 
@@ -210,7 +216,7 @@ plot_pca_aug_k_red_cluster <- pca_aug_k_red %>%
 
 # Comparison of subtype and cluster (reduced version)
 (plot_pca_aug_k_red_subtypes + plot_pca_aug_k_red_cluster) &
-  plot_annotation(title = "K-means clustering after PCA")
+  plot_annotation(title = "K-means clustering after PCA for protein IDs common betwwen PAM50 data and BC data")
 
 
 
