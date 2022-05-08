@@ -106,16 +106,9 @@ plot_k_pca_BC_overlap_cluster <- pca_aug_k_pca_BC_overlap %>%
 plot_bar_PC_CumVar + (plot_k_pca_BC_overlap_subtypes / plot_k_pca_BC_overlap_cluster)
 
 # Save plot ---------------------------------------------------------------
-<<<<<<< HEAD
 ggsave(file = "results/07_BC_overlap_PCA.png",
        width = 8.56, 
        height = 6.42, 
-=======
-ggsave(file = "results/07_BC_overlap_PCA_Cluster.png",
-       width = 10, 
-       height = 5.5, 
->>>>>>> 77fd846dabc0182e41b6e80227bb8f23a6254361
-       dpi = 150)
 
 # cluster colors ^^^ match up with subtypes --> does it match?
 # change title
