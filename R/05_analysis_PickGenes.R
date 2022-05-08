@@ -199,7 +199,7 @@ LumB_pl4 <- ggplot(data = BC_data_clean_aug %>%
 # Save plot -----------------------------------
 ggsave(file = "results/05_subtype_heatmap.png",
        width = 10, 
-       height = 7.5, 
+       height = 7, 
        dpi = 150)
 
 
