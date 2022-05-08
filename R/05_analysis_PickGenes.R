@@ -110,10 +110,11 @@ Basal_pl1 <- ggplot(data = BC_data_clean_aug %>%
                        mid = "white",
                        high = "red") +
   theme_classic(base_size = 8) +
-  theme(legend.position = "none",
+  theme(legend.position = "left",
         axis.text.x = element_text(angle = 45,
                                    hjust = 1)) +
-  labs(title = "Basal-like")
+  labs(title = "Basal-like",
+       fill = "Expression level")
 
 # Overlap gene expression heatmap for HER2 enriched subtype
 Her2_pl2 <- ggplot(data = BC_data_clean_aug %>% 
@@ -155,10 +156,11 @@ LumA_pl3 <- ggplot(data = BC_data_clean_aug %>%
                        mid = "white",
                        high = "red") +
   theme_classic(base_size = 8) +
-  theme(legend.position = "none",
+  theme(legend.position = "left",
         axis.text.x = element_text(angle = 45,
                                    hjust = 1)) +
-  labs(title = "Luminal A")
+  labs(title = "Luminal A",
+       fill = "Expression level")
 
 # Overlap gene expression heatmap for Luminal B subtype
 LumB_pl4 <- ggplot(data = BC_data_clean_aug %>% 
@@ -177,10 +179,11 @@ LumB_pl4 <- ggplot(data = BC_data_clean_aug %>%
                        mid = "white",
                        high = "red") +
   theme_classic(base_size = 8) +
-  theme(legend.position = "none",
+  theme(legend.position = "right",
         axis.text.x = element_text(angle = 45,
                                    hjust = 1)) +
-  labs(title = "Luminal B")
+  labs(title = "Luminal B",
+       fill = "Expression level")
 
 # Rename plot names to more specific ^^^ plt1 ...
 # edit legend: only 1 and modify range -7.5:6
