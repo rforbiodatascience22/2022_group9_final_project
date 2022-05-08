@@ -89,6 +89,12 @@ We are investigating whether the 4 subtypes can be detected and classified corre
 
 ## Results: Common protein IDs between PAM50 and BC data
 
+- Number of PCA reduced from 26 to 15
+- 1st PcA explains a much higher variance (34.9% compared to 10.7%)
+- Clusters more separated
+- Accuracy of this exact plot: 48.1%
+
+
 ![](../results/07_BC_data_PAM50_cumulative_kmeans.png){width=99%}
 
 
