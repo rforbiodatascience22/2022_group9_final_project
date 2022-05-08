@@ -37,14 +37,19 @@ pca_red_aug <- pca_red %>%
 
 # K-means analysis -------------------------------------------------------------
 
-# Yi Huang will fix something here *****
+# ***** For full BC_data set *****
+# Extract the maximum PC that explain 95% of the cumulative variance
+max_PC_org <- pca_org %>%
+  tidy("pcs") %>% 
+  filter(cumulative <= 0.96) %>% 
+  summarise(max = max(PC)) %>% 
+  pull()
 
+# Clustering
 set.seed(4)
-
-# For full BC_data set
 k_org <- pca_org_aug %>%
   select(starts_with(c("NP","XP","YP"))) %>%
-  select(c(1:64)) %>% 
+  select(c(1:max_PC_org)) %>% 
   kmeans(centers = 4)
 
 # Adding original data back and renaming .cluster
@@ -53,18 +58,28 @@ pca_aug_k_org <- k_org %>%
   rename(cluster_org = .cluster)
 
 
-set.seed(4)
 
-# For reduced version (protein IDs common in PAM50 and BC_data_clean_aug)
+# ***** For PAM50 version *****
+# Extract the maximum PC that explain 95% of the cumulative variance
+max_PC_red <- pca_red %>%
+  tidy("pcs") %>% 
+  filter(cumulative <= 0.96) %>% 
+  summarise(max = max(PC)) %>% 
+  pull()
+
+# Clustering
+set.seed(4)
 k_red <- pca_red_aug %>%
   select(starts_with(c("NP","XP","YP"))) %>%
-  select(c(1:15)) %>% 
+  select(c(1:max_PC_red)) %>% 
   kmeans(centers = 4)
 
 # Adding original data back and renaming .cluster
 pca_aug_k_red <- k_red %>%
   augment(pca_red_aug) %>% 
   rename(cluster_red = .cluster)
+
+
 
 # Visualizing the cumulative variance  -----------------------------------------
 
