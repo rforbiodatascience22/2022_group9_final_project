@@ -25,8 +25,8 @@ library(knitr)
 - Introduction
 - Materials
 - Methods  
-- Results and Discussion
-- Conclusion
+- Results
+- Discussion
 
 ## Introduction: Breast Cancer
 
@@ -97,5 +97,4 @@ The raw datasets:
 
 - Data lacks non cancer cases.
 
-## Conclusion
 
