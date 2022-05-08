@@ -1,12 +1,10 @@
 # Load libraries ----------------------------------------------------------
-library(tidyverse)
-library(broom)  
-library(cowplot)
-library(patchwork) # required to arrange plots side-by-side
-library(ggthemes) # for colorblind color scale
-library(dplyr)
-library(vroom)
-library(purrr)
+library("tidyverse")
+library("ggplot2")
+library("broom")
+library("purrr")
+library("vroom")
+library("cowplot")
 rm(list = ls())
 
 
@@ -24,15 +22,21 @@ pca_BC_overlap_aug <- pca_BC_overlap %>%
   augment(BC_overlap_genes)
 
 
-# POSSIBLE TO FIND THE 1:17 by setting some sort of condition instead??
-# Yi Huang knows a way ^^
-set.seed(7)
+
 
 # K-means analysis -------------------------------------------------------------
 
-# Extracting the 17 PCA that explains 95% of the variance
+# Extract the maximum PC that explain 95% of the cumulative variance
+max_PC <- pca_BC_overlap %>%
+  tidy("pcs") %>% 
+  filter(cumulative <= 0.96) %>% 
+  summarise(max = max(PC)) %>% 
+  pull()
+
+# Clustering
+set.seed(7)
 k_pca_BC_overlap <- pca_BC_overlap_aug %>% 
-  select(str_c(".fittedPC", 1:17)) %>%
+  select(str_c(".fittedPC", 1:max_PC)) %>%
   kmeans(centers = 4)
 
 # Adding back the augmented PCA data
