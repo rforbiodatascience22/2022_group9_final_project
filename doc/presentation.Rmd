@@ -84,7 +84,7 @@ In this project we will investigate whether it is possible to detect and correct
 - <font size="4"> Accuracy of plot: 16.9% </font>
 
 
-## Results - Original BC data
+## Results - Full BC data
 
 ![](../results/07_BC_data_cumulative_kmeans.png){width=99%}
 
