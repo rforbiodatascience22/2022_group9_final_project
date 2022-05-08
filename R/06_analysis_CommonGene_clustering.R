@@ -31,7 +31,7 @@ max_PC <- pca_BC_overlap %>%
   summarise(max = max(PC)) %>% 
   pull()
 
-# Clustering
+# K-means clustering
 set.seed(7)
 k_pca_BC_overlap <- pca_BC_overlap_aug %>% 
   select(str_c(".fittedPC", 1:max_PC)) %>%
@@ -42,7 +42,7 @@ pca_aug_k_pca_BC_overlap <- k_pca_BC_overlap %>%
   augment(pca_BC_overlap_aug) %>% 
   rename(cluster_pca_CommonGenes = .cluster)
 
-# Visualizing the cumulative variance  -----------------------------------------
+# Plots of the cumulative variance  --------------------------------------------
 plot_bar_PC_CumVar <- pca_BC_overlap %>%
   tidy("pcs") %>%
   ggplot(aes(PC, cumulative)) +
@@ -61,11 +61,9 @@ plot_bar_PC_CumVar <- pca_BC_overlap %>%
                      expand = expansion(mult = c(0, 0.01))) +
   new_theme
 
-# change title ^^^
+# Scatter plot of K-means clustering -------------------------------------------
 
-# K-means - Scatter plot -------------------------------------------------------
-
-# Extract PC1 and PC2 values
+# Extract the variance explained by PC1
 pc1 <- pca_BC_overlap %>%
   tidy("pcs") %>% 
   filter(PC == 1) %>% 
@@ -73,6 +71,7 @@ pc1 <- pca_BC_overlap %>%
                          digits = 1)) %>% 
   pull(percent)
 
+# Extract the variance explained by PC2
 pc2 <- pca_BC_overlap %>%
   tidy("pcs") %>% 
   filter(PC == 2) %>% 
@@ -97,8 +96,7 @@ plot_k_pca_BC_overlap_subtypes <- pca_aug_k_pca_BC_overlap %>%
   new_theme +
   theme(legend.position = "right")
 
-
-# Plot coloured according to cluster (NB: MATCH COLORS OF CLUSTERS)
+# Plot coloured according to cluster
 plot_k_pca_BC_overlap_cluster <- pca_aug_k_pca_BC_overlap %>% 
   ggplot(mapping = aes(x= .fittedPC1, 
                        y = .fittedPC2,
@@ -114,34 +112,26 @@ plot_k_pca_BC_overlap_cluster <- pca_aug_k_pca_BC_overlap %>%
   new_theme +
   theme(legend.position = "right")
 
-
-# Both plots together
+# Final plot (cumulative variance and K-means clustering) ----------------------
 plot_bar_PC_CumVar + 
   (plot_k_pca_BC_overlap_subtypes / plot_k_pca_BC_overlap_cluster) + 
   plot_annotation(title = "BC overlap data")
 
 
-# Save plot ---------------------------------------------------------------
+# Save plot --------------------------------------------------------------------
 ggsave(file = "results/06_BC_overlap_PCA.png",
        width = 10, 
        height = 6.25, 
        dpi = 150)
 
-
-# The accuracy of the predictions ----------------------------------------
-pca_aug_k_pca_BC_overlap %>% 
+# The accuracy of the predictions for this exact K-means analysis --------------
   select(PAM50.mRNA, cluster_pca_CommonGenes) %>% 
-  mutate(cluster_pca_CommonGenes = case_when(cluster_pca_CommonGenes == 1 ~ 'Luminal A',
-                                             cluster_pca_CommonGenes == 2 ~ 'HER2-enriched',
-                                             cluster_pca_CommonGenes == 3 ~ 'Basal-like',
-                                             cluster_pca_CommonGenes == 4 ~ 'Luminal B'),
-         cluster_pca_CommonGenes_correct = case_when(cluster_pca_CommonGenes == PAM50.mRNA ~ 1,
-                                                     cluster_pca_CommonGenes != PAM50.mRNA ~ 0)) %>% 
+  mutate(cluster_pca_CommonGenes = case_when(
+    cluster_pca_CommonGenes == 1 ~ 'Luminal A',
+    cluster_pca_CommonGenes == 2 ~ 'HER2-enriched',
+    cluster_pca_CommonGenes == 3 ~ 'Basal-like',
+    cluster_pca_CommonGenes == 4 ~ 'Luminal B'),
+    cluster_pca_CommonGenes_correct = case_when(
+      cluster_pca_CommonGenes == PAM50.mRNA ~ 1,
+      cluster_pca_CommonGenes != PAM50.mRNA ~ 0)) %>% 
   summarise(score_pca_CommonGenes = mean(cluster_pca_CommonGenes_correct))
-
-
-# Calculate BSS/TSS ratio
-#k_pca_BC_overlap$betweenss/k_pca_BC_overlap$totss
-
-#Base R ^^^^
-
