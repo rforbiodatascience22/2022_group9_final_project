@@ -16,7 +16,8 @@ BC_overlap_genes <- read.csv('results/06_BC_overlap_genes.csv')
 # PCA analysis -----------------------------------------------------------------
 pca_BC_overlap <- BC_overlap_genes %>% 
   select(-PAM50.mRNA) %>% 
-  prcomp(center = TRUE, scale. = TRUE)
+  prcomp(center = TRUE, 
+         scale. = TRUE)
 
 # Adding original data back
 pca_BC_overlap_aug <- pca_BC_overlap %>% 
@@ -34,7 +35,8 @@ max_PC <- pca_BC_overlap %>%
 # K-means clustering
 set.seed(7)
 k_pca_BC_overlap <- pca_BC_overlap_aug %>% 
-  select(str_c(".fittedPC", 1:max_PC)) %>%
+  select(str_c(".fittedPC", 
+               1:max_PC)) %>%
   kmeans(centers = 4)
 
 # Adding back the augmented PCA data
@@ -125,7 +127,7 @@ ggsave(file = "results/06_BC_overlap_PCA.png",
        dpi = 150)
 
 # The accuracy of the predictions for this exact K-means analysis --------------
-  select(PAM50.mRNA, cluster_pca_CommonGenes) %>% 
+select(PAM50.mRNA, cluster_pca_CommonGenes) %>% 
   mutate(cluster_pca_CommonGenes = case_when(
     cluster_pca_CommonGenes == 1 ~ 'Luminal A',
     cluster_pca_CommonGenes == 2 ~ 'HER2-enriched',
