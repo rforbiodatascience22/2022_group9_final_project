@@ -70,11 +70,11 @@ We are investigating whether the 4 subtypes can be detected and classified corre
 
 ## Results: PAM50 Genes
 
-![](../results/07_BC_overlap_PCA_Cluster.png){width=85%}
+![](../results/07_BC_data_cumulative_kmeans.png){width=85%}
 
 ## Results: PAM50 and significant common genes and PAM50
 
-![](../results/07_CumVar_Comparison.png){width=99%}
+![](../results/07_BC_data_PAM50_cumulative_kmeans.png){width=99%}
 
 ## Results: 2
 
