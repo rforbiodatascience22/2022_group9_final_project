@@ -9,13 +9,24 @@ rm(list=ls())
 source(file = "R/99_project_functions.R")
 
 
-# Load files -------------------------------------------------------------------
-Basal_glm <- read_csv(file = "results/05_Basal_glm.csv")
-Her2_glm <- read_csv(file = "results/05_Her2_glm.csv")
-LumA_glm <- read_csv(file = "results/05_LumA_glm.csv")
-LumB_glm <- read_csv(file = "results/05_LumB_glm.csv")
-proteomes_clean <- read_csv(file = "data/02_proteomes_clean.csv")
-BC_data_clean_aug <- read_csv(file = "data/03_BC_data_clean_aug.csv")
+# Load data --------------------------------------------------------------------
+BC_data_clean_aug   <- read_csv(file = "data/03_BC_data_clean_aug.csv")
+
+
+# Model data -------------------------------------------------------------------
+# Making four different logistic models for each of the subtypes
+# Luminal A
+LumA_glm <- subtype_glm("Luminal_A", BC_data_clean_aug)
+
+# Luminal B
+LumB_glm <- subtype_glm("Luminal_B", BC_data_clean_aug)
+
+# HER2_enriched
+Her2_glm <- subtype_glm("HER2_enriched", BC_data_clean_aug)
+
+# Basal-like
+Basal_glm <- subtype_glm("Basal_like", BC_data_clean_aug)
+
 
 # Wrangle data -----------------------------------------------------------------
 # Find significant proteins
@@ -31,8 +42,7 @@ significant_proteins <- list(
     pull(proteome),
   LumB = LumB_glm %>% 
     filter(identified_as == "significant") %>% 
-    pull(proteome)
-)
+    pull(proteome))
 
 # Plot Venn diagram ------------------------------------------------------------
 significant_proteins %>% 
@@ -51,7 +61,9 @@ overlap_pro <- intersect(intersect(intersect(significant_proteins[["Basal"]],
                                    significant_proteins[["LumA"]]),
                          significant_proteins[["LumB"]])
 
-# Find unique proteins
+# Is there a way to do this not using base R? ^^^
+
+# Find unique proteins (MIGHT DELETE)
 Basal_unique <- setdiff(setdiff(setdiff(significant_proteins[["Basal"]],
                                 significant_proteins[["Her2"]]),
                         significant_proteins[["LumA"]]),
@@ -72,6 +84,7 @@ LumB_unique <- setdiff(setdiff(setdiff(significant_proteins[["LumB"]],
                                significant_proteins[["LumA"]]),
                        significant_proteins[["Her2"]]) #460
 
+
 # Build new data frame for overlap proteins
 BC_overlap_genes <- BC_data_clean_aug %>% 
   select(c(overlap_pro),
@@ -79,25 +92,6 @@ BC_overlap_genes <- BC_data_clean_aug %>%
 
 # Visualization ----------------------------------------------------------------
 # Overlap gene expression heatmap
-ggplot(data = proteomes_clean %>% 
-         select(`TCGA ID`,
-                c(overlap_pro)) %>% 
-         pivot_longer(cols = -`TCGA ID`,
-                      names_to = "proteome",
-                      values_to = "expr_level"),
-       mapping = aes(x = `TCGA ID`,
-                     y = proteome,
-                     fill = expr_level)) +
-  geom_tile(alpha = 0.5) +
-  scale_fill_gradient2(midpoint = 0,
-                       low = "blue",
-                       mid = "white",
-                       high = "red") +
-  theme_classic(base_size = 8) +
-  theme(legend.position = "bottom",
-        axis.text.x = element_text(angle = 45,
-                                   hjust = 1))
-
 pl1 <- ggplot(data = BC_data_clean_aug %>% 
          filter(Basal_like == 1) %>% 
          select(`Complete TCGA ID`,
@@ -190,8 +184,6 @@ ggsave(file = "results/06_subtype_heatmap.png",
        width = 10, 
        height = 7, 
        dpi = 150)
-
-
 
 
 # Save files -------------------------------------------------------------------
