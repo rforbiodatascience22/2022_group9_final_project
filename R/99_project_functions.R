@@ -24,7 +24,7 @@ subtype_glm <- function(subtype, BC_data){
            mdl_tidy = map(mdl, tidy, conf.int = TRUE)) %>% 
     unnest(mdl_tidy) %>% 
     filter(term != "(Intercept)") %>% 
-    mutate(identified_as = case_when(p.value < 0.05 ~ "significant",    # Add an indicator variable
+    mutate(identified_as = case_when(p.value < 0.05 ~ "significant",
                                      p.value >= 0.05 ~ "insignificant"),
            identified_as = as.factor(identified_as))
   return(result)

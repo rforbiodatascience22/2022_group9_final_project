@@ -1,9 +1,9 @@
 # Load libraries ----------------------------------------------------------
-library(tidyverse)
-library(readr)
-library(ggplot2)
-library(patchwork)
-library(ggthemes)
+library("tidyverse")
+library("readr")
+library("ggplot2")
+library("patchwork")
+library("ggthemes")
 rm(list=ls())
 
 # Define functions --------------------------------------------------------
