@@ -1,8 +1,8 @@
 # Load libraries ---------------------------------------------------------------
-library("tidyverse")
-library("ggvenn")
-library("ggplot2")
-library("patchwork")
+library(tidyverse)
+library(ggvenn)
+library(ggplot2)
+library(patchwork)
 rm(list=ls())
 
 # Define functions -------------------------------------------------------------
@@ -110,7 +110,7 @@ Basal_pl1 <- ggplot(data = BC_data_clean_aug %>%
                        mid = "white",
                        high = "red") +
   theme_classic(base_size = 8) +
-  theme(legend.position = "left",
+  theme(legend.position = "none",
         axis.text.x = element_text(angle = 45,
                                    hjust = 1)) +
   labs(title = "Basal-like",
@@ -131,7 +131,8 @@ Her2_pl2 <- ggplot(data = BC_data_clean_aug %>%
   scale_fill_gradient2(midpoint = 0,
                        low = "blue",
                        mid = "white",
-                       high = "red") +
+                       high = "red",
+                       limits = c(-7.5, 6)) +
   theme_classic(base_size = 8) +
   theme(legend.position = "right",
         axis.text.x = element_text(angle = 45,
@@ -156,7 +157,7 @@ LumA_pl3 <- ggplot(data = BC_data_clean_aug %>%
                        mid = "white",
                        high = "red") +
   theme_classic(base_size = 8) +
-  theme(legend.position = "left",
+  theme(legend.position = "none",
         axis.text.x = element_text(angle = 45,
                                    hjust = 1)) +
   labs(title = "Luminal A",
@@ -179,7 +180,7 @@ LumB_pl4 <- ggplot(data = BC_data_clean_aug %>%
                        mid = "white",
                        high = "red") +
   theme_classic(base_size = 8) +
-  theme(legend.position = "right",
+  theme(legend.position = "none",
         axis.text.x = element_text(angle = 45,
                                    hjust = 1)) +
   labs(title = "Luminal B",
