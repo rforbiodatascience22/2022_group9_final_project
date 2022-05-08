@@ -14,34 +14,45 @@ BC_data_clean_aug <- read_csv(file = "data/03_BC_data_clean_aug.csv")
 
 
 # Model data -------------------------------------------------------------------
+
 # Make/Load 4 different logistic models for each subtype
-if (!file.exists("results/05_LumA_glm.csv")){
-  LumA_glm <- subtype_glm("Luminal_A", BC_data_clean_aug)
+
+# Luminal A
+if (!file.exists("results/05_LumA_glm.csv")) {
+  LumA_glm <- subtype_glm("Luminal_A", 
+                          BC_data_clean_aug)
   write_csv(LumA_glm,
             file = "results/05_LumA_glm.csv")
-}else{
+} else {
   LumA_glm <- read_csv("results/05_LumA_glm.csv")
 }
 
 
+# Luminal B
 if (!file.exists("results/05_LumB_glm.csv")){
-  LumB_glm <- subtype_glm("Luminal_B", BC_data_clean_aug)
+  LumB_glm <- subtype_glm("Luminal_B", 
+                          BC_data_clean_aug)
   write_csv(LumB_glm,
             file = "results/05_LumB_glm.csv")
 }else{
   LumB_glm <- read_csv("results/05_LumB_glm.csv")
 }
 
+
+# HER2 enriched
 if (!file.exists("results/05_Her2_glm.csv")){
-  Her2_glm <- subtype_glm("HER2_enriched", BC_data_clean_aug)
+  Her2_glm <- subtype_glm("HER2_enriched", 
+                          BC_data_clean_aug)
   write_csv(Her2_glm,
             file = "results/05_Her2_glm.csv")
 }else{
   Her2_glm <- read_csv("results/05_Her2_glm.csv")
 }
 
+# Basal-like
 if (!file.exists("results/Basal_glm.csv")){
-  Basal_glm <- subtype_glm("Basal_like", BC_data_clean_aug)
+  Basal_glm <- subtype_glm("Basal_like", 
+                           BC_data_clean_aug)
   write_csv(Basal_glm,
             file = "results/05_Basal_glm.csv") 
 }else{
@@ -50,6 +61,7 @@ if (!file.exists("results/Basal_glm.csv")){
 
 
 # Wrangle data -----------------------------------------------------------------
+
 # Find significant proteins
 significant_proteins <- list(
   Basal = Basal_glm %>% 
@@ -79,6 +91,7 @@ BC_overlap_genes <- BC_data_clean_aug %>%
          `PAM50 mRNA`)
 
 # Visualize data ------------------------------------------------------------
+
 # Venn diagram 
 significant_proteins %>% 
   ggvenn()
@@ -191,7 +204,7 @@ LumB_pl4 <- ggplot(data = BC_data_clean_aug %>%
 (Basal_pl1+Her2_pl2)/(LumA_pl3+LumB_pl4) +
   plot_annotation(title = "Protein Expression of 24 common signigicant genes")
 
-# Save plot -----------------------------------
+# Save plot --------------------------------------------------------------------
 ggsave(file = "results/05_subtype_heatmap.png",
        width = 10, 
        height = 7, 
