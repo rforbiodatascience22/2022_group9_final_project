@@ -24,7 +24,7 @@ if (!file.exists("results/05_LumA_glm.csv")){
 }
 
 
-if (!file.exists("results/05_LumA_glm.csv")){
+if (!file.exists("results/05_LumB_glm.csv")){
   LumB_glm <- subtype_glm("Luminal_B", BC_data_clean_aug)
   write_csv(LumB_glm,
             file = "results/05_LumB_glm.csv")
@@ -32,7 +32,7 @@ if (!file.exists("results/05_LumA_glm.csv")){
   LumB_glm <- read_csv("results/05_LumB_glm.csv")
 }
 
-if (!file.exists("results/05_LumA_glm.csv")){
+if (!file.exists("results/05_Her2_glm.csv")){
   Her2_glm <- subtype_glm("HER2_enriched", BC_data_clean_aug)
   write_csv(Her2_glm,
             file = "results/05_Her2_glm.csv")
@@ -40,7 +40,7 @@ if (!file.exists("results/05_LumA_glm.csv")){
   Her2_glm <- read_csv("results/05_Her2_glm.csv")
 }
 
-if (!file.exists("results/05_LumA_glm.csv")){
+if (!file.exists("results/Basal_glm.csv")){
   Basal_glm <- subtype_glm("Basal_like", BC_data_clean_aug)
   write_csv(Basal_glm,
             file = "results/05_Basal_glm.csv") 
