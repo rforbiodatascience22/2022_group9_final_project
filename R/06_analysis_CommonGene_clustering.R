@@ -44,7 +44,7 @@ pca_aug_k_pca_BC_overlap <- k_pca_BC_overlap %>%
 
 # Visualizing the cumulative variance  -----------------------------------------
 
-pca_BC_overlap %>%
+plot_bar_PC_CumVar <- pca_BC_overlap %>%
   tidy("pcs") %>%
   ggplot(aes(PC, cumulative)) +
   geom_col(fill = "turquoise3",
@@ -59,15 +59,10 @@ pca_BC_overlap %>%
   scale_x_continuous(expand = c(0, 0)) +
   scale_y_continuous(labels = scales::percent_format(),
                      expand = expansion(mult = c(0, 0.01))) +
+  labs(title = "PCA") +
   new_theme
 
 # change title ^^^
-
-# Save plot ---------------------------------------------------------------
-ggsave(file = "results/07_BC_overlap_PCvariance.png",
-       width = 8.56, 
-       height = 5.42, 
-       dpi = 150)
 
 
 # K-means - Scatter plot -------------------------------------------------------
@@ -86,7 +81,8 @@ plot_k_pca_BC_overlap_subtypes <- pca_aug_k_pca_BC_overlap %>%
                                 "Luminal A"="#FFA500",
                                 "Luminal B" = "#CD3278")) + 
   new_theme +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom") +
+  labs(title = "K-means clustering after PCA of BC data")
 
 
 # Plot coloured according to cluster (NB: MATCH COLORS OF CLUSTERS)
@@ -107,12 +103,10 @@ plot_k_pca_BC_overlap_cluster <- pca_aug_k_pca_BC_overlap %>%
 
 
 # Both plots together
-(plot_k_pca_BC_overlap_subtypes + plot_k_pca_BC_overlap_cluster) &
-  plot_annotation(plot_annotation(title = "K-means clustering after PCA of BC data"))
-
+plot_bar_PC_CumVar + (plot_k_pca_BC_overlap_subtypes / plot_k_pca_BC_overlap_cluster)
 
 # Save plot ---------------------------------------------------------------
-ggsave(file = "results/07_BC_overlap_PCA_Cluster.png",
+ggsave(file = "results/07_BC_overlap_PCA.png",
        width = 8.56, 
        height = 6.42, 
        dpi = 150)
