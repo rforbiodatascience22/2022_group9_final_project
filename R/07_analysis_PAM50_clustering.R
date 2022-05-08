@@ -90,13 +90,16 @@ plot_pca_org_cum <- pca_org %>%
   geom_col(fill = "turquoise3",
            alpha = 0.7) +
   labs(y = "Cumulative variance",
-       subtitle = "a) BC_data") +
+       subtitle = "a) Variance explained the PCs") +
   geom_hline(yintercept = 0.95,
              linetype = "dashed") +
   geom_text(aes(x = 8,
                 y = 0.94,
                 label = "95%",
                 vjust = -1)) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(labels = scales::percent_format(),
+                     expand = expansion(mult = c(0, 0.01))) +
   new_theme
 
 # Reduced version (PC 1 to 15 chosen for K-means)
@@ -106,28 +109,32 @@ plot_pca_red_cum <- pca_red %>%
   geom_col(fill = "turquoise3",
            alpha = 0.7) +
   labs(y = "Cumulative variance",
-       subtitle = "b) BC_data_PAM50") +
+       subtitle = "a) Variance explained the PCs") +
   geom_hline(yintercept = 0.95,
              linetype = "dashed") +
   geom_text(aes(x = 3,
                 y = 0.94,
                 label = "95%",
                 vjust = -1)) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(labels = scales::percent_format(),
+                     expand = expansion(mult = c(0, 0.01))) +
   new_theme
+  
 
 # Plot both
-(plot_pca_org_cum + plot_pca_red_cum) +
-  plot_layout(guides = 'collect') &
-  scale_x_continuous(expand = c(0, 0)) &
-  scale_y_continuous(labels = scales::percent_format(),
-                     expand = expansion(mult = c(0, 0.01))) &
-  plot_annotation(title = "Selecting the PCs that explain 95% of the variance")
+#(plot_pca_org_cum + plot_pca_red_cum) +
+#  plot_layout(guides = 'collect') &
+#  scale_x_continuous(expand = c(0, 0)) &
+#  scale_y_continuous(labels = scales::percent_format(),
+#                     expand = expansion(mult = c(0, 0.01))) &
+#  plot_annotation(title = "Selecting the PCs that explain 95% of the variance")
 
 # Save plot ---------------------------------------------------------------
-ggsave(file = "results/07_CumVar_Comparison.png",
-       width = 13, 
-       height = 5.5, 
-       dpi = 150)
+#ggsave(file = "results/07_CumVar_Comparison.png",
+#       width = 13, 
+#       height = 5.5, 
+#       dpi = 150)
 
 # K-means - Scatter plot -------------------------------------------------------
 
@@ -139,13 +146,14 @@ plot_pca_aug_k_org_subtypes <- pca_aug_k_org %>%
   geom_point() +
   labs(x = "PC1 (10.7%)",
        y = "PC2 (7.82%)",
-       color = "Subtype") +
+       color = "Subtype",
+       subtitle = "b) K-means clustering after PCA") +
   scale_color_manual(values = c("Basal-like" = "#00688B",
                                 "HER2-enriched" = "#00CD66",
                                 "Luminal A"="#FFA500",
                                 "Luminal B" = "#CD3278")) +
   new_theme +
-  theme(legend.position = "bottom")
+  theme(legend.position = "right")
 
 # Colored according to clusters (NB: WAY OF EXTRACTING PERCENTAGE OF PCA DIRECTLY?)
 plot_pca_aug_k_org_clusters <- pca_aug_k_org %>%
@@ -161,18 +169,18 @@ plot_pca_aug_k_org_clusters <- pca_aug_k_org %>%
                                 "3"="#00688B",
                                 "4" = "#00CD66")) +
   new_theme +
-  theme(legend.position = "bottom")
+  theme(legend.position = "right")
 
 # Plot of both
-(plot_pca_aug_k_org_subtypes + plot_pca_aug_k_org_clusters) &
-  plot_annotation(title = "K-means clustering after PCA of BC data")
+#(plot_pca_aug_k_org_subtypes + plot_pca_aug_k_org_clusters) &
+#  plot_annotation(title = "K-means clustering after PCA of BC data")
 
 
 # Save plot --------------------------------------------------------------------
-ggsave(file = "results/07_BC_data_K_means.png",
-       width = 10, 
-       height = 5.5, 
-       dpi = 150)
+#ggsave(file = "results/07_BC_data_K_means.png",
+#       width = 10, 
+#       height = 5.5, 
+#       dpi = 150)
 
 
 # Scatter plot reduced version (subtype)
@@ -183,13 +191,14 @@ plot_pca_aug_k_red_subtypes <- pca_aug_k_red %>%
   geom_point() +
   labs(x = "PC1 (34.9%)",
        y = "PC2 (12.7%)",
-       color = "Subtype") +
+       color = "Subtype",
+       subtitle = "b) K-means clustering after PCA") +
   scale_color_manual(values = c("Basal-like" = "#00688B",
                                 "HER2-enriched" = "#00CD66",
                                 "Luminal A"="#FFA500",
                                 "Luminal B" = "#CD3278")) +
   new_theme +
-  theme(legend.position = "bottom")
+  theme(legend.position = "right")
   
 
 # Scatter plot reduced version (cluster)
@@ -206,19 +215,45 @@ plot_pca_aug_k_red_cluster <- pca_aug_k_red %>%
                                 "3" = "#00688B",
                                 "4" = "#CD3278")) +
   new_theme +
-  theme(legend.position = "bottom")
+  theme(legend.position = "right")
 
 # Comparison of subtype and cluster (reduced version)
-(plot_pca_aug_k_red_subtypes + plot_pca_aug_k_red_cluster) &
-  plot_annotation(title = "K-means clustering after PCA for protein IDs common between PAM50 data and BC data")
+#(plot_pca_aug_k_red_subtypes + plot_pca_aug_k_red_cluster) &
+ # plot_annotation(title = "K-means clustering after PCA for protein IDs common between PAM50 data and BC data")
 
+# Cumulative variance and k-means clustering plots -----------------------------
 
+# Original data
+plot_pca_org_cum + 
+  (plot_pca_aug_k_org_subtypes/plot_pca_aug_k_org_clusters) + 
+  plot_annotation(title = "BC data")
 
-# Save plot ---------------------------------------------------------------
-ggsave(file = "results/07_BC_data_PAM50_reduced.png",
+ggsave(file = "results/07_BC_data_cumulative_kmeans.png",
        width = 10, 
        height = 5.5, 
        dpi = 150)
+
+# Reduced data
+plot_pca_red_cum + 
+  (plot_pca_aug_k_red_subtypes/plot_pca_aug_k_red_cluster) + 
+  plot_annotation(title = "Protein IDs common between PAM50 data and BC data")
+
+
+ggsave(file = "results/07_BC_data_PAM50_cumulative_kmeans.png",
+       width = 10, 
+       height = 5.5, 
+       dpi = 150)
+
+# Save plot ---------------------------------------------------------------
+#ggsave(file = "results/07_BC_data_PAM50_reduced.png",
+##       width = 10, 
+#       height = 5.5, 
+#       dpi = 150)
+
+#ggsave(file = "results/07_BC_data_PAM50_reduced.png",
+#       width = 10, 
+#       height = 5.5, 
+#       dpi = 150)
 
 
 # Comparison of match ----------------------------------------------------------
