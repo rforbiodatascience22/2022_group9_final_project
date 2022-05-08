@@ -27,10 +27,10 @@ library(knitr)
 - Results
 - Discussion
 
-## Introduction - Breast Cancer
+## Introduction
 
-- <font size="4"> Prevalence: 12% in women </font>
-- <font size="4"> Mortality rate: 2,7% </font>
+- <font size="4"> Prevalence: 12% in women (CITE) </font>
+- <font size="4"> Mortality rate: 2.7% (CITE) </font>
 - <font size="4"> Symptoms: little to no before it is widespread </font>
 - <font size="4"> 4 Tumor types: Vary in location, size, shape and severity </font>
 
