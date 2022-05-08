@@ -69,6 +69,8 @@ BC_data_PAM50_clean <- BC_data_clean %>%
 
 
 # Write data --------------------------------------------------------------
+write_csv(x = PAM50_clean,
+          file = "data/02_PAM50_clean.csv")
 write_csv(x = proteomes_clean,
           file = "data/02_proteomes_clean.csv")
 write_csv(x = BC_data_clean,
