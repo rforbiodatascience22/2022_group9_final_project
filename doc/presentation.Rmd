@@ -24,11 +24,11 @@ library(knitr)
 
 1. Introduction
 2. Materials and Methods
-   - Work chart
+   - <font size="4"> Work chart </font>
 3. Results
-   - Common proteins after GLM
-   - Original BC data
-   - Protein IDs common between PAM50 data and BC data
+   - <font size="4"> Common proteins after GLM </font>
+   - <font size="4"> Original BC data </font>
+   - <font size="4"> Protein IDs common between PAM50 data and BC data </font>
 4. Discussion
 
 ## Introduction
@@ -45,7 +45,7 @@ library(knitr)
 
 ## Aim
 
-<font size="4"> In this project we will investigate whether it is possible to detect and correctly classify the 4 breast cancer subtypes using different sets of protein expression data and compare the results of the classification.</font>
+In this project we will investigate whether it is possible to detect and correctly classify the 4 breast cancer subtypes using different sets of protein expression data and compare the results of the classification.
 
 
 ## Materials and Methods
@@ -79,8 +79,8 @@ library(knitr)
 ![](../results/06_BC_overlap_PCA.png){width=99%}
 </right>
 
-- <font size="4"> The first 17 PCs were chosen for clustering. </font>
-- <font size="4"> Cluster distributions are not similar to subtype distributions. </font>
+- <font size="4"> The first 17 PCs were chosen for clustering </font>
+- <font size="4"> Cluster distributions are not similar to subtype distributions </font>
 - <font size="4"> Accuracy of plot: 16.9% </font>
 
 
@@ -106,7 +106,10 @@ library(knitr)
 ## Discussion
 
 - Best performer: PAM50
-- Instead of common genes then unique genes
-- Method very reproducible
+   - <font size="4"> Only 26 out of 100 protein IDs used </font>
+- Only considering the common genes instead of e.g. the unique genes
+- Improvements
+   - <font size="4"> Cluster Luminal-A and Luminal-B together </font>
+- Reproducible method
 
 
