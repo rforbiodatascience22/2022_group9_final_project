@@ -17,10 +17,10 @@ patients  <- read_csv(file = "data/01_patients.csv")
 # Visualise data ----------------------------------------------------------
 
 # Box plot of the age of diagnosis for the different subtypes 
-p_AVC1 <- ggplot(data = patients,
-                 mapping = aes(x = `PAM50 mRNA`,
-                               y = `Age at Initial Pathologic Diagnosis`,
-                               fill = `Vital Status`)) +
+p_AVC1 <- patients %>% 
+  ggplot(mapping = aes(x = `PAM50 mRNA`,
+                       y = `Age at Initial Pathologic Diagnosis`,
+                       fill = `Vital Status`)) +
   geom_boxplot(alpha = 0.5) +
   expand_limits(y = c(0, NA)) + 
   new_theme + 
@@ -29,8 +29,8 @@ p_AVC1 <- ggplot(data = patients,
   
 
 # Bar plot of vital state of breast cancer patients for different subtypes
-p_AVC2 <- ggplot(data = patients,
-       mapping = aes(x = `PAM50 mRNA`)) +
+p_AVC2 <-patients %>% 
+  ggplot(mapping = aes(x = `PAM50 mRNA`)) +
   geom_bar(mapping = aes(fill = `Vital Status`),
            width = 0.6,
            alpha = 0.5) +
