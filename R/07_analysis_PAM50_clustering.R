@@ -4,6 +4,7 @@ library("broom")
 library("purrr")
 library("vroom")
 library("cowplot")
+rm(list = ls())
 
 # Define functions -------------------------------------------------------------
 source(file = "./R/99_project_functions.R")
@@ -38,6 +39,7 @@ pca_red_aug <- pca_red %>%
 # K-means analysis -------------------------------------------------------------
 
 # ***** For full BC_data set *****
+
 # Extract the maximum PC that explain 95% of the cumulative variance
 max_PC_org <- pca_org %>%
   tidy("pcs") %>% 
@@ -58,8 +60,8 @@ pca_aug_k_org <- k_org %>%
   rename(cluster_org = .cluster)
 
 
-
 # ***** For PAM50 version *****
+
 # Extract the maximum PC that explain 95% of the cumulative variance
 max_PC_red <- pca_red %>%
   tidy("pcs") %>% 
@@ -79,8 +81,6 @@ pca_aug_k_red <- k_red %>%
   augment(pca_red_aug) %>% 
   rename(cluster_red = .cluster)
 
-
-
 # Visualizing the cumulative variance  -----------------------------------------
 
 # For full BC_data set (PC 1 to 64 selected for K-means)
@@ -96,7 +96,8 @@ plot_pca_org_cum <- pca_org %>%
   geom_text(aes(x = 8,
                 y = 0.95,
                 label = "95%",
-                vjust = -1))
+                vjust = -1)) +
+  new_theme
 
 # Reduced version (PC 1 to 15 chosen for K-means)
 plot_pca_red_cum <- pca_red %>%
@@ -111,28 +112,22 @@ plot_pca_red_cum <- pca_red %>%
   geom_text(aes(x = 3,
                 y = 0.95,
                 label = "95%",
-                vjust = -1))
+                vjust = -1)) +
+  new_theme
 
 # Plot both
-plot_pca_org_cum + 
-  plot_pca_red_cum +
+(plot_pca_org_cum + plot_pca_red_cum) +
   plot_layout(guides = 'collect') &
   scale_x_continuous(expand = c(0, 0)) &
   scale_y_continuous(labels = scales::percent_format(),
                      expand = expansion(mult = c(0, 0.01))) &
-  theme_half_open(12) &
-  theme(text = element_text(family = "Avenir",
-                            size = 12))
-
-# change title and 95% placement ^^^^
+  plot_annotation(title = "Selecting the PCs that explain 95% of the variance")
 
 # Save plot ---------------------------------------------------------------
 ggsave(file = "results/07_CumVar_Comparison.png",
        width = 8.96, 
        height = 5.42, 
        dpi = 150)
-
-
 
 # K-means - Scatter plot -------------------------------------------------------
 
@@ -149,12 +144,8 @@ plot_pca_aug_k_org_subtypes <- pca_aug_k_org %>%
                                 "HER2-enriched" = "#00CD66",
                                 "Luminal A"="#FFA500",
                                 "Luminal B" = "#CD3278")) +
-  theme_half_open(12) +
-  theme(legend.title = element_text(size = 10),
-        legend.text = element_text(size = 8),
-        legend.position = "bottom",
-        text = element_text(family = "Avenir",
-                            size = 12))
+  new_theme +
+  theme(legend.position = "bottom")
 
 # Colored according to clusters (NB: WAY OF EXTRACTING PERCENTAGE OF PCA DIRECTLY?)
 plot_pca_aug_k_org_clusters <- pca_aug_k_org %>%
@@ -169,12 +160,8 @@ plot_pca_aug_k_org_clusters <- pca_aug_k_org %>%
                                 "2" = "#FFA500",
                                 "3"="#00688B",
                                 "4" = "#00CD66")) +
-  theme_half_open(12) +
-  theme(legend.title = element_text(size = 10),
-        legend.text = element_text(size = 8),
-        legend.position = "bottom",
-        text = element_text(family = "Avenir",
-                            size = 12))
+  new_theme +
+  theme(legend.position = "bottom")
 
 # Plot of both
 (plot_pca_aug_k_org_subtypes + plot_pca_aug_k_org_clusters) &
@@ -183,8 +170,8 @@ plot_pca_aug_k_org_clusters <- pca_aug_k_org %>%
 
 # Save plot --------------------------------------------------------------------
 ggsave(file = "results/07_BC_data_K_means.png",
-       width = 8.56, 
-       height = 6.42, 
+       width = 10, 
+       height = 5.5, 
        dpi = 150)
 
 
@@ -201,12 +188,8 @@ plot_pca_aug_k_red_subtypes <- pca_aug_k_red %>%
                                 "HER2-enriched" = "#00CD66",
                                 "Luminal A"="#FFA500",
                                 "Luminal B" = "#CD3278")) +
-  theme_half_open(12) +
-  theme(legend.title = element_text(size = 10),
-        legend.text = element_text(size = 8),
-        legend.position = "bottom",
-        text = element_text(family = "Avenir",
-                            size = 12))
+  new_theme +
+  theme(legend.position = "bottom")
   
 
 # Scatter plot reduced version (cluster)
@@ -222,23 +205,19 @@ plot_pca_aug_k_red_cluster <- pca_aug_k_red %>%
                                 "2" = "#00CD66",
                                 "3" = "#00688B",
                                 "4" = "#CD3278")) +
-  theme_half_open(12) +
-  theme(legend.title = element_text(size = 10),
-        legend.text = element_text(size = 8),
-        legend.position = "bottom",
-        text = element_text(family = "Avenir",
-                            size = 12))
+  new_theme +
+  theme(legend.position = "bottom")
 
 # Comparison of subtype and cluster (reduced version)
 (plot_pca_aug_k_red_subtypes + plot_pca_aug_k_red_cluster) &
-  plot_annotation(title = "K-means clustering after PCA for protein IDs common betwwen PAM50 data and BC data")
+  plot_annotation(title = "K-means clustering after PCA for protein IDs common between PAM50 data and BC data")
 
 
 
 # Save plot ---------------------------------------------------------------
 ggsave(file = "results/07_BC_data_PAM50_reduced.png",
-       width = 8.56, 
-       height = 6.42, 
+       width = 10, 
+       height = 5.5, 
        dpi = 150)
 
 
