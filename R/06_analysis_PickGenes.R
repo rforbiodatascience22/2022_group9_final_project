@@ -178,6 +178,7 @@ pl4 <- ggplot(data = BC_data_clean_aug %>%
   labs(title = "Luminal B")
 
 # Rename plot names to more specific ^^^ plt1 ...
+# edit legend: only 1 and modify range -7.5:6
 
 # Overlap gene expression heatmap for all subtypes
 (pl1+pl2)/(pl3+pl4) +
@@ -186,7 +187,7 @@ pl4 <- ggplot(data = BC_data_clean_aug %>%
 # Save plot --------------------------------------------------------------------
 ggsave(file = "results/06_subtype_heatmap.png",
        width = 10, 
-       height = 7, 
+       height = 7.5, 
        dpi = 150)
 
 

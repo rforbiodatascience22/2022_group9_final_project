@@ -15,7 +15,6 @@ BC_overlap_genes <- read.csv('results/06_BC_overlap_genes.csv')
 
 
 # PCA analysis -----------------------------------------------------------------
-
 pca_BC_overlap <- BC_overlap_genes %>% 
   select(-PAM50.mRNA) %>% 
   prcomp(center = TRUE, scale. = TRUE)
@@ -26,6 +25,7 @@ pca_BC_overlap_aug <- pca_BC_overlap %>%
 
 
 # POSSIBLE TO FIND THE 1:17 by setting some sort of condition instead??
+# Yi Huang knows a way ^^
 set.seed(7)
 
 # K-means analysis -------------------------------------------------------------
@@ -62,6 +62,8 @@ pca_BC_overlap %>%
   theme_half_open(12) +
   theme(text = element_text(family = "Avenir",
                             size = 12))
+
+# change title ^^^
 
 # Save plot ---------------------------------------------------------------
 ggsave(file = "results/07_BC_overlap_PCvariance.png",
@@ -118,6 +120,10 @@ ggsave(file = "results/07_BC_overlap_PCA_Cluster.png",
        height = 6.42, 
        dpi = 150)
 
+# cluster colors ^^^ match up with subtypes --> does it match?
+# change title
+# title format the same as all of the plot (either change this or the others)
+
 
 # The accuracy of the predictions ????? ----------------------------------------
 pca_aug_k_pca_BC_overlap %>% 
@@ -133,4 +139,6 @@ pca_aug_k_pca_BC_overlap %>%
 
 # Calculate BSS/TSS ratio
 k_pca_BC_overlap$betweenss/k_pca_BC_overlap$totss
+
+#Base R ^^^^
 
