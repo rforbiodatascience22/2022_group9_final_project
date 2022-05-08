@@ -66,21 +66,14 @@ We are investigating whether the 4 subtypes can be detected and classified corre
 
 ![](../results/06_BC_overlap_PCA.png){width=99%}
 
-## Results: 1
+## Results: Original BC data
 
 ![](../results/07_BC_data_cumulative_kmeans.png){width=85%}
 
-## Results: PCA of PAM50 
+## Results: Common protein IDs between PAM50 and BC data
 
 ![](../results/07_BC_data_PAM50_cumulative_kmeans.png){width=99%}
 
-## Results: 2
-
-![](../results/07_BC_data_K_means.png){width=85%}
-
-## Results: PCA of PAM50 genes
-
-![](../results/07_BC_data_PAM50_reduced.png){width=85%}
 
 ## Discussion
 
