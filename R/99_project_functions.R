@@ -29,3 +29,10 @@ subtype_glm <- function(subtype, BC_data){
            identified_as = as.factor(identified_as))
   return(result)
 }
+
+
+new_theme <- theme_half_open(12) +
+  theme(legend.title = element_text(size = 10),
+        legend.text = element_text(size = 8),
+        text = element_text(family = "Avenir",
+                            size = 12))
