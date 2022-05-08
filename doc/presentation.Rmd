@@ -93,8 +93,6 @@ The raw datasets:
 
 ![](../results/07_BC_data_PAM50_reduced.png){width=85%}
 
-![](../results/pam50_pca.png){width=85%}
-
 ## Discussion
 
 - Data lacks non cancer cases.
