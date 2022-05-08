@@ -152,7 +152,7 @@ plot_pca_aug_k_org_clusters <- pca_aug_k_org %>%
 # Plot of both
 (plot_pca_aug_k_org_subtypes/plot_pca_aug_k_org_clusters) &
   theme_half_open(12) &
-  plot_annotation(title = "BC_data",
+  plot_annotation(title = "Full breast cancer data",
                   theme = theme(plot.title = element_text(size = 14))) &
   theme(legend.title = element_text(size = 10),
         legend.text = element_text(size = 8),
@@ -201,7 +201,7 @@ plot_pca_aug_k_red_cluster <- pca_aug_k_red %>%
 # Comparison of subtype and cluster (reduced version)
 (plot_pca_aug_k_red_subtypes/plot_pca_aug_k_red_cluster) &
   theme_half_open(12) &
-  plot_annotation(title = "BC_data_PAM50",
+  plot_annotation(title = "Common protein IDs between breast cancer data and PAM50",
                   theme = theme(plot.title = element_text(size = 14))) &
   theme(legend.title = element_text(size = 10),
         legend.text = element_text(size = 8),
