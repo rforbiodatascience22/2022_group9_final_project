@@ -42,7 +42,7 @@ pca_red_aug <- pca_red %>%
 
 # ***** For full BC_data set *****
 
-# Extract the variance explained by PC1 and PC2
+# Extract the number of PCs that explain 95% of the cumulative variance
 max_PC_org <- pca_org %>%
   tidy("pcs") %>% 
   filter(cumulative <= 0.96) %>% 
@@ -61,10 +61,9 @@ pca_aug_k_org <- k_org %>%
   augment(pca_org_aug) %>% 
   rename(cluster_org = .cluster)
 
-
 # ***** For PAM50 version *****
 
-# Extract the maximum PC that explain 95% of the cumulative variance
+# Extract the number of PCs that explain 95% of the cumulative variance
 max_PC_red <- pca_red %>%
   tidy("pcs") %>% 
   filter(cumulative <= 0.96) %>% 
@@ -85,7 +84,8 @@ pca_aug_k_red <- k_red %>%
 
 # Plots of the cumulative variance  --------------------------------------------
 
-# For full BC_data set
+# ***** For full BC_data set *****
+
 plot_pca_org_cum <- pca_org %>%
   tidy("pcs") %>%
   ggplot(aes(PC, cumulative)) +
@@ -104,7 +104,9 @@ plot_pca_org_cum <- pca_org %>%
                      expand = expansion(mult = c(0, 0.01))) +
   new_theme
 
-# Reduced version
+
+# ***** For PAM50 version *****
+
 plot_pca_red_cum <- pca_red %>%
   tidy("pcs") %>%
   ggplot(aes(PC, cumulative)) +
@@ -125,7 +127,9 @@ plot_pca_red_cum <- pca_red %>%
 
 # K-means - Scatter plot -------------------------------------------------------
 
-# Extract PC1 and PC2 for full data
+# ***** For full BC_data set *****
+
+# Extract the variance (%) explained by PC1 and PC2
 org_pc1 <- pca_org %>%
   tidy("pcs") %>% 
   filter(PC == 1) %>% 
@@ -140,7 +144,7 @@ org_pc2 <- pca_org %>%
                          digits = 1)) %>% 
   pull(percent) 
 
-# Original data (colored according to PAM50 mRNA)
+# Scatter plot colored according to subtype
 plot_pca_aug_k_org_subtypes <- pca_aug_k_org %>%
   ggplot(aes(x = .fittedPC1, 
              y = .fittedPC2, 
@@ -157,7 +161,7 @@ plot_pca_aug_k_org_subtypes <- pca_aug_k_org %>%
   new_theme +
   theme(legend.position = "right")
 
-# Colored according to clusters (NB: WAY OF EXTRACTING PERCENTAGE OF PCA DIRECTLY?)
+# Scatterplot colored according to clusters
 plot_pca_aug_k_org_clusters <- pca_aug_k_org %>%
   ggplot(aes(x = .fittedPC1, 
              y = .fittedPC2, 
@@ -174,9 +178,9 @@ plot_pca_aug_k_org_clusters <- pca_aug_k_org %>%
   theme(legend.position = "right")
 
 
+# ***** For PAM50 version *****
 
-
-# Extract PC1 and PC2 values for reduced data
+# Extract the variance (%) explained by PC1 and PC2
 red_pc1 <- pca_red %>%
   tidy("pcs") %>% 
   filter(PC == 1) %>% 
@@ -191,7 +195,7 @@ red_pc2 <- pca_red %>%
                          digits = 1)) %>% 
   pull(percent) 
 
-# Scatter plot reduced version (subtype)
+# Scatter plot colored according to subtype
 plot_pca_aug_k_red_subtypes <- pca_aug_k_red %>%
   ggplot(aes(x = .fittedPC1, 
              y = .fittedPC2, 
@@ -209,7 +213,7 @@ plot_pca_aug_k_red_subtypes <- pca_aug_k_red %>%
   theme(legend.position = "right")
   
 
-# Scatter plot reduced version (cluster)
+# Scatterplot colored according to clusters
 plot_pca_aug_k_red_cluster <- pca_aug_k_red %>%
   ggplot(aes(x = .fittedPC1, 
              y = .fittedPC2, 
@@ -227,7 +231,8 @@ plot_pca_aug_k_red_cluster <- pca_aug_k_red %>%
 
 # Cumulative variance and k-means clustering plots -----------------------------
 
-# Original data
+# ***** For full BC_data set *****
+
 plot_pca_org_cum + 
   (plot_pca_aug_k_org_subtypes/plot_pca_aug_k_org_clusters)
 
@@ -236,7 +241,8 @@ ggsave(file = "results/07_BC_data_cumulative_kmeans.png",
        height = 5, 
        dpi = 150)
 
-# Reduced data
+# ***** For PAM50 version *****
+
 plot_pca_red_cum + 
   (plot_pca_aug_k_red_subtypes/plot_pca_aug_k_red_cluster)
 
@@ -246,9 +252,10 @@ ggsave(file = "results/07_BC_data_PAM50_cumulative_kmeans.png",
        height = 5, 
        dpi = 150)
 
-# Comparison of match ----------------------------------------------------------
+# Comparison of match (accuracy) -----------------------------------------------
 
-# Original data
+# ***** For full BC_data set *****
+
 pca_aug_k_org %>%
   select(`PAM50 mRNA`, 
          cluster_org) %>%
@@ -260,7 +267,8 @@ pca_aug_k_org %>%
                                          `PAM50 mRNA` != cluster_org ~ 0)) %>% 
   summarise(score_pca_org = mean(cluster_pca_correct))
 
-# Reduced data
+# ***** For PAM50 version *****
+
 pca_aug_k_red %>%
   select(`PAM50 mRNA`, 
          cluster_red) %>%
