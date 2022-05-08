@@ -10,15 +10,46 @@ source(file = "R/99_project_functions.R")
 
 
 # Load data --------------------------------------------------------------------
-BC_data_clean_aug   <- read_csv(file = "data/03_BC_data_clean_aug.csv")
+BC_data_clean_aug <- read_csv(file = "data/03_BC_data_clean_aug.csv")
 
 
 # Model data -------------------------------------------------------------------
-# Making four different logistic models for each of the subtypes
-LumA_glm <- subtype_glm("Luminal_A", BC_data_clean_aug)
-LumB_glm <- subtype_glm("Luminal_B", BC_data_clean_aug)
-Her2_glm <- subtype_glm("HER2_enriched", BC_data_clean_aug)
-Basal_glm <- subtype_glm("Basal_like", BC_data_clean_aug)
+# Make/Load 4 different logistic models for each subtype
+if (!file.exists("results/05_LumA_glm.csv")){
+  LumA_glm <- subtype_glm("Luminal_A", BC_data_clean_aug)
+  # Save data
+  write_csv(LumA_glm,
+            file = "results/05_LumA_glm.csv")
+}else{
+  LumA_glm <- read_csv("results/05_LumA_glm.csv")
+}
+
+if (!file.exists("results/05_LumA_glm.csv")){
+  LumB_glm <- subtype_glm("Luminal_B", BC_data_clean_aug)
+  # Save data
+  write_csv(LumB_glm,
+            file = "results/05_LumB_glm.csv")
+}else{
+  LumB_glm <- read_csv("results/05_LumB_glm.csv")
+}
+
+if (!file.exists("results/05_LumA_glm.csv")){
+  Her2_glm <- subtype_glm("HER2_enriched", BC_data_clean_aug)
+  # Save data
+  write_csv(Her2_glm,
+            file = "results/05_Her2_glm.csv")
+}else{
+  Her2_glm <- read_csv("results/05_Her2_glm.csv")
+}
+
+if (!file.exists("results/05_LumA_glm.csv")){
+  Basal_glm <- subtype_glm("Basal_like", BC_data_clean_aug)
+  # Save data
+  write_csv(Basal_glm,
+            file = "results/05_Basal_glm.csv") 
+}else{
+  Basal_glm <- read_csv("results/05_Basal_glm.csv")
+}
 
 
 # Wrangle data -----------------------------------------------------------------
@@ -37,50 +68,12 @@ significant_proteins <- list(
     filter(identified_as == "significant") %>% 
     pull(proteome))
 
-# something seems to be deleted ^^ does it work??
 
-
-# Visualize data ------------------------------------------------------------
-# Venn diagram 
-significant_proteins %>% 
-  ggvenn()
-
-# Save plot --------------------------------------------------------------------
-ggsave(file = "results/06_venndiagram.png",
-       width = 10, 
-       height = 7, 
-       dpi = 150)
-
-
-# Wrangle data -----------------------------------------------------------------
 # Find overlapping proteins
 overlap_pro <- intersect(intersect(intersect(significant_proteins[["Basal"]], 
                                              significant_proteins[["Her2"]]), 
                                    significant_proteins[["LumA"]]),
                          significant_proteins[["LumB"]])
-
-# Is there a way to do this not using base R? ^^^
-
-# Find unique proteins (MIGHT DELETE)
-Basal_unique <- setdiff(setdiff(setdiff(significant_proteins[["Basal"]],
-                                significant_proteins[["Her2"]]),
-                        significant_proteins[["LumA"]]),
-                        significant_proteins[["LumB"]]) #959
-
-Her2_unique <- setdiff(setdiff(setdiff(significant_proteins[["Her2"]],
-                                       significant_proteins[["Basal"]]),
-                                significant_proteins[["LumA"]]),
-                        significant_proteins[["LumB"]]) #639
-
-LumA_unique <- setdiff(setdiff(setdiff(significant_proteins[["LumA"]],
-                                       significant_proteins[["Basal"]]),
-                               significant_proteins[["Her2"]]),
-                       significant_proteins[["LumB"]]) #618
-
-LumB_unique <- setdiff(setdiff(setdiff(significant_proteins[["LumB"]],
-                                       significant_proteins[["Basal"]]),
-                               significant_proteins[["LumA"]]),
-                       significant_proteins[["Her2"]]) #460
 
 
 # Build new data frame for overlap proteins
@@ -89,6 +82,17 @@ BC_overlap_genes <- BC_data_clean_aug %>%
          `PAM50 mRNA`)
 
 # Visualize data ------------------------------------------------------------
+# Venn diagram 
+significant_proteins %>% 
+  ggvenn()
+
+# Save plot -----------------------------------
+ggsave(file = "results/06_venndiagram.png",
+       width = 10, 
+       height = 7, 
+       dpi = 150)
+
+
 # Overlap gene expression heatmap for Basal like subtype
 pl1 <- ggplot(data = BC_data_clean_aug %>% 
          filter(Basal_like == 1) %>% 
@@ -184,7 +188,7 @@ pl4 <- ggplot(data = BC_data_clean_aug %>%
 (pl1+pl2)/(pl3+pl4) +
   plot_annotation(title = "Protein Expression of 24 common signigicant genes")
 
-# Save plot --------------------------------------------------------------------
+# Save plot -----------------------------------
 ggsave(file = "results/06_subtype_heatmap.png",
        width = 10, 
        height = 7.5, 
