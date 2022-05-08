@@ -2,7 +2,8 @@
 This repository is for the final project of course 22100 by Group 9
 
 ## Introduction 
-This project aims to ...
+This project aims to investigate whether 4 Breast Cancer subtypes can be detected and classified correctly by the gene expression Using the proteomic data. Analyzes used are GLM, PCA and K-means.
+
 
 ## Project Structure
 **data:**
