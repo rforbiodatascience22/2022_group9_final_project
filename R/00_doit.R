@@ -1,5 +1,4 @@
 # Run all scripts ---------------------------------------------------------
-source(file = "R/00_doit.R")
 source(file = "R/01_load.R")
 source(file = "R/02_clean.R")
 source(file = "R/03_augment.R")
