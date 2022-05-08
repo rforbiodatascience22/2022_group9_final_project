@@ -54,17 +54,27 @@ We are investigating whether the 4 subtypes can be detected and classified corre
 ** take a look at **
 
 
-## Results: Common genes after GLM
+## Results: Common proteins after GLM
+- Still found 1000 more significant proteins in each subtype after `glm()`
+- `ggvenn()`
+- Only 24 significant proteins were founded in all 4 subtypes
 
-![](../results/05_venndiagram.png){width=99%}
+![](../doc/images/Venndiagram_screenshot.png){width=70%}
 
-## Results: Common genes after GLM
+## Results: Common proteins after GLM
+- LumA and B look more similar, while Basal and Her2 look more similar.
+- Within each heat map, protein expression levels between each patient are also similar.
 
-![](../results/05_subtype_heatmap.png){width=99%}
+![](../results/05_subtype_heatmap.png){width=85%}
 
-## Results: PCA of Common genes after GLM
+## Results: Common Protein BC Data
+- The first 17 PCs were chosen for clustering.
+- Cluster distributions are not similar to subtype distributions.
+- Accuracy: 16.9%
 
-![](../results/06_BC_overlap_PCA.png){width=99%}
+<right>
+![](../results/06_BC_overlap_PCA.png){width=82%}
+</right>
 
 ## Results: Original BC data
 
