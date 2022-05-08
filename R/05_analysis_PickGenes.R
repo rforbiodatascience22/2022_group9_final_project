@@ -87,14 +87,14 @@ significant_proteins %>%
   ggvenn()
 
 # Save plot -----------------------------------
-ggsave(file = "results/06_venndiagram.png",
+ggsave(file = "results/05_venndiagram.png",
        width = 10, 
        height = 7, 
        dpi = 150)
 
 
 # Overlap gene expression heatmap for Basal like subtype
-pl1 <- ggplot(data = BC_data_clean_aug %>% 
+Basal_pl1 <- ggplot(data = BC_data_clean_aug %>% 
          filter(Basal_like == 1) %>% 
          select(`Complete TCGA ID`,
                 c(overlap_pro)) %>% 
@@ -110,13 +110,13 @@ pl1 <- ggplot(data = BC_data_clean_aug %>%
                        mid = "white",
                        high = "red") +
   theme_classic(base_size = 8) +
-  theme(legend.position = "bottom",
+  theme(legend.position = "none",
         axis.text.x = element_text(angle = 45,
                                    hjust = 1)) +
   labs(title = "Basal-like")
 
 # Overlap gene expression heatmap for HER2 enriched subtype
-pl2 <- ggplot(data = BC_data_clean_aug %>% 
+Her2_pl2 <- ggplot(data = BC_data_clean_aug %>% 
                 filter(HER2_enriched == 1) %>% 
                 select(`Complete TCGA ID`,
                        c(overlap_pro)) %>% 
@@ -132,13 +132,14 @@ pl2 <- ggplot(data = BC_data_clean_aug %>%
                        mid = "white",
                        high = "red") +
   theme_classic(base_size = 8) +
-  theme(legend.position = "bottom",
+  theme(legend.position = "right",
         axis.text.x = element_text(angle = 45,
                                    hjust = 1)) +
-  labs(title = "Her2-enriched")
+  labs(title = "Her2-enriched",
+       fill = "Expression level")
 
 # Overlap gene expression heatmap for Luminal A subtype
-pl3 <- ggplot(data = BC_data_clean_aug %>% 
+LumA_pl3 <- ggplot(data = BC_data_clean_aug %>% 
                 filter(Luminal_A == 1) %>% 
                 select(`Complete TCGA ID`,
                        c(overlap_pro)) %>% 
@@ -154,13 +155,13 @@ pl3 <- ggplot(data = BC_data_clean_aug %>%
                        mid = "white",
                        high = "red") +
   theme_classic(base_size = 8) +
-  theme(legend.position = "bottom",
+  theme(legend.position = "none",
         axis.text.x = element_text(angle = 45,
                                    hjust = 1)) +
   labs(title = "Luminal A")
 
 # Overlap gene expression heatmap for Luminal B subtype
-pl4 <- ggplot(data = BC_data_clean_aug %>% 
+LumB_pl4 <- ggplot(data = BC_data_clean_aug %>% 
                 filter(Luminal_B == 1) %>% 
                 select(`Complete TCGA ID`,
                        c(overlap_pro)) %>% 
@@ -176,7 +177,7 @@ pl4 <- ggplot(data = BC_data_clean_aug %>%
                        mid = "white",
                        high = "red") +
   theme_classic(base_size = 8) +
-  theme(legend.position = "bottom",
+  theme(legend.position = "none",
         axis.text.x = element_text(angle = 45,
                                    hjust = 1)) +
   labs(title = "Luminal B")
@@ -185,11 +186,11 @@ pl4 <- ggplot(data = BC_data_clean_aug %>%
 # edit legend: only 1 and modify range -7.5:6
 
 # Overlap gene expression heatmap for all subtypes
-(pl1+pl2)/(pl3+pl4) +
+(Basal_pl1+Her2_pl2)/(LumA_pl3+LumB_pl4) +
   plot_annotation(title = "Protein Expression of 24 common signigicant genes")
 
 # Save plot -----------------------------------
-ggsave(file = "results/06_subtype_heatmap.png",
+ggsave(file = "results/05_subtype_heatmap.png",
        width = 10, 
        height = 7.5, 
        dpi = 150)
