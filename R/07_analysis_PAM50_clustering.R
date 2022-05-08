@@ -227,23 +227,21 @@ plot_pca_aug_k_red_cluster <- pca_aug_k_red %>%
 
 # Original data
 plot_pca_org_cum + 
-  (plot_pca_aug_k_org_subtypes/plot_pca_aug_k_org_clusters) + 
-  plot_annotation(title = "BC data")
+  (plot_pca_aug_k_org_subtypes/plot_pca_aug_k_org_clusters)
 
 ggsave(file = "results/07_BC_data_cumulative_kmeans.png",
-       width = 10, 
-       height = 6.25, 
+       width = 12, 
+       height = 5, 
        dpi = 150)
 
 # Reduced data
 plot_pca_red_cum + 
-  (plot_pca_aug_k_red_subtypes/plot_pca_aug_k_red_cluster) + 
-  plot_annotation(title = "Protein IDs common between PAM50 data and BC data")
+  (plot_pca_aug_k_red_subtypes/plot_pca_aug_k_red_cluster)
 
 
 ggsave(file = "results/07_BC_data_PAM50_cumulative_kmeans.png",
-       width = 10, 
-       height = 6.25, 
+       width = 12, 
+       height = 5, 
        dpi = 150)
 
 # Comparison of match ----------------------------------------------------------

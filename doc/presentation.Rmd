@@ -79,7 +79,7 @@ We are investigating whether the 4 subtypes can be detected and classified corre
 
 ## Results - Original BC data
 
-![](../results/07_BC_data_cumulative_kmeans.png){width=85%}
+![](../results/07_BC_data_cumulative_kmeans.png){width=99%}
 
 - <font size="4"> Number of PCA reduced from 77 to 65 </font>
 - <font size="4"> No clear patterns </font>
@@ -87,14 +87,13 @@ We are investigating whether the 4 subtypes can be detected and classified corre
 - <font size="4"> Accuracy of plot: 36.4% </font>
 
 
-## Results: Common protein IDs between PAM50 and BC data
+## Results - Protein IDs common between PAM50 data and BC data
 
 
 ![](../results/07_BC_data_PAM50_cumulative_kmeans.png){width=99%}
 
 - <font size="4"> Number of PCA reduced from 26 to 15 </font>
 - <font size="4"> 1st PC explains a much higher variance (34.9% compared to 10.7%) </font>
-- <font size="4"> Clusters more separated </font>
 - <font size="4"> Accuracy of this exact plot: 48.1% </font>
 
 
