@@ -7,10 +7,11 @@ library("vroom")
 library("cowplot")
 rm(list = ls())
 
+# Define functions -------------------------------------------------------------
+source(file = "./R/99_project_functions.R")
 
 # Load data ----------------------------------------------------------------
 BC_overlap_genes <- read.csv('results/06_BC_overlap_genes.csv')
-
 
 # PCA analysis -----------------------------------------------------------------
 pca_BC_overlap <- BC_overlap_genes %>% 
@@ -20,14 +21,6 @@ pca_BC_overlap <- BC_overlap_genes %>%
 # Adding original data back
 pca_BC_overlap_aug <- pca_BC_overlap %>% 
   augment(BC_overlap_genes)
-
-
-new_theme <- theme_half_open(12) +
-  theme(legend.title = element_text(size = 10),
-        legend.text = element_text(size = 8),
-        text = element_text(family = "Avenir",
-                            size = 12))
-
 
 # K-means analysis -------------------------------------------------------------
 
@@ -49,7 +42,6 @@ pca_aug_k_pca_BC_overlap <- k_pca_BC_overlap %>%
   augment(pca_BC_overlap_aug) %>% 
   rename(cluster_pca_CommonGenes = .cluster)
 
-
 # Visualizing the cumulative variance  -----------------------------------------
 
 pca_BC_overlap %>%
@@ -68,10 +60,6 @@ pca_BC_overlap %>%
   scale_y_continuous(labels = scales::percent_format(),
                      expand = expansion(mult = c(0, 0.01))) +
   new_theme
-  
-#  theme_half_open(12) +
-#  theme(text = element_text(family = "Avenir",
- #                           size = 12))
 
 # change title ^^^
 
@@ -97,7 +85,8 @@ plot_k_pca_BC_overlap_subtypes <- pca_aug_k_pca_BC_overlap %>%
                                 "HER2-enriched" = "#00CD66",
                                 "Luminal A"="#FFA500",
                                 "Luminal B" = "#CD3278")) + 
-  new_theme
+  new_theme +
+  theme(legend.position = "bottom")
 
 
 # Plot coloured according to cluster (NB: MATCH COLORS OF CLUSTERS)
@@ -113,13 +102,14 @@ plot_k_pca_BC_overlap_cluster <- pca_aug_k_pca_BC_overlap %>%
                                 "2" = "#00CD66",
                                 "3" ="#FFA500",
                                 "4" = "#CD3278")) +
-  new_theme
+  new_theme +
+  theme(legend.position = "bottom")
 
 
 # Both plots together
-(plot_k_pca_BC_overlap_subtypes/plot_k_pca_BC_overlap_cluster) &
-  plot_annotation(title = "Common genes",
-                  theme = theme(plot.title = element_text(size = 14)))
+(plot_k_pca_BC_overlap_subtypes + plot_k_pca_BC_overlap_cluster) &
+  plot_annotation(plot_annotation(title = "K-means clustering after PCA of BC data"))
+
 
 # Save plot ---------------------------------------------------------------
 ggsave(file = "results/07_BC_overlap_PCA_Cluster.png",
