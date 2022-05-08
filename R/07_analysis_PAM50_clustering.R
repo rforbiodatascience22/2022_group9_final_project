@@ -123,14 +123,29 @@ plot_pca_red_cum <- pca_red %>%
 
 # K-means - Scatter plot -------------------------------------------------------
 
+# Extract PC1 and PC2 for full data
+org_pc1 <- pca_org %>%
+  tidy("pcs") %>% 
+  filter(PC == 1) %>% 
+  mutate(percent = round(percent * 100,
+                         digits = 1)) %>% 
+  pull(percent)
+
+org_pc2 <- pca_org %>%
+  tidy("pcs") %>% 
+  filter(PC == 2) %>% 
+  mutate(percent = round(percent * 100,
+                         digits = 1)) %>% 
+  pull(percent) 
+
 # Original data (colored according to PAM50 mRNA)
 plot_pca_aug_k_org_subtypes <- pca_aug_k_org %>%
   ggplot(aes(x = .fittedPC1, 
              y = .fittedPC2, 
              colour = `PAM50 mRNA`)) +
   geom_point() +
-  labs(x = "PC1 (10.7%)",
-       y = "PC2 (7.82%)",
+  labs(x = str_c("PC1 (", org_pc1, "%)"),
+       y = str_c("PC2 (", org_pc2, "%)"),
        color = "Subtype",
        subtitle = "b) K-means clustering after PCA") +
   scale_color_manual(values = c("Basal-like" = "#00688B",
@@ -146,8 +161,8 @@ plot_pca_aug_k_org_clusters <- pca_aug_k_org %>%
              y = .fittedPC2, 
              colour = cluster_org)) +
   geom_point() +
-  labs(x = "PC1 (10.7%)",
-       y = "PC2 (7.82%)",
+  labs(x = str_c("PC1 (", org_pc1, "%)"),
+       y = str_c("PC2 (", org_pc2, "%)"),
        color = "Cluster") +
   scale_color_manual(values = c("1" = "#CD3278",
                                 "2" = "#FFA500",
@@ -156,14 +171,32 @@ plot_pca_aug_k_org_clusters <- pca_aug_k_org %>%
   new_theme +
   theme(legend.position = "right")
 
+
+
+
+# Extract PC1 and PC2 values for reduced data
+red_pc1 <- pca_red %>%
+  tidy("pcs") %>% 
+  filter(PC == 1) %>% 
+  mutate(percent = round(percent * 100,
+                         digits = 1)) %>% 
+  pull(percent)
+
+red_pc2 <- pca_red %>%
+  tidy("pcs") %>% 
+  filter(PC == 2) %>% 
+  mutate(percent = round(percent * 100,
+                         digits = 1)) %>% 
+  pull(percent) 
+
 # Scatter plot reduced version (subtype)
 plot_pca_aug_k_red_subtypes <- pca_aug_k_red %>%
   ggplot(aes(x = .fittedPC1, 
              y = .fittedPC2, 
              colour = `PAM50 mRNA`)) +
   geom_point() +
-  labs(x = "PC1 (34.9%)",
-       y = "PC2 (12.7%)",
+  labs(x = str_c("PC1 (", red_pc1, "%)"),
+       y = str_c("PC2 (", red_pc2, "%)"),
        color = "Subtype",
        subtitle = "b) K-means clustering after PCA") +
   scale_color_manual(values = c("Basal-like" = "#00688B",
@@ -180,8 +213,8 @@ plot_pca_aug_k_red_cluster <- pca_aug_k_red %>%
              y = .fittedPC2, 
              colour = cluster_red)) +
   geom_point() +
-  labs(x = "PC1 (34.9%)",
-       y = "PC2 (12.7%)",
+  labs(x = str_c("PC1 (", red_pc1, "%)"),
+       y = str_c("PC2 (", red_pc2, "%)"),
        color = "Cluster") +
   scale_color_manual(values = c("1" = "#FFA500",
                                 "2" = "#00CD66",

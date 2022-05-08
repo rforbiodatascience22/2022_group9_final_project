@@ -65,6 +65,21 @@ plot_bar_PC_CumVar <- pca_BC_overlap %>%
 
 # K-means - Scatter plot -------------------------------------------------------
 
+# Extract PC1 and PC2 values
+pc1 <- pca_BC_overlap %>%
+  tidy("pcs") %>% 
+  filter(PC == 1) %>% 
+  mutate(percent = round(percent * 100,
+                         digits = 1)) %>% 
+  pull(percent)
+
+pc2 <- pca_BC_overlap %>%
+  tidy("pcs") %>% 
+  filter(PC == 2) %>% 
+  mutate(percent = round(percent * 100,
+                         digits = 1)) %>% 
+  pull(percent) 
+
 # Plot coloured according to subtypes
 plot_k_pca_BC_overlap_subtypes <- pca_aug_k_pca_BC_overlap %>% 
   ggplot(mapping = aes(x= .fittedPC1, 
@@ -72,8 +87,8 @@ plot_k_pca_BC_overlap_subtypes <- pca_aug_k_pca_BC_overlap %>%
                        colour = PAM50.mRNA)) + 
   geom_point() + 
   labs(subtitle = "b) K-means clustering after PCA",
-       x = "PC1 (43.1%)",
-       y = "PC2 (8.4%)",
+       x = str_c("PC1 (", pc1, "%)"),
+       y = str_c("PC2 (", pc2, "%)"),
        color = "Subtype") +
   scale_color_manual(values = c("Basal-like" = "#00688B",
                                 "HER2-enriched" = "#00CD66",
@@ -89,8 +104,8 @@ plot_k_pca_BC_overlap_cluster <- pca_aug_k_pca_BC_overlap %>%
                        y = .fittedPC2,
                        colour = cluster_pca_CommonGenes)) + 
   geom_point() + 
-  labs(x = "PC1 (43.1%)",
-       y = "PC2 (8.4%)",
+  labs(x = str_c("PC1 (", pc1, "%)"),
+       y = str_c("PC2 (", pc2, "%)"),
        color = "Cluster") +
   scale_color_manual(values = c("1" = "#00688B",
                                 "2" = "#CD3278",
