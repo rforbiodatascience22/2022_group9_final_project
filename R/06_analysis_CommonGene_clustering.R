@@ -22,6 +22,11 @@ pca_BC_overlap_aug <- pca_BC_overlap %>%
   augment(BC_overlap_genes)
 
 
+new_theme <- theme_half_open(12) +
+  theme(legend.title = element_text(size = 10),
+        legend.text = element_text(size = 8),
+        text = element_text(family = "Avenir",
+                            size = 12))
 
 
 # K-means analysis -------------------------------------------------------------
@@ -52,20 +57,21 @@ pca_BC_overlap %>%
   ggplot(aes(PC, cumulative)) +
   geom_col(fill = "turquoise3",
            alpha = 0.7) +
-  labs(y = "Cumulative variance",
-       subtitle = "BC_overlap_genes") +
+  labs(y = "Cumulative variance") +
   geom_hline(yintercept = 0.95,
              linetype = "dashed") +
-  geom_text(aes(x = 3,
-                y = 0.90,
+  geom_text(aes(x = 2,
+                y = 0.95,
                 label = "95%",
                 vjust = -1)) + 
   scale_x_continuous(expand = c(0, 0)) +
   scale_y_continuous(labels = scales::percent_format(),
                      expand = expansion(mult = c(0, 0.01))) +
-  theme_half_open(12) +
-  theme(text = element_text(family = "Avenir",
-                            size = 12))
+  new_theme
+  
+#  theme_half_open(12) +
+#  theme(text = element_text(family = "Avenir",
+ #                           size = 12))
 
 # change title ^^^
 
@@ -90,7 +96,8 @@ plot_k_pca_BC_overlap_subtypes <- pca_aug_k_pca_BC_overlap %>%
   scale_color_manual(values = c("Basal-like" = "#00688B",
                                 "HER2-enriched" = "#00CD66",
                                 "Luminal A"="#FFA500",
-                                "Luminal B" = "#CD3278"))
+                                "Luminal B" = "#CD3278")) + 
+  new_theme
 
 
 # Plot coloured according to cluster (NB: MATCH COLORS OF CLUSTERS)
@@ -105,18 +112,14 @@ plot_k_pca_BC_overlap_cluster <- pca_aug_k_pca_BC_overlap %>%
   scale_color_manual(values = c("1" = "#00688B",
                                 "2" = "#00CD66",
                                 "3" ="#FFA500",
-                                "4" = "#CD3278"))
+                                "4" = "#CD3278")) +
+  new_theme
 
 
 # Both plots together
 (plot_k_pca_BC_overlap_subtypes/plot_k_pca_BC_overlap_cluster) &
-  theme_half_open(12) &
   plot_annotation(title = "Common genes",
-                  theme = theme(plot.title = element_text(size = 14))) &
-  theme(legend.title = element_text(size = 10),
-        legend.text = element_text(size = 8),
-        text = element_text(family = "Avenir",
-                            size = 12))
+                  theme = theme(plot.title = element_text(size = 14)))
 
 # Save plot ---------------------------------------------------------------
 ggsave(file = "results/07_BC_overlap_PCA_Cluster.png",
