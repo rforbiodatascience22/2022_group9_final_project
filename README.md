@@ -6,10 +6,9 @@ Anne Rossen (s194687) and
 Synne Spjelkavik (s174526).
 
 ## Introduction 
-This project is based on a publicly available Breast Cancer proteomic dataset. We found the data through link:
-https://www.kaggle.com/code/jwlzdh1/classifying-predicting-breast-cancer-tumors
+This project is based on a publicly available Breast Cancer proteomic dataset. Link: https://www.nature.com/articles/nature18003
 
-The aim of the project is to investigate whether 4 Breast Cancer subtypes can be detected and classified correctly by the gene expression Using the proteomic data. Analyzes used are GLM, PCA and K-means.
+The aim of the project is to investigate whether it is possible to detect and correctly classify the 4 breast cancer subtypes using different sets of protein expression data and compare the results of the classification. Analyzes used are GLM, PCA and K-means.
 
 
 ## Project Structure
