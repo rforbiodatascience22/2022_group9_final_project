@@ -1,6 +1,5 @@
 # Load libraries ----------------------------------------------------------
 library("tidyverse")
-library("data.table") # check if we use this
 library("readr")
 
 

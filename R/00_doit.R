@@ -7,5 +7,6 @@ source(file = "R/05_analysis_glm.R")
 source(file = "R/06_analysis_PickGenes.R")
 source(file = "R/07_analysis_PAM50_clustering.R")
 
-# knit
+# Knit presentation
+rmarkdown::render(input = "/cloud/project/doc/presentation.Rmd")
 
