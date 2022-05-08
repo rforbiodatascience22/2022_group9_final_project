@@ -10,7 +10,7 @@ BC_data_clean   <- read_csv(file = "data/02_BC_data_clean.csv")
 
 # Wrangle data ------------------------------------------------------------
 
-# Modifying BC_data -Ccolumn: PAM50 mRNA  ##DOESNT WORK --> CREATES NA's###
+# Add binary variables
 BC_data_clean_aug <- BC_data_clean %>%
   mutate(Luminal_A = if_else(`PAM50 mRNA` == "Luminal A", 1, 0),
          Luminal_B = if_else(`PAM50 mRNA` == "Luminal B", 1, 0),
