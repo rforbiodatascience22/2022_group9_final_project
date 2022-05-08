@@ -58,31 +58,22 @@ We are investigating whether the 4 subtypes can be detected and classified corre
 
 ![](../results/05_venndiagram.png){width=99%}
 
-## Results: Gene expression profiling
+## Results: Common genes after GLM
 
 ![](../results/05_subtype_heatmap.png){width=99%}
 
-## Results: 1
+## Results: PCA of Common genes after GLM
 
 ![](../results/06_BC_overlap_PCA.png){width=99%}
 
-## Results: 1
+## Results: Original BC data
 
-![](../results/07_BC_overlap_PCA_Cluster.png){width=85%}
+![](../results/07_BC_data_cumulative_kmeans.png){width=85%}
 
-** Put 'results 1' plots together
+## Results: Common protein IDs between PAM50 and BC data
 
-## Results: 2
+![](../results/07_BC_data_PAM50_cumulative_kmeans.png){width=99%}
 
-![](../results/07_CumVar_Comparison.png){width=99%}
-
-## Results: 2
-
-![](../results/07_BC_data_K_means.png){width=85%}
-
-## Results: reduced version
-
-![](../results/07_BC_data_PAM50_reduced.png){width=85%}
 
 ## Discussion
 

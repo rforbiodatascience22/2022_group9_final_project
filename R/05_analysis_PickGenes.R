@@ -100,11 +100,12 @@ Basal_pl1 <- ggplot(data = BC_data_clean_aug %>%
        mapping = aes(x = `Complete TCGA ID`,
                      y = proteome,
                      fill = expr_level)) +
-  geom_tile(alpha = 0.5) +
+  geom_tile() +
   scale_fill_gradient2(midpoint = 0,
                        low = "blue",
                        mid = "white",
-                       high = "red") +
+                       high = "red",
+                       limits = c(-7.5, 6)) +
   theme_classic(base_size = 8) +
   theme(legend.position = "none",
         axis.text.x = element_text(angle = 45,
@@ -123,7 +124,7 @@ Her2_pl2 <- ggplot(data = BC_data_clean_aug %>%
               mapping = aes(x = `Complete TCGA ID`,
                             y = proteome,
                             fill = expr_level)) +
-  geom_tile(alpha = 0.5) +
+  geom_tile() +
   scale_fill_gradient2(midpoint = 0,
                        low = "blue",
                        mid = "white",
@@ -147,11 +148,12 @@ LumA_pl3 <- ggplot(data = BC_data_clean_aug %>%
               mapping = aes(x = `Complete TCGA ID`,
                             y = proteome,
                             fill = expr_level)) +
-  geom_tile(alpha = 0.5) +
+  geom_tile() +
   scale_fill_gradient2(midpoint = 0,
                        low = "blue",
                        mid = "white",
-                       high = "red") +
+                       high = "red",
+                       limits = c(-7.5, 6)) +
   theme_classic(base_size = 8) +
   theme(legend.position = "none",
         axis.text.x = element_text(angle = 45,
@@ -170,11 +172,12 @@ LumB_pl4 <- ggplot(data = BC_data_clean_aug %>%
               mapping = aes(x = `Complete TCGA ID`,
                             y = proteome,
                             fill = expr_level)) +
-  geom_tile(alpha = 0.5) +
+  geom_tile() +
   scale_fill_gradient2(midpoint = 0,
                        low = "blue",
                        mid = "white",
-                       high = "red") +
+                       high = "red",
+                       limits = c(-7.5, 6)) +
   theme_classic(base_size = 8) +
   theme(legend.position = "none",
         axis.text.x = element_text(angle = 45,
@@ -192,7 +195,7 @@ LumB_pl4 <- ggplot(data = BC_data_clean_aug %>%
 # Save plot -----------------------------------
 ggsave(file = "results/05_subtype_heatmap.png",
        width = 10, 
-       height = 7.5, 
+       height = 7, 
        dpi = 150)
 
 
