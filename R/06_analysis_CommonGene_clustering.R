@@ -43,7 +43,6 @@ pca_aug_k_pca_BC_overlap <- k_pca_BC_overlap %>%
   rename(cluster_pca_CommonGenes = .cluster)
 
 # Visualizing the cumulative variance  -----------------------------------------
-
 pca_BC_overlap %>%
   tidy("pcs") %>%
   ggplot(aes(PC, cumulative)) +
@@ -68,7 +67,6 @@ ggsave(file = "results/07_BC_overlap_PCvariance.png",
        width = 8.56, 
        height = 5.42, 
        dpi = 150)
-
 
 # K-means - Scatter plot -------------------------------------------------------
 
@@ -99,16 +97,16 @@ plot_k_pca_BC_overlap_cluster <- pca_aug_k_pca_BC_overlap %>%
        y = "PC2 (8.4%)",
        color = "Cluster") +
   scale_color_manual(values = c("1" = "#00688B",
-                                "2" = "#00CD66",
+                                "2" = "#CD3278",
                                 "3" ="#FFA500",
-                                "4" = "#CD3278")) +
+                                "4" = "#00CD66")) +
   new_theme +
   theme(legend.position = "bottom")
 
 
 # Both plots together
 (plot_k_pca_BC_overlap_subtypes + plot_k_pca_BC_overlap_cluster) &
-  plot_annotation(plot_annotation(title = "K-means clustering after PCA of BC data"))
+  plot_annotation(plot_annotation(title = "K-means clustering after PCA of BC overlap data"))
 
 
 # Save plot ---------------------------------------------------------------
@@ -116,10 +114,6 @@ ggsave(file = "results/07_BC_overlap_PCA_Cluster.png",
        width = 10, 
        height = 5.5, 
        dpi = 150)
-
-# cluster colors ^^^ match up with subtypes --> does it match?
-# change title
-# title format the same as all of the plot (either change this or the others)
 
 
 # The accuracy of the predictions ????? ----------------------------------------
@@ -135,7 +129,7 @@ pca_aug_k_pca_BC_overlap %>%
 
 
 # Calculate BSS/TSS ratio
-k_pca_BC_overlap$betweenss/k_pca_BC_overlap$totss
+#k_pca_BC_overlap$betweenss/k_pca_BC_overlap$totss
 
 #Base R ^^^^
 
