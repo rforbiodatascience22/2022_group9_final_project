@@ -9,12 +9,10 @@ rm(list=ls())
 # Define functions --------------------------------------------------------
 source(file = "R/99_project_functions.R")
 
-
 # Load data ---------------------------------------------------------------
 patients  <- read_csv(file = "data/01_patients.csv")
 
-
-# Visualise data ----------------------------------------------------------
+# Visualize data ----------------------------------------------------------
 
 # Box plot of the age of diagnosis for the different subtypes 
 p_AVC1 <- patients %>% 
@@ -26,7 +24,7 @@ p_AVC1 <- patients %>%
   new_theme + 
   theme(legend.position = "none") +
   labs(x = element_blank())
-  
+
 
 # Bar plot of vital state of breast cancer patients for different subtypes
 p_AVC2 <-patients %>% 
@@ -38,14 +36,13 @@ p_AVC2 <-patients %>%
   new_theme +
   theme(legend.position="right") + 
   labs(x = element_blank())
-  
+
 
 # Plot of the two combined
 (p_AVC1 + p_AVC2) +
   plot_annotation(title = "Breast cancer data for different subtypes",
                   theme = theme(plot.title = element_text(hjust = 0.5,
                                                           size = 16)))
-#NB: ADD SOURCE DATA
 
 # Save plot ---------------------------------------------------------------
 ggsave(file = "results/04_plot_AgeVitalCancerType.png",
