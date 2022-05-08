@@ -108,7 +108,8 @@ Basal_pl1 <- ggplot(data = BC_data_clean_aug %>%
   scale_fill_gradient2(midpoint = 0,
                        low = "blue",
                        mid = "white",
-                       high = "red") +
+                       high = "red",
+                       limits = c(-7.5, 6)) +
   theme_classic(base_size = 8) +
   theme(legend.position = "none",
         axis.text.x = element_text(angle = 45,
@@ -155,7 +156,8 @@ LumA_pl3 <- ggplot(data = BC_data_clean_aug %>%
   scale_fill_gradient2(midpoint = 0,
                        low = "blue",
                        mid = "white",
-                       high = "red") +
+                       high = "red",
+                       limits = c(-7.5, 6)) +
   theme_classic(base_size = 8) +
   theme(legend.position = "none",
         axis.text.x = element_text(angle = 45,
@@ -178,7 +180,8 @@ LumB_pl4 <- ggplot(data = BC_data_clean_aug %>%
   scale_fill_gradient2(midpoint = 0,
                        low = "blue",
                        mid = "white",
-                       high = "red") +
+                       high = "red",
+                       limits = c(-7.5, 6)) +
   theme_classic(base_size = 8) +
   theme(legend.position = "none",
         axis.text.x = element_text(angle = 45,
