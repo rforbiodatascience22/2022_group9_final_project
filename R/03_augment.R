@@ -5,10 +5,8 @@ rm(list=ls())
 # Define functions --------------------------------------------------------
 source(file = "R/99_project_functions.R")
 
-
 # Load data ---------------------------------------------------------------
 BC_data_clean   <- read_csv(file = "data/02_BC_data_clean.csv")
-BC_data_PAM50_clean   <- read_csv(file = "data/02_BC_data_PAM50_clean.csv")
 
 # Wrangle data ------------------------------------------------------------
 

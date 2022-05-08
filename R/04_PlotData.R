@@ -4,7 +4,7 @@ library(readr)
 library(ggplot2)
 library(patchwork)
 library(ggthemes)
-
+rm(list=ls())
 
 # Define functions --------------------------------------------------------
 source(file = "R/99_project_functions.R")
@@ -25,7 +25,7 @@ p_AVC1 <- ggplot(data = patients,
         panel.grid.minor = element_blank(),
         panel.background = element_blank(), 
         axis.line = element_line(colour = "black")) +
-  labs(x = "Breast Cancer Type")
+  labs(x = element_blank())
 
 p_AVC2 <- ggplot(data = patients,
        mapping = aes(x = `PAM50 mRNA`)) +
@@ -37,7 +37,7 @@ p_AVC2 <- ggplot(data = patients,
         panel.grid.minor = element_blank(),
         panel.background = element_blank(), 
         axis.line = element_line(colour = "black")) + 
-  labs(x = "Breast Cancer Type")
+  labs(x = element_blank())
 
 Plot_AgeVitalCtype <- (p_AVC1 + p_AVC2) +
   plot_annotation(title = "Distribution of Age and Vital Status for each observed Breast Cancer Type",
