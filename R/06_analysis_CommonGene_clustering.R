@@ -43,12 +43,13 @@ pca_aug_k_pca_BC_overlap <- k_pca_BC_overlap %>%
   rename(cluster_pca_CommonGenes = .cluster)
 
 # Visualizing the cumulative variance  -----------------------------------------
-pca_BC_overlap %>%
+plot_bar_PC_CumVar <- pca_BC_overlap %>%
   tidy("pcs") %>%
   ggplot(aes(PC, cumulative)) +
   geom_col(fill = "turquoise3",
            alpha = 0.7) +
-  labs(y = "Cumulative variance") +
+  labs(title = "PCA",
+       y = "Cumulative variance") +
   geom_hline(yintercept = 0.95,
              linetype = "dashed") +
   geom_text(aes(x = 2,
@@ -62,12 +63,6 @@ pca_BC_overlap %>%
 
 # change title ^^^
 
-# Save plot ---------------------------------------------------------------
-ggsave(file = "results/07_BC_overlap_PCvariance.png",
-       width = 8.56, 
-       height = 5.42, 
-       dpi = 150)
-
 # K-means - Scatter plot -------------------------------------------------------
 
 # Plot coloured according to subtypes
@@ -76,7 +71,8 @@ plot_k_pca_BC_overlap_subtypes <- pca_aug_k_pca_BC_overlap %>%
                        y = .fittedPC2,
                        colour = PAM50.mRNA)) + 
   geom_point() + 
-  labs(x = "PC1 (43.1%)",
+  labs(title = "K-means clustering after PCA of BC \noverlap data",
+       x = "PC1 (43.1%)",
        y = "PC2 (8.4%)",
        color = "Subtype") +
   scale_color_manual(values = c("Basal-like" = "#00688B",
@@ -105,14 +101,13 @@ plot_k_pca_BC_overlap_cluster <- pca_aug_k_pca_BC_overlap %>%
 
 
 # Both plots together
-(plot_k_pca_BC_overlap_subtypes + plot_k_pca_BC_overlap_cluster) &
-  plot_annotation(plot_annotation(title = "K-means clustering after PCA of BC overlap data"))
+plot_bar_PC_CumVar + (plot_k_pca_BC_overlap_subtypes / plot_k_pca_BC_overlap_cluster)
 
 
 # Save plot ---------------------------------------------------------------
-ggsave(file = "results/07_BC_overlap_PCA_Cluster.png",
+ggsave(file = "results/07_BC_overlap_PCA.png",
        width = 10, 
-       height = 5.5, 
+       height = 6.25, 
        dpi = 150)
 
 
