@@ -27,7 +27,7 @@ library(knitr)
 - Results
 - Discussion
 
-## Introduction: Breast Cancer
+## Introduction - Breast Cancer
 
 - Prevalence: 12% in women.
 - Mortality rate: 2,7%.
@@ -51,28 +51,51 @@ We are investigating whether the 4 subtypes can be detected and classified corre
 
 ![](../doc/images/WorkFlow.png){width=99%}
 
-** take a look at **
+
+<font size="1">Mertins, P., Mani, D., Ruggles, K. et al. Proteogenomics connects somatic mutations to signalling in breast cancer. *Nature* 534, 55–62 (2016). https://doi.org/10.1038/nature18003</font>
 
 
-## Results: Common genes after GLM
+## Results - Common proteins after GLM
+- Still found 1000 more significant proteins in each subtype after `glm()`
+- `ggvenn()`
+- Only 24 significant proteins were founded in all 4 subtypes
 
-![](../results/05_venndiagram.png){width=99%}
+![](../doc/images/Venndiagram_screenshot.png){width=70%}
 
-## Results: Common genes after GLM
+## Results - Common proteins after GLM
+- LumA and B look more similar, while Basal and Her2 look more similar.
+- Within each heat map, protein expression levels between each patient are also similar.
 
-![](../results/05_subtype_heatmap.png){width=99%}
+![](../results/05_subtype_heatmap.png){width=85%}
 
-## Results: PCA of Common genes after GLM
+## Results: Common Protein BC Data
+- The first 17 PCs were chosen for clustering.
+- Cluster distributions are not similar to subtype distributions.
+- Accuracy: 16.9%
 
-![](../results/06_BC_overlap_PCA.png){width=99%}
+<right>
+![](../results/06_BC_overlap_PCA.png){width=82%}
+</right>
 
-## Results: Original BC data
+## Results - Original BC data
 
-![](../results/07_BC_data_cumulative_kmeans.png){width=85%}
+![](../results/07_BC_data_cumulative_kmeans.png){width=99%}
 
-## Results: Common protein IDs between PAM50 and BC data
+- <font size="4"> Number of PCA reduced from 77 to 65 </font>
+- <font size="4"> No clear patterns </font>
+- <font size="4"> Little of the variance is explained by PC1 and PC2 </font>
+- <font size="4"> Accuracy of plot: 36.4% </font>
+
+
+## Results - Protein IDs common between PAM50 data and BC data
+
 
 ![](../results/07_BC_data_PAM50_cumulative_kmeans.png){width=99%}
+
+- <font size="4"> Number of PCA reduced from 26 to 15 </font>
+- <font size="4"> 1st PC explains a much higher variance (34.9% compared to 10.7%) </font>
+- <font size="4"> Accuracy of this exact plot: 48.1% </font>
+
 
 
 ## Discussion

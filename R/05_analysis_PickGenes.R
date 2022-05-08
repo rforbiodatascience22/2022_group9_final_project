@@ -91,13 +91,13 @@ BC_overlap_genes <- BC_data_clean_aug %>%
   select(c(overlap_pro),
          `PAM50 mRNA`)
 
-# Visualize data ---------------------------------------------------------------
+# Visualize data ------------------------------------------------------------
 
 # Venn diagram 
 significant_proteins %>% 
   ggvenn()
 
-# Save plot --------------------------------------------------------------------
+# Save plot -----------------------------------
 ggsave(file = "results/05_venndiagram.png",
        width = 10, 
        height = 7, 
@@ -105,16 +105,16 @@ ggsave(file = "results/05_venndiagram.png",
 
 
 # Overlap gene expression heatmap for Basal like subtype
-Basal_pl1 <- BC_data_clean_aug %>% 
-  filter(Basal_like == 1) %>% 
-  select(`Complete TCGA ID`,
-         c(overlap_pro)) %>% 
-  pivot_longer(cols = -`Complete TCGA ID`,
-               names_to = "proteome",
-               values_to = "expr_level") %>% 
-  ggplot(mapping = aes(x = `Complete TCGA ID`,
-                       y = proteome,
-                       fill = expr_level)) +
+Basal_pl1 <- ggplot(data = BC_data_clean_aug %>% 
+         filter(Basal_like == 1) %>% 
+         select(`Complete TCGA ID`,
+                c(overlap_pro)) %>% 
+         pivot_longer(cols = -`Complete TCGA ID`,
+                      names_to = "proteome",
+                      values_to = "expr_level"),
+       mapping = aes(x = `Complete TCGA ID`,
+                     y = proteome,
+                     fill = expr_level)) +
   geom_tile() +
   scale_fill_gradient2(midpoint = 0,
                        low = "blue",
@@ -128,16 +128,16 @@ Basal_pl1 <- BC_data_clean_aug %>%
        fill = "Expression level")
 
 # Overlap gene expression heatmap for HER2 enriched subtype
-Her2_pl2 <- BC_data_clean_aug %>% 
-  filter(HER2_enriched == 1) %>% 
-  select(`Complete TCGA ID`,
-         c(overlap_pro)) %>% 
-  pivot_longer(cols = -`Complete TCGA ID`,
-               names_to = "proteome",
-               values_to = "expr_level") %>% 
-  ggplot(mapping = aes(x = `Complete TCGA ID`,
-                       y = proteome,
-                       fill = expr_level)) +
+Her2_pl2 <- ggplot(data = BC_data_clean_aug %>% 
+                filter(HER2_enriched == 1) %>% 
+                select(`Complete TCGA ID`,
+                       c(overlap_pro)) %>% 
+                pivot_longer(cols = -`Complete TCGA ID`,
+                             names_to = "proteome",
+                             values_to = "expr_level"),
+              mapping = aes(x = `Complete TCGA ID`,
+                            y = proteome,
+                            fill = expr_level)) +
   geom_tile() +
   scale_fill_gradient2(midpoint = 0,
                        low = "blue",
@@ -151,16 +151,16 @@ Her2_pl2 <- BC_data_clean_aug %>%
        fill = "Expression level")
 
 # Overlap gene expression heatmap for Luminal A subtype
-LumA_pl3 <- BC_data_clean_aug %>% 
-  filter(Luminal_A == 1) %>% 
-  select(`Complete TCGA ID`,
-         c(overlap_pro)) %>% 
-  pivot_longer(cols = -`Complete TCGA ID`,
-               names_to = "proteome",
-               values_to = "expr_level") %>% 
-  ggplot(mapping = aes(x = `Complete TCGA ID`,
-                       y = proteome,
-                       fill = expr_level)) +
+LumA_pl3 <- ggplot(data = BC_data_clean_aug %>% 
+                filter(Luminal_A == 1) %>% 
+                select(`Complete TCGA ID`,
+                       c(overlap_pro)) %>% 
+                pivot_longer(cols = -`Complete TCGA ID`,
+                             names_to = "proteome",
+                             values_to = "expr_level"),
+              mapping = aes(x = `Complete TCGA ID`,
+                            y = proteome,
+                            fill = expr_level)) +
   geom_tile() +
   scale_fill_gradient2(midpoint = 0,
                        low = "blue",
@@ -174,16 +174,16 @@ LumA_pl3 <- BC_data_clean_aug %>%
        fill = "Expression level")
 
 # Overlap gene expression heatmap for Luminal B subtype
-LumB_pl4 <- BC_data_clean_aug %>% 
-  filter(Luminal_B == 1) %>% 
-  select(`Complete TCGA ID`,
-         c(overlap_pro)) %>% 
-  pivot_longer(cols = -`Complete TCGA ID`,
-               names_to = "proteome",
-               values_to = "expr_level") %>% 
-  ggplot(mapping = aes(x = `Complete TCGA ID`,
-                       y = proteome,
-                       fill = expr_level)) +
+LumB_pl4 <- ggplot(data = BC_data_clean_aug %>% 
+                filter(Luminal_B == 1) %>% 
+                select(`Complete TCGA ID`,
+                       c(overlap_pro)) %>% 
+                pivot_longer(cols = -`Complete TCGA ID`,
+                             names_to = "proteome",
+                             values_to = "expr_level"),
+              mapping = aes(x = `Complete TCGA ID`,
+                            y = proteome,
+                            fill = expr_level)) +
   geom_tile() +
   scale_fill_gradient2(midpoint = 0,
                        low = "blue",
@@ -198,15 +198,14 @@ LumB_pl4 <- BC_data_clean_aug %>%
 
 
 # Overlap gene expression heatmap for all subtypes
-(Basal_pl1+Her2_pl2)/(LumA_pl3+LumB_pl4) + 
-  plot_layout(guides = "collect") & 
+(Basal_pl1+Her2_pl2)/(LumA_pl3+LumB_pl4) + plot_layout(guides = "collect") & 
   plot_annotation(title = "Protein expression of the 24 common significant genes") 
-
+  
 
 # Save plot --------------------------------------------------------------------
 ggsave(file = "results/05_subtype_heatmap.png",
        width = 10, 
-       height = 7, 
+       height = 6, 
        dpi = 150)
 
 
