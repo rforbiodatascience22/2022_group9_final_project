@@ -1,7 +1,7 @@
 ---
 title: "Breast Cancer Classification using Proteomic Data"
-author: "Group 9 - Huang Yi (s210304), Liu Yu (S212610), Anne Rossen (s194687), Synne Spjelkavik (s174526)"
-date: '2022-05-09'
+author: "Group 9 - Huang Yi (s210304), Liu Yu (S212610), Anne Rossen (s194687) and Synne Spjelkavik (s174526)"
+date: 'May 8, 2022'
 output:
   ioslides_presentation: null
   incremental: yes
@@ -22,10 +22,14 @@ library(knitr)
 
 ## Contents
 
-- Introduction
-- Materials and Methods  
-- Results
-- Discussion
+1. Introduction
+2. Materials and Methods
+   - Work chart
+3. Results
+   - Common proteins after GLM
+   - Original BC data
+   - Protein IDs common between PAM50 data and BC data
+4. Discussion
 
 ## Introduction
 
