@@ -104,7 +104,7 @@ Basal_pl1 <- ggplot(data = BC_data_clean_aug %>%
        mapping = aes(x = `Complete TCGA ID`,
                      y = proteome,
                      fill = expr_level)) +
-  geom_tile(alpha = 0.5) +
+  geom_tile() +
   scale_fill_gradient2(midpoint = 0,
                        low = "blue",
                        mid = "white",
@@ -128,7 +128,7 @@ Her2_pl2 <- ggplot(data = BC_data_clean_aug %>%
               mapping = aes(x = `Complete TCGA ID`,
                             y = proteome,
                             fill = expr_level)) +
-  geom_tile(alpha = 0.5) +
+  geom_tile() +
   scale_fill_gradient2(midpoint = 0,
                        low = "blue",
                        mid = "white",
@@ -152,7 +152,7 @@ LumA_pl3 <- ggplot(data = BC_data_clean_aug %>%
               mapping = aes(x = `Complete TCGA ID`,
                             y = proteome,
                             fill = expr_level)) +
-  geom_tile(alpha = 0.5) +
+  geom_tile() +
   scale_fill_gradient2(midpoint = 0,
                        low = "blue",
                        mid = "white",
@@ -176,7 +176,7 @@ LumB_pl4 <- ggplot(data = BC_data_clean_aug %>%
               mapping = aes(x = `Complete TCGA ID`,
                             y = proteome,
                             fill = expr_level)) +
-  geom_tile(alpha = 0.5) +
+  geom_tile() +
   scale_fill_gradient2(midpoint = 0,
                        low = "blue",
                        mid = "white",
