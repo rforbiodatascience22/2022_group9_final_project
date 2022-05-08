@@ -30,34 +30,25 @@ library(knitr)
 
 ## Introduction: Breast Cancer
 
-Prevalence: 12% in women.
-
-Mortality rate: 2,7%.
-
-Symptoms: little to no before it is widespread
-
-Tumor types: (Vary in location, size, shape and severity)
-
-- Basal-like
-- HER2-enriched
-- Luminal A
-- Luminal B
-
-**** combine with next slide 
-
-## Presenting Data
+- Prevalence: 12% in women.
+- Mortality rate: 2,7%.
+- Symptoms: little to no before it is widespread
+- 4 Tumor types: Vary in location, size, shape and severity
 
 ![](../results/04_plot_AgeVitalCancerType.png){width=99%}
 
 
-## aim
+## Aim
 
 Breast cancer is found to have 4 subtypes at gene expression level and they can be detected by using a panel of 50 genes, namely the “PAM50”. In this project we will look at cancer patients with 4 subtypes, try to cluster the samples by using different sets of protein expression data, and evaluate the clustering results to see if the PAM50 gene list makes the most sense.
 
 ** take a look at later **
 
+We are investigating whether the 4 subtypes can be detected and classified correctly by the gene expression Using the proteomic data. 
 
-## Methods: Data Modifications and analysis
+
+
+## Methods and work flow
 
 ![](../doc/images/WorkFlow.png){width=99%}
 
@@ -72,13 +63,15 @@ Breast cancer is found to have 4 subtypes at gene expression level and they can 
 
 ![](../results/06_subtype_heatmap.png){width=99%}
 
-## Results:
+## Results: 1
 
-![](../results/07_BC_overlap.png){width=90%}
+![](../results/07_BC_overlap_PCA.png){width=90%}
 
 ## Results: 1
 
 ![](../results/07_BC_overlap_PCA_Cluster.png){width=85%}
+
+** Put 'results 1' plots together
 
 ## Results: 2
 

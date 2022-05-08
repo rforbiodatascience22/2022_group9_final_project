@@ -39,13 +39,13 @@ p_AVC2 <- ggplot(data = patients,
         axis.line = element_line(colour = "black")) + 
   labs(x = element_blank())
 
-Plot_AgeVitalCtype <- (p_AVC1 + p_AVC2) +
-  plot_annotation(title = "Distribution of Age and Vital Status for each observed Breast Cancer Type",
+(p_AVC1 + p_AVC2) +
+  plot_annotation(title = "Publicly available proteomic Breast Cancer data",
                   theme = theme(plot.title = element_text(hjust = 0.5,
                                                           size = 16)))
 
 # Save plot ---------------------------------------------------------------
 ggsave(file = "results/04_plot_AgeVitalCancerType.png",
-       width = 8.96, 
-       height = 5.42, 
+       width = 9, 
+       height = 4, 
        dpi = 150)
