@@ -56,15 +56,15 @@ We are investigating whether the 4 subtypes can be detected and classified corre
 
 ## Results: Common genes after GLM
 
-![](../results/06_venndiagram.png){width=99%}
+![](../results/05_venndiagram.png){width=99%}
 
 ## Results: Gene expression profiling
 
-![](../results/06_subtype_heatmap.png){width=99%}
+![](../results/05_subtype_heatmap.png){width=99%}
 
 ## Results: 1
 
-![](../results/07_BC_overlap_PCA.png){width=99%}
+![](../results/06_BC_overlap_PCA.png){width=99%}
 
 ## Results: 1
 
