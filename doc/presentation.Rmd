@@ -41,7 +41,6 @@ library(knitr)
 
 <font size="4"> Breast cancer is found to have 4 subtypes at gene expression level and they can be detected by using a panel of 50 genes, namely the “PAM50”. In this project we will look at cancer patients with 4 subtypes, try to cluster the samples by using different sets of protein expression data, and evaluate the clustering results to see if the PAM50 gene list makes the most sense. </font>
 
-** take a look at later **
 
 <font size="4"> We are investigating whether the 4 subtypes can be detected and classified correctly by the gene expression Using the proteomic data. </font>
 
