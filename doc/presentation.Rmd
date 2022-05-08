@@ -1,6 +1,6 @@
 ---
 title: "Breast Cancer Classification using Proteomic Data"
-author: "Group 9 - Huang Yi (s210304), Liu Yu (), Anne Rossen (), Synne Spjelkavik (s174526)"
+author: "Group 9 - Huang Yi (s210304), Liu Yu (S212610), Anne Rossen (s194687), Synne Spjelkavik (s174526)"
 date: '2022-05-09'
 output:
   ioslides_presentation: null
@@ -29,22 +29,18 @@ library(knitr)
 
 ## Introduction
 
-- <font size="4"> Prevalence: 12% in women (CITE) </font>
-- <font size="4"> Mortality rate: 2.7% (CITE) </font>
+![](../results/04_plot_AgeVitalCancerType.png){width=99%}
+
+- <font size="4"> Prevalence: 13% in women </font>
+- <font size="4"> Mortality rate: 2.6% </font>
 - <font size="4"> Symptoms: little to no before it is widespread </font>
 - <font size="4"> 4 Tumor types: Vary in location, size, shape and severity </font>
 
-![](../results/04_plot_AgeVitalCancerType.png){width=99%}
-
+<font size="1"> Cancer.org, "Key Statistics for Breast Cancer"  (2022). https://www.cancer.org/cancer/breast-cancer/about/how-common-is-breast-cancer.html </font>
 
 ## Aim
 
-<font size="4"> Breast cancer is found to have 4 subtypes at gene expression level and they can be detected by using a panel of 50 genes, namely the “PAM50”. In this project we will look at cancer patients with 4 subtypes, try to cluster the samples by using different sets of protein expression data, and evaluate the clustering results to see if the PAM50 gene list makes the most sense. </font>
-
-** take a look at later **
-
-<font size="4"> We are investigating whether the 4 subtypes can be detected and classified correctly by the gene expression Using the proteomic data. </font>
-
+<font size="4"> In this project we will investigate whether it is possible to detect and correctly classify the 4 breast cancer subtypes using different sets of protein expression data and compare the results of the classification.</font>
 
 
 ## Materials and Methods
@@ -56,28 +52,32 @@ library(knitr)
 
 
 ## Results - Common proteins after GLM
+
+![](../doc/images/Venndiagram_screenshot.png){width=70%}
+
 - <font size="4"> Still found 1000 more significant proteins in each subtype after `glm()` </font>
 - <font size="4"> `ggvenn()` </font>
 - <font size="4"> Only 24 significant protein IDs common for all the 4 subtypes </font>
 
-![](../doc/images/Venndiagram_screenshot.png){width=70%}
 
 ## Results - Common proteins after GLM
+
+![](../results/05_subtype_heatmap.png){width=99%}
 
 - <font size="4"> Downregulated: Basal-like and HER2-enriched. </font>
 - <font size="4"> Upregulated: Luminal-A and Luminal-B </font>
 - <font size="4"> Similar protein expression levels between each patient within heat maps </font>
 
-![](../results/05_subtype_heatmap.png){width=99%}
-
 ## Results - Common Protein BC Data
+
+<right>
+![](../results/06_BC_overlap_PCA.png){width=99%}
+</right>
+
 - <font size="4"> The first 17 PCs were chosen for clustering. </font>
 - <font size="4"> Cluster distributions are not similar to subtype distributions. </font>
 - <font size="4"> Accuracy of plot: 16.9% </font>
 
-<right>
-![](../results/06_BC_overlap_PCA.png){width=82%}
-</right>
 
 ## Results - Original BC data
 
@@ -91,7 +91,6 @@ library(knitr)
 
 ## Results - Protein IDs common between PAM50 data and BC data
 
-
 ![](../results/07_BC_data_PAM50_cumulative_kmeans.png){width=99%}
 
 - <font size="4"> Number of PCA reduced from 26 to 15 </font>
@@ -99,11 +98,10 @@ library(knitr)
 - <font size="4"> Accuracy of this exact plot: 48.1% </font>
 
 
-
 ## Discussion
 
-- only half is explained by the clustering
-- Data lacks non cancer cases.
-- reproducability
+- Best performer: PAM50
+- Instead of common genes then unique genes
+- Method very reproducible
 
 
