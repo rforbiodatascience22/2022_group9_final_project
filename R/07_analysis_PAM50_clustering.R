@@ -94,7 +94,7 @@ plot_pca_org_cum <- pca_org %>%
   geom_hline(yintercept = 0.95,
              linetype = "dashed") +
   geom_text(aes(x = 8,
-                y = 0.95,
+                y = 0.94,
                 label = "95%",
                 vjust = -1)) +
   new_theme
@@ -110,7 +110,7 @@ plot_pca_red_cum <- pca_red %>%
   geom_hline(yintercept = 0.95,
              linetype = "dashed") +
   geom_text(aes(x = 3,
-                y = 0.95,
+                y = 0.94,
                 label = "95%",
                 vjust = -1)) +
   new_theme
@@ -125,8 +125,8 @@ plot_pca_red_cum <- pca_red %>%
 
 # Save plot ---------------------------------------------------------------
 ggsave(file = "results/07_CumVar_Comparison.png",
-       width = 8.96, 
-       height = 5.42, 
+       width = 13, 
+       height = 5.5, 
        dpi = 150)
 
 # K-means - Scatter plot -------------------------------------------------------
