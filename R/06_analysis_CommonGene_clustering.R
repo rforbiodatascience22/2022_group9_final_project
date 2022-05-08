@@ -4,7 +4,7 @@ library("ggplot2")
 library("broom")
 library("purrr")
 library("vroom")
-library("cowplot")
+library("ggthemes")
 rm(list = ls())
 
 # Define functions -------------------------------------------------------------
@@ -127,7 +127,8 @@ ggsave(file = "results/06_BC_overlap_PCA.png",
        dpi = 150)
 
 # The accuracy of the predictions for this exact K-means analysis --------------
-select(PAM50.mRNA, cluster_pca_CommonGenes) %>% 
+pca_aug_k_pca_BC_overlap %>% 
+  select(PAM50.mRNA, cluster_pca_CommonGenes) %>% 
   mutate(cluster_pca_CommonGenes = case_when(
     cluster_pca_CommonGenes == 1 ~ 'Luminal A',
     cluster_pca_CommonGenes == 2 ~ 'HER2-enriched',
