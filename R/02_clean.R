@@ -15,8 +15,7 @@ proteomes <- read_csv(file = "data/01_proteomes.csv")
 
 # Wrangle data ------------------------------------------------------------
 
-# For PAM50
-# Transpose
+# PAM50 - Transposing data
 PAM50_clean <- PAM50 %>%
   pivot_longer(cols = -RefSeqProteinID) %>%
   pivot_wider(names_from = RefSeqProteinID) %>%
@@ -24,8 +23,7 @@ PAM50_clean <- PAM50 %>%
   as_tibble()
 
 
-# For proteomes: 
-# Create new column names
+# For proteomes - Re-naming column names
 adjusted_names <- proteomes %>% 
   select(-c("RefSeq_accession_number",
             "gene_symbol",
@@ -56,7 +54,7 @@ proteomes_clean <- proteomes %>%
   rename("TCGA ID" = name)
 
 
-# Merge data --------------------------------------------------------------
+# Merge data -------------------------------------------------------------------
 BC_data_clean <- inner_join(patients,           
                             proteomes_clean,
                             by = c("Complete TCGA ID" = "TCGA ID"))
