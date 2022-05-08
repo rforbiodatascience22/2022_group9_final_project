@@ -131,11 +131,12 @@ ggsave(file = "results/06_BC_overlap_PCA.png",
 # The accuracy of the predictions ----------------------------------------------
 pca_aug_k_pca_BC_overlap %>% 
   select(PAM50.mRNA, cluster_pca_CommonGenes) %>% 
-  mutate(cluster_pca_CommonGenes = case_when(cluster_pca_CommonGenes == 1 ~ 'Luminal A',
-                                             cluster_pca_CommonGenes == 2 ~ 'HER2-enriched',
-                                             cluster_pca_CommonGenes == 3 ~ 'Basal-like',
-                                             cluster_pca_CommonGenes == 4 ~ 'Luminal B'),
-         cluster_pca_CommonGenes_correct = case_when(cluster_pca_CommonGenes == PAM50.mRNA ~ 1,
-                                                     cluster_pca_CommonGenes != PAM50.mRNA ~ 0)) %>% 
+  mutate(cluster_pca_CommonGenes = case_when(
+    cluster_pca_CommonGenes == 1 ~ 'Luminal A',
+    cluster_pca_CommonGenes == 2 ~ 'HER2-enriched',
+    cluster_pca_CommonGenes == 3 ~ 'Basal-like',
+    cluster_pca_CommonGenes == 4 ~ 'Luminal B'),
+    cluster_pca_CommonGenes_correct = case_when(
+      cluster_pca_CommonGenes == PAM50.mRNA ~ 1,
+      cluster_pca_CommonGenes != PAM50.mRNA ~ 0)) %>% 
   summarise(score_pca_CommonGenes = mean(cluster_pca_CommonGenes_correct))
-
