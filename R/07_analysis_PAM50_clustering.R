@@ -180,7 +180,13 @@ plot_pca_aug_k_red_subtypes <- pca_aug_k_red %>%
                                 "HER2-enriched" = "#00CD66",
                                 "Luminal A"="#FFA500",
                                 "Luminal B" = "#CD3278")) +
-  theme(legend.position = "bottom")
+  theme_half_open(12) +
+  theme(legend.title = element_text(size = 10),
+        legend.text = element_text(size = 8),
+        legend.position = "bottom",
+        text = element_text(family = "Avenir",
+                            size = 12))
+  
 
 # Scatter plot reduced version (cluster)
 plot_pca_aug_k_red_cluster <- pca_aug_k_red %>%
@@ -191,22 +197,22 @@ plot_pca_aug_k_red_cluster <- pca_aug_k_red %>%
   labs(x = "PC1 (34.9%)",
        y = "PC2 (12.7%)",
        color = "Cluster") +
-  theme(legend.position = "bottom") + 
   scale_color_manual(values = c("1" = "#FFA500",
                                 "2" = "#00CD66",
                                 "3" = "#00688B",
-                                "4" = "#CD3278")) + 
-  theme(legend.position = 'bottom')
-
-# Comparison of subtype and cluster (reduced version)
-(plot_pca_aug_k_red_subtypes/plot_pca_aug_k_red_cluster) &
-  theme_half_open(12) &
-  plot_annotation(title = "Common protein IDs between breast cancer data and PAM50",
-                  theme = theme(plot.title = element_text(size = 14))) &
+                                "4" = "#CD3278")) +
+  theme_half_open(12) +
   theme(legend.title = element_text(size = 10),
         legend.text = element_text(size = 8),
+        legend.position = "bottom",
         text = element_text(family = "Avenir",
                             size = 12))
+
+# Comparison of subtype and cluster (reduced version)
+(plot_pca_aug_k_red_subtypes + plot_pca_aug_k_red_cluster) &
+  plot_annotation(title = "K-means clustering after PCA")
+
+
 
 # Save plot ---------------------------------------------------------------
 ggsave(file = "results/07_BC_data_PAM50_reduced.png",
