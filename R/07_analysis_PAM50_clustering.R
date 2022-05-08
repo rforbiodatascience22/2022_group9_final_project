@@ -109,6 +109,7 @@ plot_pca_org_cum +
   theme(text = element_text(family = "Avenir",
                             size = 12))
 
+# change title and 95% placement ^^^^
 
 # Save plot ---------------------------------------------------------------
 ggsave(file = "results/07_CumVar_Comparison.png",
