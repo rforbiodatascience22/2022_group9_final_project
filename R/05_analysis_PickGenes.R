@@ -1,8 +1,8 @@
 # Load libraries ---------------------------------------------------------------
-library(tidyverse)
-library(ggvenn)
-library(ggplot2)
-library(patchwork)
+library("tidyverse")
+library("ggvenn")
+library("ggplot2")
+library("patchwork")
 rm(list=ls())
 
 # Define functions -------------------------------------------------------------
@@ -16,6 +16,8 @@ BC_data_clean_aug <- read_csv(file = "data/03_BC_data_clean_aug.csv")
 # Model data -------------------------------------------------------------------
 
 # Make/Load 4 different logistic models for each subtype
+# NOTE: If there're certain glm result files, the program will directly read
+# the existing files instead of running glm again. Be aware of this!!!
 
 # Luminal A
 if (!file.exists("results/05_LumA_glm.csv")){
@@ -37,7 +39,6 @@ if (!file.exists("results/05_LumB_glm.csv")){
 }else{
   LumB_glm <- read_csv("results/05_LumB_glm.csv")
 }
-
 
 # HER2 enriched
 if (!file.exists("results/05_Her2_glm.csv")){
