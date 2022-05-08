@@ -23,6 +23,7 @@ if (!file.exists("results/05_LumA_glm.csv")){
   LumA_glm <- read_csv("results/05_LumA_glm.csv")
 }
 
+
 if (!file.exists("results/05_LumA_glm.csv")){
   LumB_glm <- subtype_glm("Luminal_B", BC_data_clean_aug)
   write_csv(LumB_glm,
@@ -185,8 +186,6 @@ LumB_pl4 <- ggplot(data = BC_data_clean_aug %>%
   labs(title = "Luminal B",
        fill = "Expression level")
 
-# Rename plot names to more specific ^^^ plt1 ...
-# edit legend: only 1 and modify range -7.5:6
 
 # Overlap gene expression heatmap for all subtypes
 (Basal_pl1+Her2_pl2)/(LumA_pl3+LumB_pl4) +
