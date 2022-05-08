@@ -26,9 +26,9 @@ library(knitr)
 2. Materials and Methods
    - <font size="4"> Work chart </font>
 3. Results
-   - <font size="4"> Common proteins after GLM </font>
-   - <font size="4"> Original BC data </font>
-   - <font size="4"> Protein IDs common between PAM50 data and BC data </font>
+   - <font size="4"> K-means clustering after PCA of common proteins after GLM </font>
+   - <font size="4"> K-means clustering after PCA of full BC data </font>
+   - <font size="4"> K-means clustering after PCA of Protein IDs common between PAM50 data and BC data </font>
 4. Discussion
 
 ## Introduction
