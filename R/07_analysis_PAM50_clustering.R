@@ -15,7 +15,8 @@ BC_data_PAM50_clean <- read_csv(file = "data/02_BC_data_PAM50_clean.csv")
 
 # PCA analysis  ----------------------------------------------------------------
 
-# For the BC data set
+# ***** For full BC_data set *****
+
 pca_org <- BC_data_clean_aug %>% 
   select(starts_with(c("NP","XP","YP"))) %>% 
   select(where(is.numeric)) %>%
@@ -26,7 +27,8 @@ pca_org <- BC_data_clean_aug %>%
 pca_org_aug <- pca_org %>% 
   augment(BC_data_clean_aug)
 
-# For the common protein IDs between PAM50 and BC data
+# ***** For PAM50 version *****
+
 pca_red <- BC_data_PAM50_clean %>% 
   select(starts_with(c("NP","XP","YP"))) %>% 
   select(where(is.numeric)) %>%
