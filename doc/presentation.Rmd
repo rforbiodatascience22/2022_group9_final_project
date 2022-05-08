@@ -1,6 +1,6 @@
 ---
 title: "Breast Cancer Classification using Proteomic Data"
-author: "Group 9 - Huang Yi, Liu Yu, Anne Rossen, Synne Spjelkavik"
+author: "Group 9 - Huang Yi (), Liu Yu (), Anne Rossen (), Synne Spjelkavik (s174526)"
 date: '2022-05-09'
 output:
   ioslides_presentation: null
