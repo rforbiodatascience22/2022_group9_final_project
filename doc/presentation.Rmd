@@ -88,7 +88,7 @@ In this project we will investigate whether it is possible to detect and correct
 
 ![](../results/07_BC_data_cumulative_kmeans.png){width=99%}
 
-- <font size="4"> Number of PCA reduced from 77 to 65 </font>
+- <font size="4"> Number of PCs reduced from 77 to 65 </font>
 - <font size="4"> No clear patterns </font>
 - <font size="4"> Little of the variance is explained by PC1 and PC2 </font>
 - <font size="4"> Accuracy of plot: 36.4% </font>
@@ -98,7 +98,7 @@ In this project we will investigate whether it is possible to detect and correct
 
 ![](../results/07_BC_data_PAM50_cumulative_kmeans.png){width=99%}
 
-- <font size="4"> Number of PCA reduced from 26 to 15 </font>
+- <font size="4"> Number of PCs reduced from 26 to 15 </font>
 - <font size="4"> 1st PC explains a much higher variance (34.9% compared to 10.7%) </font>
 - <font size="4"> Accuracy of this exact plot: 48.1% </font>
 
