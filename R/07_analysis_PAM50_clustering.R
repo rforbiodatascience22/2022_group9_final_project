@@ -94,7 +94,7 @@ plot_pca_org_cum <- pca_org %>%
   geom_col(fill = "turquoise3",
            alpha = 0.7) +
   labs(y = "Cumulative variance",
-       subtitle = "a) Variance explained the PCs") +
+       subtitle = "a) Variance explained by the PCs") +
   geom_hline(yintercept = 0.95,
              linetype = "dashed") +
   geom_text(aes(x = 8,

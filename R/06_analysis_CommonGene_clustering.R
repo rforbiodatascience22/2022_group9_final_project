@@ -50,7 +50,7 @@ plot_bar_PC_CumVar <- pca_BC_overlap %>%
   ggplot(aes(PC, cumulative)) +
   geom_col(fill = "turquoise3",
            alpha = 0.7) +
-  labs(subtitle = "a) Variance explained the PCs",
+  labs(subtitle = "a) Variance explained by the PCs",
        y = "Cumulative variance") +
   geom_hline(yintercept = 0.95,
              linetype = "dashed") +
